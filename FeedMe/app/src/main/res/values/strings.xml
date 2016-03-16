@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FeedMe</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_sing_in">SingIn</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
