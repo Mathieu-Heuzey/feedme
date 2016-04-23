@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,6 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Api api = new Api();
     public Meal meal = new Meal();
 
+    MyLocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        locationListener = new MyLocationListener(getBaseContext());
     }
 
 
@@ -50,16 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-//        mMap.setOnInfoWindowClickListener(this);
-
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        LatLng mLatLng = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(mLatLng).title("My Location").snippet("and snipet").
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 13));
+        locationListener.setMap(mMap);
 
         showFoodOnMap();
     }
@@ -71,13 +70,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void showFoodOnMap() {
-        List<Meal> listMeal =  this.api.getMeal();
+        List<Meal> listMeal = this.api.getMeal();
 
-        for (Meal person : listMeal)
-        {
+        for (Meal person : listMeal) {
             LatLng mLatLngMeal = new LatLng(meal.getLatitude(), meal.getLongitude());
             Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngMeal).title(meal.getTitre()).snippet(meal.getDescription()));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLngMeal));
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+
     }
 }
