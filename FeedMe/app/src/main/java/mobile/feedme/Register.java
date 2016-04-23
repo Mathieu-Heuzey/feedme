@@ -10,7 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Register extends AppCompatActivity {
+
+    public Api api = new Api();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,10 @@ public class Register extends AppCompatActivity {
 
         // requete a l'api pour ajouter le nouvel user
         //et on lance sur la map
+
+        List<String> data = new ArrayList<String>();
+
+        this.api.registerUser(data);
         startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 }

@@ -1,10 +1,12 @@
 package mobile.feedme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -61,6 +63,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         showFoodOnMap();
     }
+
+    public void addMeal(View view) {
+        // Do something in response to button
+        startActivity(new Intent(getApplicationContext(), AddMeal.class));
+    }
+
 
     private void showFoodOnMap() {
         List<Meal> listMeal =  this.api.getMeal();

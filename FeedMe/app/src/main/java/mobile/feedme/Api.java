@@ -42,4 +42,9 @@ public class Api {
          */
         return myList;
     }
+
+    public boolean addMeal(List<String> data)
+    {
+        return true;
+    }
 }
