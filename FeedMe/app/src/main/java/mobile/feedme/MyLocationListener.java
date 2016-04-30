@@ -165,4 +165,11 @@ public class MyLocationListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    static Location getCurrentPosition(Context mContext)
+    {
+        LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        return location;
+    }
 }
