@@ -56,8 +56,8 @@ public class Register extends AppCompatActivity {
         String login = et3.getText().toString();
         EditText et4 = (EditText) (findViewById(R.id.EditTextPassword1));
         String password = et4.getText().toString();
-        EditText et5 = (EditText) (findViewById(R.id.editTextLcoation));
-        String location = et5.getText().toString();
+//        EditText et5 = (EditText) (findViewById(R.id.editTextLcoation));
+ //       String location = et5.getText().toString();
         EditText et6 = (EditText) (findViewById(R.id.editTextTel));
         String tel = et6.getText().toString();
 
