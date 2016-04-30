@@ -48,10 +48,10 @@ public class Register extends AppCompatActivity {
 
     public void register(View view)
     {
-        EditText et1 = (EditText) (findViewById(R.id.editTextNom));
-        String nom = et1.getText().toString();
-        EditText et2 = (EditText) (findViewById(R.id.editTextPrenom));
-        String prenom = et2.getText().toString();
+        EditText EditTextName = (EditText) (findViewById(R.id.editTextNom));
+        String nom = EditTextName.getText().toString();
+        EditText EditTextPrenom2 = (EditText) (findViewById(R.id.editTextPrenom));
+        String prenom = EditTextPrenom2.getText().toString();
         EditText et3 = (EditText) (findViewById(R.id.editTextLogin));
         String login = et3.getText().toString();
         EditText et4 = (EditText) (findViewById(R.id.EditTextPassword1));
@@ -60,9 +60,25 @@ public class Register extends AppCompatActivity {
  //       String location = et5.getText().toString();
         EditText et6 = (EditText) (findViewById(R.id.editTextTel));
         String tel = et6.getText().toString();
+        EditText et7 = (EditText) (findViewById(R.id.EditTextPassword2));
+        String password2 = et4.getText().toString();
+
+        EditText EditTextMail = (EditText) (findViewById(R.id.editTextMail));
+        String mail = EditTextMail.getText().toString();
+
+// First name , last name , mail, pawssord, phone
 
 
         List<String> data = new ArrayList<String>();
+
+
+        RequestParams params2 = new RequestParams();
+
+        params2.put("Email", mail);
+        params2.put("Password", password);
+        params2.put("ConfirmPassword", password);
+
+
 
         Location location3 = MyLocationListener.getCurrentPosition(getBaseContext());
         Double longitude = location3.getLongitude();
@@ -83,18 +99,23 @@ public class Register extends AppCompatActivity {
         params.put("DateCreate", dateFormat);
 
         Log.e("ADebugTag", "Value: " + 1);
+        Log.d("ADebugTag", "Value: " + 1);
 //        Toast.makeText(getApplicationContext(),"Jusqua la tout va bien", Toast.LENGTH_SHORT).show();
-        client.post("http://163.5.84.232/WebService/api/Utilisateurs", params, new JsonHttpResponseHandler() {
+        client.post("http://163.5.84.232/WebService/api/Account/Register", params2, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String response) {
                 //on ouvre la map
 //                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 Log.e("ADebugTag", "Value: " + 2);
+                Log.d("ADebugTag", "Value: " + 2);
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
                 Log.e("ADebugTag", "Value: " + 3);
+                Log.d("ADebugTag", "Value: " + 3);
+
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 // Toast.makeText(getApplicationContext(),
 //                        "Password / Login doesn't match", Toast.LENGTH_SHORT).show();
@@ -102,6 +123,7 @@ public class Register extends AppCompatActivity {
             }
         });
         Log.e("ADebugTag", "Value: " + 4);
+        Log.d("ADebugTag", "Value: " + 4);
 
 
 //        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
