@@ -51,6 +51,9 @@ public class SingIn extends AppCompatActivity {
 
     public void    signIn(View view)
     {
+        //le bypass
+        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+
         EditText et1 = (EditText) (findViewById(R.id.editTextLogin));
         String log = et1.getText().toString();
         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));

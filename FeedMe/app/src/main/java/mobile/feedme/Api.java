@@ -1,14 +1,33 @@
 package mobile.feedme;
 
+import android.preference.PreferenceActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
+import mobile.feedme.POCO.Dish;
 
 /**
  * Created by Mateo on 15/03/2016.
  */
-public class Api {
+public class Api extends FragmentActivity {
 
     public void registerUser(List<String> data)
     {
@@ -24,23 +43,43 @@ public class Api {
             return true;
         return false;
     }
-    public List<Meal> getMeal()
+    public void getAllDishAndCallDisplay(final MapsActivity mapView)
     {
-        List<Meal> myList = new ArrayList<Meal>();
-        // Requete a la fonction qui fait un select sur la table meal
-        // Recup le JSON et on le fou dans une list de meal comme pour les sdf dessou
-        /*
-         for(int i=0; i < jsonArray.length(); i++){
-                Person person = new Person();
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                person.setPersonneId(jsonObject.getString("PersonneId"));
-                person.setLatitude(Double.parseDouble(jsonObject.getString("Latitude")));
-                person.setLongitude(Double.parseDouble(jsonObject.getString("Longitude")));
-                person.setTitre(jsonObject.getString("Titre"));
-                person.setDescription(jsonObject.getString("Description"));
-                listPerson.add(person);
-         */
-        return myList;
+        AsyncHttpClient httpClient = new AsyncHttpClient();
+
+        httpClient.get("http://163.5.84.232/WebService/api/Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.e("Le retour des dish hihi", response.toString());
+
+                ArrayList<Dish> dishes = new ArrayList<Dish>();
+                for (int i = 0; i < response.length(); ++i)
+                {
+                    try {
+                        JSONObject jsonDish = response.getJSONObject(i);
+                        Dish dish = Dish.JSONParse(jsonDish);
+                        if (dish != null)
+                            dishes.add(dish);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+
+                }
+
+                mapView.showFoodOnMap(dishes);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                //Log.d("ShowPerson", "ERROR");
+                Log.e("Retour dish error : ", res);
+                Toast.makeText(getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     public boolean addMeal(List<String> data)

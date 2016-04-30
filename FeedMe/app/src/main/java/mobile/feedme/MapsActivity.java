@@ -1,10 +1,13 @@
 package mobile.feedme;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,15 +25,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import mobile.feedme.POCO.Dish;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     public Api api = new Api();
-    public Meal meal = new Meal();
 
-    MyLocationListener locationListener;
+//    MyLocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        locationListener = new MyLocationListener(getBaseContext());
+//        locationListener = new MyLocationListener(getBaseContext());
     }
 
 
@@ -58,9 +63,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        locationListener.setMap(mMap);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        else {
+            mMap.setMyLocationEnabled(true);
+            Location location = mMap.getMyLocation();
 
-        showFoodOnMap();
+            if (location != null) {
+                LatLng myLocation = new LatLng(location.getLatitude(),
+                        location.getLongitude());
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 16));
+            }
+        }
+
+        mMap.setOnInfoWindowClickListener(this);
+//        locationListener.setMap(mMap);
+
+        this.api.getAllDishAndCallDisplay(this);
     }
 
     public void addMeal(View view) {
@@ -69,13 +96,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void showFoodOnMap() {
-        List<Meal> listMeal = this.api.getMeal();
+    public void showFoodOnMap(ArrayList<Dish> dishes) {
 
-        for (Meal person : listMeal) {
-            LatLng mLatLngMeal = new LatLng(meal.getLatitude(), meal.getLongitude());
-            Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngMeal).title(meal.getTitre()).snippet(meal.getDescription()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLngMeal));
+        for (Dish dish : dishes) {
+            LatLng mLatLngMeal = MyLocationListener.getLocationFromAddress(getApplicationContext(),dish.Adress.Road + " " + dish.Adress.PostalCode + " " + dish.Adress.Country);
+            Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngMeal).title(dish.Name).snippet(dish.Description));
         }
     }
 
@@ -91,5 +116,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onStop();
 
 
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        marker.setTitle("clicked");
+        marker.showInfoWindow();
     }
 }
