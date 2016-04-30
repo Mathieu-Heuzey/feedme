@@ -10,12 +10,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class Register extends AppCompatActivity {
 
     public Api api = new Api();
+    public Crypto crypto = new Crypto();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +61,41 @@ public class Register extends AppCompatActivity {
 
         List<String> data = new ArrayList<String>();
 
-        this.api.registerUser(data);
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+//        params.put("email", login);
+//        params.put("password", crypto.md5(password));
+        // Log.d("password md5", crypto.md5(password));
+        Log.d("ADebugTag", "Value: " + 1);
+
+        String messages ="";
+
+        messages = messages.concat("http://163.5.84.232/WebService/api/Utilisateurs?email=");
+        messages = messages.concat(login);
+        messages = messages.concat("&password=");
+        messages = messages.concat(crypto.md5(password));
+
+        client.post(messages, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String response) {
+                //on ouvre la map
+//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                Log.d("ADebugTag", "Value: " + 2);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
+                Log.d("ADebugTag", "Value: " + 3);
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                // Toast.makeText(getApplicationContext(),
+//                        "Password / Login doesn't match", Toast.LENGTH_SHORT).show();
+//                Log.d("ShowPerson", "ERROR");
+            }
+        });
+        Log.d("ADebugTag", "Value: " + 4);
+
+
+//        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 }
