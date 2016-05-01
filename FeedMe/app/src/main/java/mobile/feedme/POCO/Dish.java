@@ -34,18 +34,26 @@ public class Dish {
     {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
         Dish dish = new Dish();
-            dish.DishId = jsonDish.optInt("DishId");
-            dish.Name = jsonDish.optString("Name");
-            dish.Price = jsonDish.optDouble("Price");
-            dish.Description = jsonDish.optString("Description");
-            dish.NbPart = jsonDish.optInt("NbPart");
-            dish.SizePart = jsonDish.optDouble("SizePart");
-            dish.Statut = jsonDish.optString("Statut");
+        dish.DishId = jsonDish.optInt("DishId");
+        dish.Name = jsonDish.optString("Name");
+        dish.Price = jsonDish.optDouble("Price");
+        dish.Description = jsonDish.optString("Description");
+        dish.NbPart = jsonDish.optInt("NbPart");
+        dish.SizePart = jsonDish.optDouble("SizePart");
+        dish.Statut = jsonDish.optString("Statut");
 
+        JSONObject jsonAdress = jsonDish.optJSONObject("Address");
+        if (jsonAdress != null)
+            dish.Adress = mobile.feedme.POCO.Adress.JSONParse(jsonAdress);
+        else {
+            //TODO faire une vraie gestion
             dish.Adress = new Adress();
             dish.Adress.Country = "France";
             dish.Adress.PostalCode = "75011";
-            dish.Adress.Road = "13 rue de la Presentation";
+            dish.Adress.Road = "18 rue de la Presentation";
+        }
+
+
 
         try {
             dish.DateExpiration = format.parse(jsonDish.optString("DateExpiration"));

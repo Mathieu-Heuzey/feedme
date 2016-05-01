@@ -99,8 +99,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void showFoodOnMap(ArrayList<Dish> dishes) {
 
         for (Dish dish : dishes) {
-            LatLng mLatLngMeal = MyLocationListener.getLocationFromAddress(getApplicationContext(),dish.Adress.Road + " " + dish.Adress.PostalCode + " " + dish.Adress.Country);
-            Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngMeal).title(dish.Name).snippet(dish.Description));
+            LatLng mLatLngDish = MyLocationListener.getLocationFromAddress(getApplicationContext(),dish.Adress.Road + " " + dish.Adress.PostalCode + " " + dish.Adress.Country);
+            if (mLatLngDish != null)
+            {
+                Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngDish).title(dish.Name).snippet(dish.Description));
+            }
         }
     }
 

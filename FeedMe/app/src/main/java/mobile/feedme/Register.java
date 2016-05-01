@@ -75,8 +75,11 @@ public class Register extends AppCompatActivity implements ILogger {
                 user.Lastname = EditTextName.getText().toString();
                 EditText EditTextPrenom2 = (EditText) (findViewById(R.id.editTextPrenom));
                 user.Firstname = EditTextPrenom2.getText().toString();
-                EditText EditTextLogin = (EditText) (findViewById(R.id.editTextLogin));
-                user.Login = EditTextLogin.getText().toString();
+
+                //Not used anymore //TODO remove the input
+                //EditText EditTextLogin = (EditText) (findViewById(R.id.editTextLogin));
+                //user.Login = EditTextLogin.getText().toString();
+
                 EditText EditTextNumber = (EditText) (findViewById(R.id.editTextTel));
                 user.Phone = EditTextNumber.getText().toString();
                 EditText EditTextCP = (EditText) (findViewById(R.id.editTextCP));
@@ -119,7 +122,7 @@ public class Register extends AppCompatActivity implements ILogger {
         params.put("Lastname", user.Lastname);
         params.put("Adress", location);
         params.put("Phone", user.Phone);
-        params.put("Username", user.Login);
+        params.put("Username", "");
         params.put("Password", crypto.md5(user.Password));
         params.put("Email", user.Email);
         return  params;

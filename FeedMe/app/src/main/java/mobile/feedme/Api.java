@@ -97,11 +97,7 @@ public class Api {
         {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                loggedUser = new Utilisateur();
-                loggedUser.Email = response.optString("Email");
-                loggedUser.Firstname = response.optString("Firstname");
-                loggedUser.Lastname = response.optString("Lastname");
-
+                loggedUser = Utilisateur.JSONParse(response);
                 caller.userInfoUpdated(loggedUser);
             }
 
@@ -149,7 +145,7 @@ public class Api {
 
     public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
-        client.get(baseApiURL + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+        client.get(baseApiURL + "Dishes?page=map",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
