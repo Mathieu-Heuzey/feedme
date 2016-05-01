@@ -1,5 +1,8 @@
 package mobile.feedme;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -47,7 +50,22 @@ public class Api {
        baseApiURL = apiURL;
    }
 
-    public static void Authentificate(final ILogger caller, String username, String password) {
+    public static void setToken(String token)
+    {
+        Token = token;
+        TokenType = "bearer";
+        client.addHeader("Authorization", TokenType + " " + Token);
+    }
+
+    public static void saveCurrentToken(Context context)
+    {
+        SharedPreferences pref = context.getSharedPreferences("text", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        editor.putString("token", Token);
+        editor.apply();
+    }
+
+    public static void Authentificate(final ILogger caller, final Context context, String username, String password) {
         RequestParams params = new RequestParams();
 
         params.put("username", username);
@@ -66,7 +84,8 @@ public class Api {
                     //display error, but should never occur
                     return;
                 }
-
+                //save the token in the sharedpreferences
+                Api.saveCurrentToken(context);
                 //set the header for the future request
                 client.addHeader("Authorization", TokenType + " " + Token);
                 //Continue to map
@@ -112,7 +131,7 @@ public class Api {
         });
     }
 
-    public static void registerRequest(Register caller, RequestParams params)
+    public static void registerRequest(final Register caller, RequestParams params)
     {
         client.post( baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
@@ -172,8 +191,17 @@ public class Api {
             public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 //Log.d("ShowPerson", "ERROR");
+                if (statusCode == 0)
+                {
+                    Toast.makeText(caller.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
+                }
+                if (statusCode == 401) {
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                }
+
+
                 Log.e("Retour dish error : ", res.toString());
-                Toast.makeText(caller.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
             }
         });
 

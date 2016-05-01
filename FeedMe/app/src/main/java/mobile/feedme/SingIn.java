@@ -48,7 +48,7 @@ public class SingIn extends AppCompatActivity implements ILogger {
         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));
         String password = et2.getText().toString();
 
-        Api.Authentificate(this, username, password);
+        Api.Authentificate(this, getApplicationContext(), username, password);
      }
 
     @Override

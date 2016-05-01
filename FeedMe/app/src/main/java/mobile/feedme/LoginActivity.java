@@ -1,6 +1,7 @@
 package mobile.feedme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,11 +12,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+
+//TODO mettre ca tout vide, juste faire le check de token dans le oncreate
 public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("text", MODE_PRIVATE);
+        if (pref.contains("token"))
+        {
+            Api.setToken(pref.getString("token", ""));
+            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        }
+        else
+            startActivity(new Intent(getApplicationContext(), SingIn.class));
+
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
