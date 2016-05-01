@@ -64,7 +64,7 @@ public class AddMeal extends AppCompatActivity {
         Log.d("ADebugTag", "Value: " + latitude);
 
         List<String> data = new ArrayList<String>();
-        this.api.addMeal(data);
+//        this.api.addMeal(data);
         Handler handler = new Handler();
         int millisDelay = 2000;
         handler.postDelayed(task, millisDelay);

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -27,14 +28,9 @@ import mobile.feedme.POCO.Dish;
 /**
  * Created by Mateo on 15/03/2016.
  */
-public class Api extends FragmentActivity {
+public class Api {
 
-    public void registerUser(List<String> data)
-    {
-        //Requete a la fonction de l'api qui ajoute un user apres ca registration
-    }
-
-    public boolean login(String login, String pwd)
+    public static boolean login(String login, String pwd)
     {
         Log.d("login : ", login);
         Log.d("pwd : ", pwd);
@@ -43,7 +39,41 @@ public class Api extends FragmentActivity {
             return true;
         return false;
     }
-    public void getAllDishAndCallDisplay(final MapsActivity mapView)
+
+    public static void registerRequest(Register caller, RequestParams params)
+    {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.post( "http://163.5.84.232/WebService/api/Account/Register", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                //on ouvre la map
+//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                Log.e("ADebugTag", Integer.toString(statusCode));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
+                if (res != null)
+                    Log.e("ADebugTag", res.toString());
+            }
+
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, String response) {
+//            }
+
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//            }
+
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+//            }
+        });
+    }
+
+
+    public static void getAllDishAndCallDisplay(final MapsActivity mapView)
     {
         AsyncHttpClient httpClient = new AsyncHttpClient();
 
@@ -72,18 +102,13 @@ public class Api extends FragmentActivity {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 //Log.d("ShowPerson", "ERROR");
-                Log.e("Retour dish error : ", res);
-                Toast.makeText(getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_SHORT).show();
+                Log.e("Retour dish error : ", res.toString());
+                Toast.makeText(mapView.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
             }
         });
 
-    }
-
-    public boolean addMeal(List<String> data)
-    {
-        return true;
     }
 }

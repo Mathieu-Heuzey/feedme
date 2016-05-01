@@ -15,15 +15,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class Register extends AppCompatActivity {
 
@@ -68,18 +77,6 @@ public class Register extends AppCompatActivity {
 
 // First name , last name , mail, pawssord, phone
 
-
-        List<String> data = new ArrayList<String>();
-
-
-        RequestParams params2 = new RequestParams();
-
-        params2.put("Email", mail);
-        params2.put("Password", password);
-        params2.put("ConfirmPassword", password);
-
-
-
         Location location3 = MyLocationListener.getCurrentPosition(getBaseContext());
         Double longitude = location3.getLongitude();
         Double latitude = location3.getLatitude();
@@ -98,34 +95,14 @@ public class Register extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         params.put("DateCreate", dateFormat);
 
-        Log.e("ADebugTag", "Value: " + 1);
-        Log.d("ADebugTag", "Value: " + 1);
-//        Toast.makeText(getApplicationContext(),"Jusqua la tout va bien", Toast.LENGTH_SHORT).show();
-        client.post("http://163.5.84.232/WebService/api/Account/Register", params2, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String response) {
-                //on ouvre la map
-//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-                Log.e("ADebugTag", "Value: " + 2);
-                Log.d("ADebugTag", "Value: " + 2);
+        RequestParams params2 = new RequestParams();
 
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
-                Log.e("ADebugTag", "Value: " + 3);
-                Log.d("ADebugTag", "Value: " + 3);
-
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                // Toast.makeText(getApplicationContext(),
-//                        "Password / Login doesn't match", Toast.LENGTH_SHORT).show();
-//                Log.d("ShowPerson", "ERROR");
-            }
-        });
-        Log.e("ADebugTag", "Value: " + 4);
-        Log.d("ADebugTag", "Value: " + 4);
+        params2.put("Email", mail);
+        params2.put("Password", password);
+        params2.put("ConfirmPassword", password);
 
 
+        Api.registerRequest(this, params2);
 //        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 }
