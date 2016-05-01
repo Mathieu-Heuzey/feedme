@@ -30,6 +30,9 @@ import mobile.feedme.POCO.Dish;
  */
 public class Api {
 
+    public static String Token;
+    public static String TokenType;
+
     public static boolean login(String login, String pwd)
     {
         Log.d("login : ", login);
@@ -40,11 +43,49 @@ public class Api {
         return false;
     }
 
+    public static void Authentificate(final SingIn caller, String username, String password) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+
+        params.put("username", username);
+        params.put("password", password);
+        params.put("grant_type", "password");
+
+        client.post(caller.getResources().getString(R.string.serverBaseUrl) + "Token", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.e("Login success : ", response.toString());
+                try {
+                    Token = response.getString("access_token");
+                    TokenType = response.getString("token_type");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //display error, but should never occur
+                    return;
+                }
+
+                //Continue to map
+                caller.loginSuccess();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
+                if (statusCode == 0)
+                    caller.loginError("Network is unreacheable");
+                else {
+                    caller.loginError("Bad combination of email/password");
+                    Log.e("Login error : ", response.toString());
+                }
+
+                //Message a preciser en fonction de la reponse
+            }
+        });
+    }
+
     public static void registerRequest(Register caller, RequestParams params)
     {
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.post( R.string.apiUrl + "Account/Register", params, new AsyncHttpResponseHandler() {
+        client.post( caller.getResources().getString(R.string.apiUrl) + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 //on ouvre la map
@@ -73,11 +114,11 @@ public class Api {
     }
 
 
-    public static void getAllDishAndCallDisplay(final MapsActivity mapView)
+    public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
         AsyncHttpClient httpClient = new AsyncHttpClient();
 
-        httpClient.get(R.string.apiUrl + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+        httpClient.get(caller.getResources().getString(R.string.apiUrl) + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
@@ -97,7 +138,7 @@ public class Api {
 
                 }
 
-                mapView.showFoodOnMap(dishes);
+                caller.showFoodOnMap(dishes);
             }
 
             @Override
@@ -105,7 +146,7 @@ public class Api {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 //Log.d("ShowPerson", "ERROR");
                 Log.e("Retour dish error : ", res.toString());
-                Toast.makeText(mapView.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
+                Toast.makeText(caller.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
             }
         });
 

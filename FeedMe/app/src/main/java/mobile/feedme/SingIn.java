@@ -42,17 +42,24 @@ public class SingIn extends AppCompatActivity {
 
     public void    signIn(View view)
     {
-        //le bypass
-        //startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-
         EditText et1 = (EditText) (findViewById(R.id.editTextLogin));
-        String log = et1.getText().toString();
+        String username = et1.getText().toString();
         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));
         String password = et2.getText().toString();
 
-
+        Api.Authentificate(this, username, password);
      }
+
+    public void loginSuccess()
+    {
+        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
+
+    public void loginError(String msg)
+    {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+    }
+}
 
 
 

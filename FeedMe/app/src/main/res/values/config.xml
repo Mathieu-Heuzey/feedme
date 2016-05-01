@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="serverBaseUrl">http://163.5.84.232/</string>
+    <string name="serverBaseUrl">http://163.5.84.232/WebService/</string>
     <string name="apiUrl">http://163.5.84.232/WebService/api/</string>
 </resources>
