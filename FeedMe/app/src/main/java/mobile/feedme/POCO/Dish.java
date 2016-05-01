@@ -34,29 +34,25 @@ public class Dish {
     {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
         Dish dish = new Dish();
-        try {
-            dish.DishId = jsonDish.getInt("DishId");
-            dish.Name = jsonDish.getString("Name");
-            dish.Price = jsonDish.getDouble("Price");
-            dish.Description = jsonDish.getString("Description");
-            dish.NbPart = jsonDish.getInt("NbPart");
-            dish.SizePart = jsonDish.getDouble("SizePart");
-            dish.Statut = jsonDish.getString("Statut");
-            dish.DateExpiration = format.parse(jsonDish.getString("DateExpiration"));
-            dish.PickUpTime = format.parse(jsonDish.getString("PickUpTime"));
-            dish.DateCreate = format.parse(jsonDish.getString("DateCreate"));
+            dish.DishId = jsonDish.optInt("DishId");
+            dish.Name = jsonDish.optString("Name");
+            dish.Price = jsonDish.optDouble("Price");
+            dish.Description = jsonDish.optString("Description");
+            dish.NbPart = jsonDish.optInt("NbPart");
+            dish.SizePart = jsonDish.optDouble("SizePart");
+            dish.Statut = jsonDish.optString("Statut");
 
             dish.Adress = new Adress();
             dish.Adress.Country = "France";
             dish.Adress.PostalCode = "75011";
             dish.Adress.Road = "13 rue de la Presentation";
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+        try {
+            dish.DateExpiration = format.parse(jsonDish.optString("DateExpiration"));
+            dish.PickUpTime = format.parse(jsonDish.optString("PickUpTime"));
+            dish.DateCreate = format.parse(jsonDish.optString("DateCreate"));
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;
         }
         return dish;
     }

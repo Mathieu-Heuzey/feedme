@@ -24,6 +24,7 @@ import java.util.Locale;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
 import mobile.feedme.POCO.Dish;
+import mobile.feedme.POCO.Utilisateur;
 
 /**
  * Created by Mateo on 15/03/2016.
@@ -35,8 +36,10 @@ public class Api {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static String Token = null;
-    public static String TokenType = null;
+    private static String Token = null;
+    private static String TokenType = null;
+
+    public static Utilisateur loggedUser = null;
 
    public static void Initialize(String serverURL, String apiURL)
    {
@@ -86,7 +89,32 @@ public class Api {
         });
     }
 
-//    public static void getUserInfo()
+    public static void getUserInfo(final ILogger caller)
+    {
+        //if Token == null -> erreur
+
+        client.get(baseApiURL + "/Account/UserInfo", new JsonHttpResponseHandler()
+        {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                loggedUser = new Utilisateur();
+                loggedUser.Email = response.optString("Email");
+                loggedUser.Firstname = response.optString("Firstname");
+                loggedUser.Lastname = response.optString("Lastname");
+
+                caller.userInfoUpdated(loggedUser);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0)
+                    caller.loginError("Network is unreacheable");
+                else {
+                    caller.loginError("Invalid credentials");
+                }
+            }
+        });
+    }
 
     public static void registerRequest(Register caller, RequestParams params)
     {

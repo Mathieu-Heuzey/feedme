@@ -54,7 +54,7 @@ public class SingIn extends AppCompatActivity implements ILogger {
     @Override
     public void loginSuccessfull()
     {
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        Api.getUserInfo(this);
     }
 
     @Override
@@ -64,8 +64,10 @@ public class SingIn extends AppCompatActivity implements ILogger {
     }
 
     @Override
-    public void userInfoUpdated(Utilisateur user) {
-
+    public void userInfoUpdated(Utilisateur user)
+    {
+        Toast.makeText(getBaseContext(), "Welcome back " + user.Firstname, Toast.LENGTH_LONG).show();
+        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 }
 
