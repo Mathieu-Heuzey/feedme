@@ -25,8 +25,9 @@ import com.loopj.android.http.RequestParams;
 import java.security.*;
 
 import cz.msebera.android.httpclient.Header;
+import mobile.feedme.POCO.Utilisateur;
 
-public class SingIn extends AppCompatActivity {
+public class SingIn extends AppCompatActivity implements ILogger {
 
     public Api api = new Api();
     public Crypto crypto = new Crypto();
@@ -50,14 +51,21 @@ public class SingIn extends AppCompatActivity {
         Api.Authentificate(this, username, password);
      }
 
-    public void loginSuccess()
+    @Override
+    public void loginSuccessfull()
     {
         startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 
+    @Override
     public void loginError(String msg)
     {
         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void userInfoUpdated(Utilisateur user) {
+
     }
 }
 

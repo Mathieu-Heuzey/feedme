@@ -30,29 +30,28 @@ import mobile.feedme.POCO.Dish;
  */
 public class Api {
 
+    private static String baseServerURL;
+    private static String baseApiURL;
+
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static String Token = null;
     public static String TokenType = null;
 
-    public static boolean login(String login, String pwd)
-    {
-        Log.d("login : ", login);
-        Log.d("pwd : ", pwd);
-        //Requete a la fonction de l'api qui fait un select sur la table user
-        if (login.equals(pwd) == true)
-            return true;
-        return false;
-    }
+   public static void Initialize(String serverURL, String apiURL)
+   {
+       baseServerURL = serverURL;
+       baseApiURL = apiURL;
+   }
 
-    public static void Authentificate(final SingIn caller, String username, String password) {
+    public static void Authentificate(final ILogger caller, String username, String password) {
         RequestParams params = new RequestParams();
 
         params.put("username", username);
         params.put("password", password);
         params.put("grant_type", "password");
 
-        client.post(caller.getResources().getString(R.string.serverBaseUrl) + "Token", params, new JsonHttpResponseHandler() {
+        client.post(baseServerURL + "Token", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("Login success : ", response.toString());
@@ -68,7 +67,7 @@ public class Api {
                 //set the header for the future request
                 client.addHeader("Authorization", TokenType + " " + Token);
                 //Continue to map
-                caller.loginSuccess();
+                caller.loginSuccessfull();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
@@ -91,7 +90,7 @@ public class Api {
 
     public static void registerRequest(Register caller, RequestParams params)
     {
-        client.post( caller.getResources().getString(R.string.apiUrl) + "Account/Register", params, new AsyncHttpResponseHandler() {
+        client.post( baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 //on ouvre la map
@@ -122,7 +121,7 @@ public class Api {
 
     public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
-        client.get(caller.getResources().getString(R.string.apiUrl) + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+        client.get(baseApiURL + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 

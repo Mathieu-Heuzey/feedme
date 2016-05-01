@@ -36,7 +36,7 @@ import cz.msebera.android.httpclient.protocol.HTTP;
 import mobile.feedme.POCO.Adress;
 import mobile.feedme.POCO.Utilisateur;
 
-public class Register extends AppCompatActivity {
+public class Register extends AppCompatActivity implements ILogger {
 
     public Api api = new Api();
     public Crypto crypto = new Crypto();
@@ -142,5 +142,20 @@ public class Register extends AppCompatActivity {
 
 //        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
         }
+    }
+
+    @Override
+    public void loginSuccessfull() {
+        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+    }
+
+    @Override
+    public void loginError(String msg) {
+        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void userInfoUpdated(Utilisateur user) {
+
     }
 }
