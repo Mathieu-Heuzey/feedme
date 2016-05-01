@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else {
             mMap.setMyLocationEnabled(true);
-            Location location = mMap.getMyLocation();
+            Location location = MyLocationListener.getCurrentPosition(getApplicationContext());
 
             if (location != null) {
                 LatLng myLocation = new LatLng(location.getLatitude(),

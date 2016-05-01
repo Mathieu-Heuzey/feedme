@@ -72,7 +72,12 @@ public class Api {
                 if (statusCode == 0)
                     caller.loginError("Network is unreacheable");
                 else {
-                    caller.loginError("Bad combination of email/password");
+                    try {
+                        caller.loginError(response.getString("error_description"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        caller.loginError("Error while trying to log in");
+                    }
                     Log.e("Login error : ", response.toString());
                 }
 

@@ -57,7 +57,7 @@ public class SingIn extends AppCompatActivity {
 
     public void loginError(String msg)
     {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     }
 }
 
