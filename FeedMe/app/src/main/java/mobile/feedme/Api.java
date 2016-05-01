@@ -57,6 +57,17 @@ public class Api {
         client.addHeader("Authorization", TokenType + " " + Token);
     }
 
+    //must be called after an authentification error (code 401)
+    public static void removeToken(Context context)
+    {
+        Token = null;
+        client.removeHeader("Authorization");
+        SharedPreferences pref = context.getSharedPreferences("text", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        editor.remove("token");
+        editor.apply();
+    }
+
     public static void saveCurrentToken(Context context)
     {
         SharedPreferences pref = context.getSharedPreferences("text", Context.MODE_PRIVATE);
@@ -195,7 +206,8 @@ public class Api {
                 {
                     Toast.makeText(caller.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
                 }
-                if (statusCode == 401) {
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
                     Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
                 }
