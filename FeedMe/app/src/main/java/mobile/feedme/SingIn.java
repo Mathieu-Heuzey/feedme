@@ -38,21 +38,12 @@ public class SingIn extends AppCompatActivity {
         setContentView(R.layout.activity_sing_in);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     public void    signIn(View view)
     {
         //le bypass
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        //startActivity(new Intent(getApplicationContext(), MapsActivity.class));
 
         EditText et1 = (EditText) (findViewById(R.id.editTextLogin));
         String log = et1.getText().toString();
@@ -60,39 +51,6 @@ public class SingIn extends AppCompatActivity {
         String password = et2.getText().toString();
 
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.put("email", log);
-        params.put("password", crypto.md5(password));
-       // Log.d("password md5", crypto.md5(password));
-        Log.d("ADebugTag", "Value: " + 1);
-
-        String messages ="";
-
-        messages = messages.concat("http://163.5.84.232/WebService/api/Utilisateurs?email=");
-        messages = messages.concat(log);
-        messages = messages.concat("&password=");
-        messages = messages.concat(crypto.md5(password));
-
-        Log.d("La requete", messages);
-        client.post(messages, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String response) {
-                //on ouvre la map
-//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-                Log.d("ADebugTag", "Value: " + 2);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
-                Log.d("ADebugTag", "Value: " + 3);
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-               // Toast.makeText(getApplicationContext(),
-//                        "Password / Login doesn't match", Toast.LENGTH_SHORT).show();
-//                Log.d("ShowPerson", "ERROR");
-            }
-        });
-        Log.d("ADebugTag", "Value: " + 4);
      }
     }
 

@@ -44,7 +44,7 @@ public class Api {
     {
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.post( "http://163.5.84.232/WebService/api/Account/Register", params, new AsyncHttpResponseHandler() {
+        client.post( R.string.apiUrl + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 //on ouvre la map
@@ -77,10 +77,9 @@ public class Api {
     {
         AsyncHttpClient httpClient = new AsyncHttpClient();
 
-        httpClient.get("http://163.5.84.232/WebService/api/Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+        httpClient.get(R.string.apiUrl + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.e("Le retour des dish hihi", response.toString());
 
                 ArrayList<Dish> dishes = new ArrayList<Dish>();
                 for (int i = 0; i < response.length(); ++i)
