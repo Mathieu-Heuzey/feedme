@@ -30,8 +30,10 @@ import mobile.feedme.POCO.Dish;
  */
 public class Api {
 
-    public static String Token;
-    public static String TokenType;
+    private static AsyncHttpClient client = new AsyncHttpClient();
+
+    public static String Token = null;
+    public static String TokenType = null;
 
     public static boolean login(String login, String pwd)
     {
@@ -44,7 +46,6 @@ public class Api {
     }
 
     public static void Authentificate(final SingIn caller, String username, String password) {
-        AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
         params.put("username", username);
@@ -64,6 +65,8 @@ public class Api {
                     return;
                 }
 
+                //set the header for the future request
+                client.addHeader("Authorization", TokenType + " " + Token);
                 //Continue to map
                 caller.loginSuccess();
             }
@@ -80,16 +83,14 @@ public class Api {
                     }
                     Log.e("Login error : ", response.toString());
                 }
-
-                //Message a preciser en fonction de la reponse
             }
         });
     }
 
+//    public static void getUserInfo()
+
     public static void registerRequest(Register caller, RequestParams params)
     {
-        AsyncHttpClient client = new AsyncHttpClient();
-
         client.post( caller.getResources().getString(R.string.apiUrl) + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
@@ -121,9 +122,7 @@ public class Api {
 
     public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-
-        httpClient.get(caller.getResources().getString(R.string.apiUrl) + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+        client.get(caller.getResources().getString(R.string.apiUrl) + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 

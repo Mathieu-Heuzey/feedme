@@ -18,14 +18,8 @@ android {
         }
     }
 }
-repositories{
-    flatDir{
-        dirs 'libs'
-    }
-}
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.google.android.gms:play-services:8.4.0'
@@ -34,12 +28,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile (name:'Chart-2016.1.316-trial-release.aar', ext:'arr')
-    compile (name:'Common-2016.1.316-trial-release.aar', ext:'arr')
-    compile (name:'Data-2016.1.316-trial-release.aar', ext:'arr')
-    compile (name:'Feedback-2016.1.316-trial-release.aar', ext:'arr')
-    compile (name:'Input-2016.1.316-trial-release.aar', ext:'arr')
-    compile (name:'List-2016.1.316-trial-release.aar', ext:'arr')
-    compile (name:'Primitives-2016.1.316-trial-release.aar', ext:'arr')
 
 }
