@@ -14,5 +14,6 @@ public class Utilisateur {
     public String Username;
     public String Password;
     public String Email;
+    public String Login;
     public Date DateCreate;
 }

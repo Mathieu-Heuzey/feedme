@@ -33,11 +33,15 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
+import mobile.feedme.POCO.Adress;
+import mobile.feedme.POCO.Utilisateur;
 
 public class Register extends AppCompatActivity {
 
     public Api api = new Api();
     public Crypto crypto = new Crypto();
+    public Utilisateur user = new Utilisateur();
+    public Checker check = new Checker();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,54 +59,96 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    public void register(View view)
+    public boolean setNewUser()
     {
-        EditText EditTextName = (EditText) (findViewById(R.id.editTextNom));
-        String nom = EditTextName.getText().toString();
-        EditText EditTextPrenom2 = (EditText) (findViewById(R.id.editTextPrenom));
-        String prenom = EditTextPrenom2.getText().toString();
-        EditText et3 = (EditText) (findViewById(R.id.editTextLogin));
-        String login = et3.getText().toString();
-        EditText et4 = (EditText) (findViewById(R.id.EditTextPassword1));
-        String password = et4.getText().toString();
-//        EditText et5 = (EditText) (findViewById(R.id.editTextLcoation));
- //       String location = et5.getText().toString();
-        EditText et6 = (EditText) (findViewById(R.id.editTextTel));
-        String tel = et6.getText().toString();
-        EditText et7 = (EditText) (findViewById(R.id.EditTextPassword2));
-        String password2 = et4.getText().toString();
+        EditText ETpassword1 = (EditText) (findViewById(R.id.EditTextPassword1));
+        String password1 = ETpassword1.getText().toString();
+        EditText ETpassword2 = (EditText) (findViewById(R.id.EditTextPassword2));
+        String password2 = ETpassword2.getText().toString();
 
-        EditText EditTextMail = (EditText) (findViewById(R.id.editTextMail));
-        String mail = EditTextMail.getText().toString();
+        if (check.CheckMdp(password1, password2))
+        {
+            if (password1.isEmpty() || password2.isEmpty())
+            {
+                Toast.makeText(getApplicationContext(), "Password is empty", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            user.Password = password1;
+            EditText EditTextMail = (EditText) (findViewById(R.id.editTextMail));
+            String mail = EditTextMail.getText().toString();
+            if (check.CheckMail(mail))
+            {
+                user.Email = mail;
+                EditText EditTextName = (EditText) (findViewById(R.id.editTextNom));
+                user.Lastname = EditTextName.getText().toString();
+                EditText EditTextPrenom2 = (EditText) (findViewById(R.id.editTextPrenom));
+                user.Firstname = EditTextPrenom2.getText().toString();
+                EditText EditTextLogin = (EditText) (findViewById(R.id.editTextLogin));
+                user.Login = EditTextLogin.getText().toString();
+                EditText EditTextNumber = (EditText) (findViewById(R.id.editTextTel));
+                user.Phone = EditTextNumber.getText().toString();
+                EditText EditTextCP = (EditText) (findViewById(R.id.editTextCP));
+                user.Adress = new Adress();
+                user.Adress.PostalCode = EditTextCP.getText().toString();
+                EditText EditTextRoad = (EditText) (findViewById(R.id.editTextRue));
+                user.Adress.Road = EditTextCP.getText().toString();
+                user.Adress.Country = "France";
+                Location location = MyLocationListener.getCurrentPosition(getBaseContext());
+                Double longitude = location.getLongitude();
+                Double latitude = location.getLatitude();
+                user.Adress.Longitude = longitude.toString();
+                user.Adress.Latitude = latitude.toString();
+                return true;
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Email isn't valid !", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Passwords aren't the same !", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
 
-// First name , last name , mail, pawssord, phone
-
-        Location location3 = MyLocationListener.getCurrentPosition(getBaseContext());
-        Double longitude = location3.getLongitude();
-        Double latitude = location3.getLatitude();
-        AsyncHttpClient client = new AsyncHttpClient();
+    public RequestParams setParam()
+    {
         RequestParams params = new RequestParams();
-        String location2 = "{'AdressId' : 0, 'Road' : 'dtc', 'PostalCode' : '13013', 'Country' : 'France', 'Latitude' : 'latitude', 'Longitude': '2,2'}";
+        String location = "{'AdressId' : 0, 'Road' : " + user.Adress.Road +
+                ",'PostalCode' : " + user.Adress.PostalCode +
+                ",'Country' : 'France', " +
+                ",'Latitude' : "+user.Adress.Latitude +
+                ", 'Longitude': " + user.Adress.Longitude + "}";
         params.put("UtilisateurId", 0);
         params.put("AdressId", 0);
-        params.put("Firstname", prenom);
-        params.put("Lastname", nom);
-        params.put("Adress", location2);
-        params.put("Phone", tel);
-        params.put("Username", login);
-        params.put("Password", crypto.md5(password));
-        params.put("Email", "mathieu.heuzey@gmail.com");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        params.put("DateCreate", dateFormat);
+        params.put("Firstname", user.Firstname);
+        params.put("Lastname", user.Lastname);
+        params.put("Adress", location);
+        params.put("Phone", user.Phone);
+        params.put("Username", user.Login);
+        params.put("Password", crypto.md5(user.Password));
+        params.put("Email", user.Email);
+        return  params;
+    }
+    public void register(View view)
+    {
+        if (setNewUser())
+        {
+            Log.e("l objet en base", setParam().toString());
+            AsyncHttpClient client = new AsyncHttpClient();
+            // Pour les test
+            RequestParams params2 = new RequestParams();
+            params2.put("Email", "Mathieu@gmail.com");
+            params2.put("Password", "t6Qoo@");
+            params2.put("ConfirmPassword", "t6Qoo@");
+            Api.registerRequest(this, params2);
 
-        RequestParams params2 = new RequestParams();
+            // LA version final
+//            Api.registerRequest(this, setParam());
 
-        params2.put("Email", mail);
-        params2.put("Password", password);
-        params2.put("ConfirmPassword", password);
-
-
-        Api.registerRequest(this, params2);
 //        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        }
     }
 }
