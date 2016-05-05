@@ -33,7 +33,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirmez"
+        android:text="Confirm"
         android:id="@+id/Bconfirmez"
         android:onClick="signIn"
         android:background="@drawable/btn1"
@@ -51,7 +51,7 @@
         android:onClick="openRegister"
         android:id="@+id/EditTextRegister"
         android:clickable="true"
-        android:text="Click Here to create an accout"
+        android:text="if you doesn't have an account, you can click here to create one."
         android:layout_below="@+id/Bconfirmez"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

@@ -36,22 +36,12 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextLogin"
-            android:hint="Login"
-            android:layout_below="@+id/editTextPrenom"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/EditTextPassword1"
             android:hint="Password"
-            android:layout_below="@+id/editTextLogin"
+            android:layout_below="@+id/editTextPrenom"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -97,7 +87,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextCP"
-            android:hint="CP"
+            android:hint="PC"
             android:layout_below="@+id/editTextRue"
             android:inputType="number"
             android:layout_alignParentLeft="true"
@@ -106,7 +96,7 @@
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirmez"
+            android:text="Confirm"
             android:id="@+id/Bconfirmez"
             android:onClick="register"
             android:background="@drawable/btn1"
