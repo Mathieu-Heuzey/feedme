@@ -51,6 +51,12 @@ public class SingIn extends AppCompatActivity implements ILogger {
         Api.Authentificate(this, getApplicationContext(), username, password);
      }
 
+    public void    openRegister(View v)
+    {
+        startActivity(new Intent(getApplicationContext(), Register.class));
+    }
+
+
     @Override
     public void loginSuccessfull()
     {

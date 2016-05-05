@@ -18,178 +18,101 @@
         android:layout_height="match_parent"
         android:stretchColumns="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nom"
-        android:id="@+id/textViewNom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextNom"
+            android:hint="First name"
+            android:layout_below="@+id/textViewNom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextNom"
-        android:layout_below="@+id/textViewNom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Prenom"
-        android:layout_below="@+id/editTextNom"
-        android:id="@+id/textViewPrenom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextPrenom"
-        android:layout_below="@+id/textViewPrenom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextPrenom"
+            android:hint="Last name"
+            android:layout_below="@+id/editTextNom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Login"
-        android:layout_below="@+id/editTextPrenom"
-        android:id="@+id/textViewLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextLogin"
+            android:hint="Login"
+            android:layout_below="@+id/editTextPrenom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextLogin"
-        android:layout_below="@+id/textViewLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/EditTextPassword1"
+            android:hint="Password"
+            android:layout_below="@+id/editTextLogin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Password"
-        android:id="@+id/textViewPassword1"
-        android:layout_below="@+id/editTextLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/EditTextPassword1"
-        android:layout_below="@+id/textViewPassword1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Password"
-        android:id="@+id/textViewPassword2"
-        android:layout_below="@+id/EditTextPassword1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/EditTextPassword2"
-        android:layout_below="@+id/textViewPassword2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/EditTextPassword2"
+            android:hint="Reapeat Password"
+            android:layout_below="@+id/EditTextPassword1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Tel:"
-        android:id="@+id/textViewTel"
-        android:layout_below="@+id/EditTextPassword2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextTel"
+            android:hint="Tel"
+            android:layout_below="@+id/EditTextPassword2"
+            android:inputType="number"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextTel"
-        android:layout_below="@+id/textViewTel"
-        android:inputType="number"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextMail"
+            android:hint="Mail"
+            android:layout_below="@+id/editTextTel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Mail"
-        android:id="@+id/textViewMail"
-        android:layout_below="@+id/editTextTel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextRue"
+            android:hint="Street"
+            android:layout_below="@+id/editTextMail"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextMail"
-        android:layout_below="@+id/textViewMail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextCP"
+            android:hint="CP"
+            android:layout_below="@+id/editTextRue"
+            android:inputType="number"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Rue"
-        android:id="@+id/textViewRue"
-        android:layout_below="@+id/editTextMail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextRue"
-        android:layout_below="@+id/textViewRue"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="CP"
-        android:id="@+id/textViewCP"
-        android:layout_below="@+id/editTextRue"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextCP"
-        android:layout_below="@+id/textViewCP"
-        android:inputType="number"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirmez"
-        android:id="@+id/Bconfirmez"
-        android:onClick="register"
-        android:layout_below="@+id/editTextCP"
-        android:layout_centerHorizontal="true"></Button>
-</TableLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmez"
+            android:id="@+id/Bconfirmez"
+            android:onClick="register"
+            android:background="@drawable/btn1"
+            android:layout_marginTop="26dp"
+            android:textColor="#1e2d00"
+            android:layout_below="@+id/editTextCP"
+            android:layout_centerHorizontal="true"></android.support.v7.widget.AppCompatButton>
+    </TableLayout>
 </ScrollView>

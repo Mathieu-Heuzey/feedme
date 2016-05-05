@@ -12,53 +12,50 @@
     tools:context="mobile.feedme.SingIn"
     tools:showIn="@layout/activity_sing_in">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Login"
-        android:id="@+id/textViewLogin"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextLogin"
-        android:layout_below="@+id/textViewLogin"
+        android:hint="Mail"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Password"
-        android:id="@+id/textViewPassword"
-        android:layout_below="@+id/editTextLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:hint="Password"
         android:id="@+id/EditTextPassword"
-        android:layout_below="@+id/textViewPassword"
+        android:layout_below="@+id/editTextLogin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirmez"
         android:id="@+id/Bconfirmez"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:onClick="signIn"
-        android:layout_marginBottom="182dp" />
+        android:background="@drawable/btn1"
+        android:layout_marginTop="26dp"
+        android:textColor="#1e2d00"
+        android:layout_below="@+id/EditTextPassword"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:onClick="openRegister"
+        android:id="@+id/EditTextRegister"
+        android:clickable="true"
+        android:text="Click Here to create an accout"
+        android:layout_below="@+id/Bconfirmez"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="36dp" />
 
 </RelativeLayout>
 
