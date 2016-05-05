@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 
 import com.google.android.gms.appindexing.Action;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import mobile.feedme.POCO.Dish;
@@ -33,7 +35,7 @@ import mobile.feedme.POCO.Dish;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
-    public Api api = new Api();
+    private HashMap<String, Dish> MarkerIdToDish = new HashMap<String, Dish>();
 
 //    MyLocationListener locationListener;
 
@@ -87,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
 //        locationListener.setMap(mMap);
 
-        this.api.getAllDishAndCallDisplay(this);
+        Api.getAllDishAndCallDisplay(this);
     }
 
     public void addMeal(View view) {
@@ -103,6 +105,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (mLatLngDish != null)
             {
                 Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngDish).title(dish.Name).snippet(dish.Description));
+                this.MarkerIdToDish.put(marker.getId(), dish);
             }
         }
     }
@@ -122,8 +125,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-        marker.setTitle("clicked");
-        marker.showInfoWindow();
+    public void onInfoWindowClick(Marker marker)
+    {
+        if (this.MarkerIdToDish.containsKey(marker.getId()))
+        {
+            Intent i = new Intent(this, DishDetailActivity.class);
+            i.putExtra("Dish", this.MarkerIdToDish.get(marker.getId()));
+            startActivity(i);
+        }
+
+//        marker.setTitle("clicked");
+//        marker.showInfoWindow();
     }
 }

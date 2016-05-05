@@ -211,9 +211,10 @@ public class Api {
                     Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
                 }
-
-
-                Log.e("Retour dish error : ", res.toString());
+                else
+                {
+                    Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
