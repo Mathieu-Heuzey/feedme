@@ -38,10 +38,6 @@ import mobile.feedme.POCO.Utilisateur;
 
 public class Register extends AppCompatActivity implements ILogger {
 
-    public Api api = new Api();
-    public Crypto crypto = new Crypto();
-    public Utilisateur user = new Utilisateur();
-    public Checker check = new Checker();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,114 +47,90 @@ public class Register extends AppCompatActivity implements ILogger {
 
     }
 
-    public boolean setNewUser()
-    {
-        EditText ETpassword1 = (EditText) (findViewById(R.id.EditTextPassword1));
-        String password1 = ETpassword1.getText().toString();
-        EditText ETpassword2 = (EditText) (findViewById(R.id.EditTextPassword2));
-        String password2 = ETpassword2.getText().toString();
-
-        if (check.CheckMdp(password1, password2))
-        {
-            if (password1.isEmpty() || password2.isEmpty())
-            {
-                Toast.makeText(getApplicationContext(), "Password is empty", Toast.LENGTH_LONG).show();
-                return false;
-            }
-            user.Password = password1;
-            EditText EditTextMail = (EditText) (findViewById(R.id.editTextMail));
-            String mail = EditTextMail.getText().toString();
-            if (check.CheckMail(mail))
-            {
-                user.Email = mail;
-                EditText EditTextName = (EditText) (findViewById(R.id.editTextNom));
-                user.Lastname = EditTextName.getText().toString();
-                EditText EditTextPrenom2 = (EditText) (findViewById(R.id.editTextPrenom));
-                user.Firstname = EditTextPrenom2.getText().toString();
-
-                //Not used anymore //TODO remove the input
-                //EditText EditTextLogin = (EditText) (findViewById(R.id.editTextLogin));
-                //user.Login = EditTextLogin.getText().toString();
-
-                EditText EditTextNumber = (EditText) (findViewById(R.id.editTextTel));
-                user.Phone = EditTextNumber.getText().toString();
-                EditText EditTextCP = (EditText) (findViewById(R.id.editTextCP));
-                user.Adress = new Adress();
-                user.Adress.PostalCode = EditTextCP.getText().toString();
-                EditText EditTextRoad = (EditText) (findViewById(R.id.editTextRue));
-                user.Adress.Road = EditTextCP.getText().toString();
-                user.Adress.Country = "France";
-                Location location = MyLocationListener.getCurrentPosition(getBaseContext());
-                Double longitude = location.getLongitude();
-                Double latitude = location.getLatitude();
-                user.Adress.Longitude = longitude.toString();
-                user.Adress.Latitude = latitude.toString();
-                return true;
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "Email isn't valid !", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(), "Passwords aren't the same !", Toast.LENGTH_LONG).show();
-            return false;
-        }
-    }
-
-    public RequestParams setParam()
-    {
-        RequestParams params = new RequestParams();
-        String location = "{'AdressId' : 0, 'Road' : " + user.Adress.Road +
-                ",'PostalCode' : " + user.Adress.PostalCode +
-                ",'Country' : 'France', " +
-                ",'Latitude' : "+user.Adress.Latitude +
-                ", 'Longitude': " + user.Adress.Longitude + "}";
-        params.put("UtilisateurId", 0);
-        params.put("AdressId", 0);
-        params.put("Firstname", user.Firstname);
-        params.put("Lastname", user.Lastname);
-        params.put("Adress", location);
-        params.put("Phone", user.Phone);
-        params.put("Username", "");
-        params.put("Password", crypto.md5(user.Password));
-        params.put("Email", user.Email);
-        return  params;
-    }
     public void register(View view)
     {
-        if (setNewUser())
+        RequestParams params = retrieveParams();
+        if (params != null)
         {
-            Log.e("l objet en base", setParam().toString());
-            AsyncHttpClient client = new AsyncHttpClient();
-            // Pour les test
-            RequestParams params2 = new RequestParams();
-            params2.put("Email", "Mathieu@gmail.com");
-            params2.put("Password", "t6Qoo@");
-            params2.put("ConfirmPassword", "t6Qoo@");
-            Api.registerRequest(this, params2);
-
-            // LA version final
-//            Api.registerRequest(this, setParam());
-
-//        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+            Api.registerRequest(this, params);
         }
     }
 
     @Override
     public void loginSuccessfull() {
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+//        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 
     @Override
     public void loginError(String msg) {
-        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+  //      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void userInfoUpdated(Utilisateur user) {
 
+    }
+
+    private RequestParams retrieveParams()
+    {
+        RequestParams params = new RequestParams();
+
+        //Required fields
+        String password = ((EditText)findViewById(R.id.EditTextPassword1)).getText().toString();
+        String confirmPassword = ((EditText)findViewById(R.id.EditTextPassword2)).getText().toString();
+        String mail =  ((EditText)findViewById(R.id.editTextMail)).getText().toString();
+        String lastName = ((EditText)findViewById(R.id.editTextNom)).getText().toString();
+        String firstName = ((EditText)findViewById(R.id.editTextPrenom)).getText().toString();
+        String phone = ((EditText)findViewById(R.id.editTextTel)).getText().toString();
+
+        //Ok c'est mega moche, mais en vrai pas trop le choix
+        if (!Checker.CheckMdp(password, confirmPassword) || password.isEmpty() || confirmPassword.isEmpty()) {
+            //TODO le ptit message d'erreur
+            return null;
+        }
+        if (!Checker.CheckMail(mail)) {
+            //TODO le ptit message d'erreur
+            return null;
+        }
+        if (lastName.trim().isEmpty())
+        {
+            //TODO le ptit message d'erreur
+            return null;
+        }
+        if (firstName.trim().isEmpty())
+        {
+            //TODO le ptit message d'erreur
+            return null;
+        }
+        if (phone.trim().isEmpty())
+        {
+            //TODO le ptit message d'erreur
+            return null;
+        }
+
+        params.put("Password", password);
+        params.put("ConfirmPassword", confirmPassword);
+        params.put("Email", mail);
+        params.put("Firstname", firstName);
+        params.put("Lastname", lastName);
+        params.put("PhoneNumber", phone);
+        params.put("Address", "");
+
+        //Not used anymore //TODO remove the input
+        //EditText EditTextLogin = (EditText) (findViewById(R.id.editTextLogin));
+        //user.Login = EditTextLogin.getText().toString();
+
+        //TODO envoyer l'adresse frero, en checkant plein de truc tmtc
+//                user.Adress.PostalCode = EditTextCP.getText().toString();
+//                EditText EditTextRoad = (EditText) (findViewById(R.id.editTextRue));
+//                user.Adress.Road = EditTextCP.getText().toString();
+//                user.Adress.Country = "France";
+//                Location location = MyLocationListener.getCurrentPosition(getBaseContext());
+//                Double longitude = location.getLongitude();
+//                Double latitude = location.getLatitude();
+//                user.Adress.Longitude = longitude.toString();
+//                user.Adress.Latitude = latitude.toString();
+
+        return params;
     }
 }

@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -147,28 +148,28 @@ public class Api {
         client.post( baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                //on ouvre la map
-//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-                Log.e("ADebugTag", Integer.toString(statusCode));
+                Toast.makeText(caller.getApplicationContext(), "You have been registered ! You can log in now", Toast.LENGTH_LONG).show();
+                caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
-                if (res != null)
-                    Log.e("ADebugTag", res.toString());
+                if (statusCode == 0)
+                {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(caller.getApplicationContext(), "Error while registering ! Pleasy retry", Toast.LENGTH_LONG).show();
+                    if (res != null) {
+                        try {
+                            Log.e("Register fail : ", new String(res, "UTF-8"));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
-
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, String response) {
-//            }
-
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//            }
-
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
-//            }
         });
     }
 
@@ -204,7 +205,7 @@ public class Api {
                 //Log.d("ShowPerson", "ERROR");
                 if (statusCode == 0)
                 {
-                    Toast.makeText(caller.getApplicationContext(), "Could not connect to the network !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
                 }
                 else if (statusCode == 401) {
                     Api.removeToken(caller.getApplicationContext());

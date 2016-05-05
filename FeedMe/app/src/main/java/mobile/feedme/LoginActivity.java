@@ -21,13 +21,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("text", MODE_PRIVATE);
-        if (pref.contains("token"))
-        {
-            Api.setToken(pref.getString("token", ""));
-            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-        }
-        else
-            startActivity(new Intent(getApplicationContext(), SingIn.class));
+
+//Bypass
+//        if (pref.contains("token"))
+//        {
+//            Api.setToken(pref.getString("token", ""));
+//            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+//        }
+//        else
+//            startActivity(new Intent(getApplicationContext(), SingIn.class));
 
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
