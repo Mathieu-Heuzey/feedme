@@ -7,12 +7,12 @@ import android.util.Log;
 
 import mobile.feedme.POCO.Dish;
 
-public class DishDetailActivity extends AppCompatActivity {
+public class DishDetailActivity extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dish_detail);
+        super.initialize(R.layout.activity_dish_detail, false);
 
         Intent i = getIntent();
         Dish dish = i.<Dish>getParcelableExtra("Dish");

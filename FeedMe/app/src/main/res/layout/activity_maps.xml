@@ -1,9 +1,8 @@
-<mobile.feedme.MySwipeRefreshLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swiperefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -25,5 +24,4 @@
             android:paddingRight="10dp"
             android:onClick="addMeal"/>
     </fragment>
-
-</mobile.feedme.MySwipeRefreshLayout>
+</LinearLayout>

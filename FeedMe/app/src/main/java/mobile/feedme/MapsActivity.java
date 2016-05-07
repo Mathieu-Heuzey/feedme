@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.telerik.android.primitives.widget.sidedrawer.RadSideDrawer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,26 +35,36 @@ import java.util.List;
 
 import mobile.feedme.POCO.Dish;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MapsActivity extends MenuActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private GoogleMap mMap;
     private HashMap<String, Dish> MarkerIdToDish = new HashMap<String, Dish>();
-    private MySwipeRefreshLayout swipeRefreshLayout;
 
 //    MyLocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        super.initialize(R.layout.activity_maps, true);
+
+
+//
+//        setContentView(R.layout.activity_menu);
+//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//
+//        this.drawer = new RadSideDrawer(this);
+//        this.drawer.setMainContent(R.layout.activity_maps);
+//        this.drawer.setDrawerContent(R.layout.content_side_menu);
+
+//        ViewGroup rootPanel = (ViewGroup)this.findViewById(R.id.rootPanel);
+//        rootPanel.addView(this.drawer);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        swipeRefreshLayout = (MySwipeRefreshLayout)findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setRefreshing(true);
+        super.swipeRefreshLayout.setOnRefreshListener(this);
+        super.swipeRefreshLayout.setRefreshing(true);
     }
 
 
@@ -96,6 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void addMeal(View view) {
+
         // Do something in response to button
         startActivity(new Intent(getApplicationContext(), AddMeal.class));
     }
@@ -124,15 +137,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-
     }
 
     @Override

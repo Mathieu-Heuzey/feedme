@@ -16,38 +16,27 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddMeal extends AppCompatActivity {
+public class AddMeal extends MenuActivity {
 
     public Api api = new Api();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_meal);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        super.initialize(R.layout.activity_add_meal, false);
     }
 
     public void saveDescription(View view) {
         EditText titre = (EditText) (findViewById(R.id.editTextTitre));
         String titreStr = titre.getText().toString();
 
-        EditText desc = (EditText) (findViewById(R.id.textViewDesc));
+        EditText desc = (EditText) (findViewById(R.id.TFdesc));
         String descStr = desc.getText().toString();
 
-        EditText prix = (EditText) (findViewById(R.id.textViewPrix));
+        EditText prix = (EditText) (findViewById(R.id.EditTextPrix));
         String prixStr = prix.getText().toString();
 
-        EditText poid = (EditText) (findViewById(R.id.textViewPoid));
+        EditText poid = (EditText) (findViewById(R.id.EditTextPoid));
         String poidStr = poid.getText().toString();
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
