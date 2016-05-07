@@ -216,6 +216,7 @@ public class Api {
                 {
                     Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
                 }
+                caller.refreshingDone();
             }
         });
 

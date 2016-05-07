@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Pair;
 import android.view.View;
 
@@ -32,10 +33,11 @@ import java.util.List;
 
 import mobile.feedme.POCO.Dish;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private GoogleMap mMap;
     private HashMap<String, Dish> MarkerIdToDish = new HashMap<String, Dish>();
+    private MySwipeRefreshLayout swipeRefreshLayout;
 
 //    MyLocationListener locationListener;
 
@@ -47,6 +49,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        swipeRefreshLayout = (MySwipeRefreshLayout)findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
 
@@ -86,7 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setOnInfoWindowClickListener(this);
 //        locationListener.setMap(mMap);
-
         Api.getAllDishAndCallDisplay(this);
     }
 
@@ -95,8 +100,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(new Intent(getApplicationContext(), AddMeal.class));
     }
 
+    public void refreshingDone()
+    {
+        swipeRefreshLayout.setRefreshing(false);
+    }
 
     public void showFoodOnMap(ArrayList<Dish> dishes) {
+
+        mMap.clear();
+        MarkerIdToDish.clear();
 
         for (Dish dish : dishes) {
             LatLng mLatLngDish = MyLocationListener.getLocationFromAddress(getApplicationContext(),dish.Adress.Road + " " + dish.Adress.PostalCode + " " + dish.Adress.Country);
@@ -106,6 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 this.MarkerIdToDish.put(marker.getId(), dish);
             }
         }
+        this.refreshingDone();
     }
 
     @Override
@@ -131,8 +144,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             i.putExtra("Dish", this.MarkerIdToDish.get(marker.getId()));
             startActivity(i);
         }
+    }
 
-//        marker.setTitle("clicked");
-//        marker.showInfoWindow();
+    @Override
+    public void onRefresh() {
+        Api.getAllDishAndCallDisplay(this);
     }
 }
