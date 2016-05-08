@@ -23,7 +23,7 @@ public class AddMeal extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.initialize(R.layout.activity_add_meal, false);
+        super.initialize(R.layout.activity_add_meal, true);
     }
 
     public void saveDescription(View view) {
