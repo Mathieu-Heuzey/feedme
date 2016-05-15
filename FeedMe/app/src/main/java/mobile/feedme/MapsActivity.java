@@ -45,7 +45,7 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.initialize(R.layout.activity_maps, true);
+        super.initialize(R.layout.activity_maps, true, true);
         super.setTitle("Map");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

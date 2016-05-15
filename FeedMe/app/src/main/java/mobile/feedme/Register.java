@@ -37,12 +37,13 @@ import cz.msebera.android.httpclient.protocol.HTTP;
 import mobile.feedme.POCO.Adress;
 import mobile.feedme.POCO.Utilisateur;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+public class Register extends MenuActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        super.initialize(R.layout.activity_register, false, false);
+        super.setTitle("Register");
 
         AppCompatButton button = (AppCompatButton)findViewById(R.id.Bconfirmez);
         button.setOnClickListener(this);

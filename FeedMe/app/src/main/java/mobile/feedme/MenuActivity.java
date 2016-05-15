@@ -36,7 +36,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_menu);
     }
 
-    protected  void initialize(int contentId, boolean isRefreshable)
+    protected  void initialize(int contentId, boolean isRefreshable, boolean showMenu)
     {
         LayoutInflater factory = getLayoutInflater();
 
@@ -59,6 +59,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             linearLayout.addView(toolbarMenu);
         }
 
+
         View externalView = factory.inflate(contentId, linearLayout, false);
         linearLayout.addView(externalView);
 
@@ -66,14 +67,15 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         this.drawer.setMainContent(linearLayout);
         this.drawer.setDrawerContent(R.layout.content_side_menu);
 
-        ListView menuList = (ListView)this.drawer.findViewById(R.id.menu_list);
-        ArrayList<Map.Entry<String, Integer>> menuItems = new ArrayList<Map.Entry<String, Integer>>();
-
-        menuItems.add(new AbstractMap.SimpleEntry<String, Integer>("Logout", R.drawable.ic_send));
-        MyAdapter adapter = new MyAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
-
-        menuList.setAdapter(adapter);
-        menuList.setOnItemClickListener(this);
+        if (!showMenu)
+        {
+            this.drawer.setIsLocked(true);
+            ImageButton button = (ImageButton)toolbarMenu.findViewById(R.id.menu_button);
+            button.setEnabled(false);
+            button.setVisibility(View.GONE);
+        }
+        else
+            this.setMenuList();
 
         rootPanel.addView(this.drawer);
 
@@ -120,5 +122,17 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 Log.e("MenuActivity : ", "Unrecognized element");
                 break;
         }
+    }
+
+    protected void setMenuList()
+    {
+        ListView menuList = (ListView)this.drawer.findViewById(R.id.menu_list);
+        ArrayList<Map.Entry<String, Integer>> menuItems = new ArrayList<Map.Entry<String, Integer>>();
+
+        menuItems.add(new AbstractMap.SimpleEntry<String, Integer>("Logout", R.drawable.ic_send));
+        MyAdapter adapter = new MyAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
+
+        menuList.setAdapter(adapter);
+        menuList.setOnItemClickListener(this);
     }
 }

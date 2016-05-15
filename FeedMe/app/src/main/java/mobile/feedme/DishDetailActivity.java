@@ -12,7 +12,7 @@ public class DishDetailActivity extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.initialize(R.layout.activity_dish_detail, false);
+        super.initialize(R.layout.activity_dish_detail, false, true);
 
         Intent i = getIntent();
         Dish dish = i.<Dish>getParcelableExtra("Dish");

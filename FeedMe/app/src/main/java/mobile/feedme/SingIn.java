@@ -28,14 +28,15 @@ import java.security.*;
 import cz.msebera.android.httpclient.Header;
 import mobile.feedme.POCO.Utilisateur;
 
-public class SingIn extends AppCompatActivity implements ILogger {
+public class SingIn extends MenuActivity implements ILogger {
 
     public Api api = new Api();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sing_in);
+        super.initialize(R.layout.activity_sing_in, false, false);
+        super.setTitle("Log in");
     }
 
     public void    signIn(View view)
