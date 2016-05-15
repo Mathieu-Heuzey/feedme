@@ -1,6 +1,7 @@
 package mobile.feedme;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class MyAdapter extends ArrayAdapter<Map.Entry<String, Integer>> {
 
         text1.setText(item.getKey());
         icon.setImageResource(item.getValue());
+        icon.setColorFilter(Color.argb(255, 255, 0, 0)); // Red Tint
 
         return rowView;
     }

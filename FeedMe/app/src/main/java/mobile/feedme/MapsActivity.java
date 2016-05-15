@@ -96,12 +96,6 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
         Api.getAllDishAndCallDisplay(this);
     }
 
-    public void addMeal(View view) {
-
-        // Do something in response to button
-        startActivity(new Intent(getApplicationContext(), AddMeal.class));
-    }
-
     public void refreshingDone()
     {
         swipeRefreshLayout.setRefreshing(false);

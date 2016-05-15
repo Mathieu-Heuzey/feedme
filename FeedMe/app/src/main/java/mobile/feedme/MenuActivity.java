@@ -1,12 +1,15 @@
 package mobile.feedme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Layout;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +22,7 @@ import com.telerik.android.primitives.widget.sidedrawer.RadSideDrawer;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +30,34 @@ import java.util.Map;
  * Created by stevy_000 on 5/7/2016.
  */
 public class MenuActivity extends FragmentActivity implements View.OnClickListener, ListView.OnItemClickListener {
+    public static final String DISHMAP = "Dish Map";
+    public static final String SELLDISH = "Sell your dish";
+    public static final String ORDERS = "My orders";
+    public static final String SETTINGS = "Settings";
+    public static final String LOGOUT = "Logout";
+
     protected RadSideDrawer       drawer;
     protected SwipeRefreshLayout  swipeRefreshLayout;
+
+    private Map<String, Boolean>  menuItemEnable;
+    private Map<String, Integer>  menuItemIcon;
+    public MenuActivity()
+    {
+        menuItemEnable = new android.support.v4.util.ArrayMap<String, Boolean>(5);
+        menuItemEnable.put(DISHMAP, true);
+        menuItemEnable.put(SELLDISH, true);
+        menuItemEnable.put(ORDERS, true);
+        menuItemEnable.put(SETTINGS, true);
+        menuItemEnable.put(LOGOUT,true);
+
+
+        menuItemIcon = new android.support.v4.util.ArrayMap<String, Integer>(5);
+        menuItemIcon.put(DISHMAP, R.drawable.ic_dishmap);
+        menuItemIcon.put(SELLDISH, R.drawable.ic_selldish);
+        menuItemIcon.put(ORDERS, R.drawable.ic_orders);
+        menuItemIcon.put(SETTINGS, R.drawable.ic_setting_dark);
+        menuItemIcon.put(LOGOUT, R.drawable.ic_logout);
+    }
 
     @Override
     protected  void onCreate(Bundle savedInstanceBundle)
@@ -113,15 +143,18 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String elem = ((Map.Entry<String,Integer>)adapterView.getItemAtPosition(i)).getKey();
 
-        switch (elem)
-        {
-            case "Logout":
-                Api.logOut(this);
-                break;
-            default:
-                Log.e("MenuActivity : ", "Unrecognized element");
-                break;
-        }
+        if (elem == this.LOGOUT)
+            Api.logOut(this);
+        else if (elem == this.SELLDISH)
+            startActivity(new Intent(getApplicationContext(), AddMeal.class));
+        else if (elem == this.DISHMAP)
+            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+    }
+
+    public void setMenuItemEnabled(String elem, Boolean enable)
+    {
+        if (this.menuItemEnable.containsKey(elem))
+            this.menuItemEnable.put(elem, enable);
     }
 
     protected void setMenuList()
@@ -129,7 +162,12 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         ListView menuList = (ListView)this.drawer.findViewById(R.id.menu_list);
         ArrayList<Map.Entry<String, Integer>> menuItems = new ArrayList<Map.Entry<String, Integer>>();
 
-        menuItems.add(new AbstractMap.SimpleEntry<String, Integer>("Logout", R.drawable.ic_send));
+        for (Map.Entry<String, Boolean> entry : this.menuItemEnable.entrySet())
+        {
+            if (entry.getValue() == true)
+                menuItems.add(new AbstractMap.SimpleEntry<String, Integer>(entry.getKey(), this.menuItemIcon.get(entry.getKey())));
+        }
+
         MyAdapter adapter = new MyAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
 
         menuList.setAdapter(adapter);
