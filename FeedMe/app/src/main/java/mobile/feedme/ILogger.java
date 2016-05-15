@@ -10,4 +10,5 @@ public interface ILogger {
     public void loginSuccessfull();
     public void loginError(String msg);
     public void userInfoUpdated(Utilisateur user);
+    public void errorUserInfo();
 }

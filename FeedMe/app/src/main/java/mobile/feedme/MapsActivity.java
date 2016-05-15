@@ -46,21 +46,10 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.initialize(R.layout.activity_maps, true);
-
-
-//
-//        setContentView(R.layout.activity_menu);
-//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//
-//        this.drawer = new RadSideDrawer(this);
-//        this.drawer.setMainContent(R.layout.activity_maps);
-//        this.drawer.setDrawerContent(R.layout.content_side_menu);
-
-//        ViewGroup rootPanel = (ViewGroup)this.findViewById(R.id.rootPanel);
-//        rootPanel.addView(this.drawer);
+        super.setTitle("Map");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapFeedme);
         mapFragment.getMapAsync(this);
 
         super.swipeRefreshLayout.setOnRefreshListener(this);

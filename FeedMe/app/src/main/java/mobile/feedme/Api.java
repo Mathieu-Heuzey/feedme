@@ -1,5 +1,7 @@
 package mobile.feedme;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +45,8 @@ public class Api {
     private static String Token = null;
     private static String TokenType = null;
 
+    private static ProgressDialog progressDialog;
+
     public static Utilisateur loggedUser = null;
 
    public static void Initialize(String serverURL, String apiURL)
@@ -77,7 +81,21 @@ public class Api {
         editor.apply();
     }
 
-    public static void Authentificate(final ILogger caller, final Context context, String username, String password) {
+    private static void ShowProgressDialog(Context context, String title, String desc, Boolean isCancelable)
+    {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle(title);
+        progressDialog.setMessage(desc);
+        progressDialog.setCancelable(isCancelable);
+        progressDialog.show();
+    }
+
+    private static void HideProgressDialog()
+    {
+        progressDialog.hide();
+    }
+
+    public static void Authentificate(final ILogger caller, final Activity context, String username, String password) {
         RequestParams params = new RequestParams();
 
         params.put("username", username);
@@ -85,6 +103,10 @@ public class Api {
         params.put("grant_type", "password");
 
         client.post(baseServerURL + "Token", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(context, "Logging in...", "Please wait while we log you in...", false);}
+            @Override
+            public void onFinish() {Api.HideProgressDialog();}
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("Login success : ", response.toString());
@@ -120,12 +142,33 @@ public class Api {
         });
     }
 
-    public static void getUserInfo(final ILogger caller)
+    public static void logOut(final Activity caller)
+    {
+        //Osef de la reponse, dans tout les cas on supprime le token, au pire si la requete n'as pas marché, l'utilisateur recupereras le meme token a la prochaine authentification
+        client.post(baseApiURL + "/Account/Logout", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
+            }
+        });
+        Api.removeToken(caller.getApplicationContext());
+        Toast.makeText(caller.getApplicationContext(), "You have been logged out !", Toast.LENGTH_LONG).show();
+        caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+
+    }
+
+    public static void getUserInfo(final ILogger caller, final Activity context)
     {
         //if Token == null -> erreur
 
         client.get(baseApiURL + "/Account/UserInfo", new JsonHttpResponseHandler()
         {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(context, "Logging in...", "Logged in ! Retrieving your information...", false);}
+            @Override
+            public void onFinish() {Api.HideProgressDialog();}
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 loggedUser = Utilisateur.JSONParse(response);
@@ -146,6 +189,10 @@ public class Api {
     public static void registerRequest(final Register caller, RequestParams params)
     {
         client.post( baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Registering...", "Please wait we register you in...", false);}
+            @Override
+            public void onFinish() {Api.HideProgressDialog();}
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 Toast.makeText(caller.getApplicationContext(), "You have been registered ! You can log in now", Toast.LENGTH_LONG).show();

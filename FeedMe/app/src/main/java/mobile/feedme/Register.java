@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -36,15 +37,15 @@ import cz.msebera.android.httpclient.protocol.HTTP;
 import mobile.feedme.POCO.Adress;
 import mobile.feedme.POCO.Utilisateur;
 
-public class Register extends AppCompatActivity implements ILogger {
+public class Register extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        AppCompatButton button = (AppCompatButton)findViewById(R.id.Bconfirmez);
+        button.setOnClickListener(this);
     }
 
     public void register(View view)
@@ -54,21 +55,6 @@ public class Register extends AppCompatActivity implements ILogger {
         {
             Api.registerRequest(this, params);
         }
-    }
-
-    @Override
-    public void loginSuccessfull() {
-//        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-    }
-
-    @Override
-    public void loginError(String msg) {
-  //      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void userInfoUpdated(Utilisateur user) {
-
     }
 
     private RequestParams retrieveParams()
@@ -132,5 +118,13 @@ public class Register extends AppCompatActivity implements ILogger {
 //                user.Adress.Latitude = latitude.toString();
 
         return params;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.Bconfirmez)
+        {
+            this.register(view);
+        }
     }
 }

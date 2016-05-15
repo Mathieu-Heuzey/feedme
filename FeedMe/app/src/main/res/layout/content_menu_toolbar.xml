@@ -1,0 +1,47 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="mobile.feedme.MenuActivity">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/menu_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?attr/colorPrimaryDark">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="59dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_unregular"
+                android:background="#00ffffff"
+                android:clickable="true"
+                android:id="@+id/menu_button"
+                android:contentDescription= "Menu"
+                android:layout_marginLeft="-10dp">
+            </ImageButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:id="@+id/toolbar_title"
+                android:textColor="@color/abc_primary_text_material_dark"
+                android:textSize="23dp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+</LinearLayout>

@@ -1,5 +1,6 @@
 package mobile.feedme;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,15 +31,11 @@ import mobile.feedme.POCO.Utilisateur;
 public class SingIn extends AppCompatActivity implements ILogger {
 
     public Api api = new Api();
-    public Crypto crypto = new Crypto();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_in);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
     public void    signIn(View view)
@@ -48,7 +45,7 @@ public class SingIn extends AppCompatActivity implements ILogger {
         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));
         String password = et2.getText().toString();
 
-        Api.Authentificate(this, getApplicationContext(), username, password);
+        Api.Authentificate(this, this, username, password);
      }
 
     public void    openRegister(View v)
@@ -60,7 +57,7 @@ public class SingIn extends AppCompatActivity implements ILogger {
     @Override
     public void loginSuccessfull()
     {
-        Api.getUserInfo(this);
+        Api.getUserInfo(this, this);
     }
 
     @Override
@@ -73,7 +70,13 @@ public class SingIn extends AppCompatActivity implements ILogger {
     public void userInfoUpdated(Utilisateur user)
     {
         Toast.makeText(getBaseContext(), "Welcome back " + user.Firstname, Toast.LENGTH_LONG).show();
-        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        startActivity(new Intent(getBaseContext(), MapsActivity.class));
+    }
+
+    @Override
+    public void errorUserInfo()
+    {
+        //
     }
 }
 
