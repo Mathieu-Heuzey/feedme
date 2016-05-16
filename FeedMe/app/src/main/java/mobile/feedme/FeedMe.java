@@ -13,6 +13,5 @@ public class FeedMe extends Application {
     public void onCreate()
     {
         super.onCreate();
-        Api.Initialize(getResources().getString(R.string.serverBaseUrl), getResources().getString(R.string.apiUrl));
     }
 }

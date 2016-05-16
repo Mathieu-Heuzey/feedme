@@ -1,12 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="mobile.feedme.DishDetailActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="mobile.feedme.DishDetailActivity">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleDesc"
+            android:text="Your dish :"
+            android:minHeight="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:textSize="@dimen/abc_dialog_padding_material" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewDishName"
+            android:hint="Le nom du plat"
+            android:layout_below="@+id/textViewTitleDesc"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:id="@+id/imageDish"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pizza"
+            android:layout_below="@+id/textViewDishName" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewDescription"
+            android:hint="L'a description"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageDish" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/imageDish"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="L'image du dish"-->
+        <!--android:src="@drawable/pizza"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginBottom="241dp" />-->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewCookerName"
+            android:hint="Le nom du cuisto"
+            android:minHeight="50dp"
+            android:layout_below="@+id/textViewDescription"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleAddr"
+            android:text="Address : "
+            android:minHeight="50dp"
+            android:layout_below="@+id/textViewCookerName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:textSize="@dimen/abc_dialog_padding_material" />
+
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewRue"
+            android:hint="Rue + num"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewTitleAddr"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewCP"
+            android:hint="Codepostal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewRue"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewVille"
+            android:hint="Ville"
+            android:minHeight="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewCP"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleQuantity"
+            android:text="Details :"
+            android:minHeight="50dp"
+            android:layout_below="@+id/textViewVille"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:textSize="@dimen/abc_dialog_padding_material" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewPartRestante"
+            android:hint="Nb de part restante"
+            android:minHeight="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewTitleQuantity"
+            />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewPartNumber"
+            android:hint="Nombre de part : "
+            android:minHeight="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewPartRestante"
+            />
+
+        <!--&lt;!&ndash;<NumberPicker&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:scaleX="0.5"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:scaleY="1"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/numberPicker"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignBottom="@+id/textViewHeight"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignRight="@+id/buttonMinus"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignEnd="@+id/buttonMinus"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginRight="55dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginEnd="55dp" />&ndash;&gt;-->
+
+        <Button
+            android:id="@+id/buttonPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_plus"
+            android:onClick="plusButton"
+            android:layout_alignBaseline="@+id/textViewPartNumber"
+            android:layout_alignBottom="@+id/textViewPartNumber"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/buttonMinus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_minus"
+            android:onClick="minusButton"
+            android:layout_alignBaseline="@+id/buttonPlus"
+            android:layout_alignBottom="@+id/buttonPlus"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewHeight"
+            android:hint="Poid en grammes"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewPartNumber"
+            android:layout_toStartOf="@+id/buttonPlus"
+            android:layout_alignRight="@+id/textViewPartNumber"
+            android:layout_alignEnd="@+id/textViewPartNumber"
+            android:layout_toLeftOf="@+id/buttonPlus" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewPrice"
+            android:hint="Prix total"
+            android:minHeight="50dp"
+            android:layout_below="@+id/textViewHeight"
+            android:layout_alignRight="@+id/textViewTitleDate"
+            android:layout_alignEnd="@+id/textViewTitleDate" />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleDate"
+            android:text="Pick up date : "
+            android:minHeight="50dp"
+            android:layout_below="@+id/textViewPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:textSize="@dimen/abc_dialog_padding_material" />
+
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewPickUpDate"
+            android:hint="Date de récup"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewTitleDate"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:id="@+id/Bconfirmez"
+            android:onClick="ConfirmOrder"
+            android:background="@drawable/btn1"
+            android:layout_marginTop="26dp"
+            android:textColor="#1e2d00"
+            android:layout_below="@+id/textViewPickUpDate"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/PortionNumber"
+            android:gravity="center"
+            android:layout_alignLeft="@+id/buttonPlus"
+            android:layout_alignStart="@+id/buttonPlus"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/buttonPlus"
+            android:layout_alignTop="@+id/buttonPlus" />
+
+        <!--<TextView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/textViewPartSelectionned"-->
+        <!--android:minHeight="50dp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_alignBottom="@+id/buttonPlus"-->
+        <!--android:layout_alignLeft="@+id/buttonPlus"-->
+        <!--android:layout_alignStart="@+id/buttonPlus"-->
+        <!--android:layout_alignRight="@+id/textViewPartRestante"-->
+        <!--android:layout_alignEnd="@+id/textViewPartRestante" />-->
+
+        <!--<ImageSwitcher-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imageSwitcher"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignRight="@+id/buttonPlus"-->
+        <!--android:layout_alignEnd="@+id/buttonPlus" />-->
+
+    </RelativeLayout>
+</ScrollView>

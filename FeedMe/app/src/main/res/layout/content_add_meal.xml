@@ -1,100 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="mobile.feedme.AddMeal"
-    tools:showIn="@layout/activity_add_meal">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Titre"
-        android:id="@+id/textViewTitre"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="mobile.feedme.AddMeal">
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextTitre"
-        android:layout_below="@+id/textViewTitre"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Description"
-        android:id="@+id/textViewDesc"
-        android:layout_below="@+id/editTextTitre"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TFdesc"
-        android:layout_below="@+id/textViewDesc"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Prix"
-        android:id="@+id/textViewPrix"
-        android:layout_below="@+id/TFdesc"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/EditTextPrix"
-        android:layout_below="@+id/textViewPrix"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Poid"
-        android:id="@+id/textViewPoid"
-        android:layout_below="@+id/EditTextPrix"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/EditTextPoid"
-        android:layout_below="@+id/textViewPoid"
-        android:inputType="number"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirmez"
-        android:id="@+id/Bconfirmez"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="saveMeal"
-        android:layout_marginBottom="182dp" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleAddr"
+            android:text="Address :"
+            android:minHeight="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:textSize="@dimen/abc_dialog_padding_material" />
 
 
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextTitre"
+            android:hint="Address, number + street"
+            android:layout_below="@+id/textViewTitleAddr"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TFdesc"
+            android:hint="postal code"
+            android:minHeight="50dp"
+            android:layout_below="@+id/editTextTitre"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleDetails"
+            android:text="Informations on your dish :"
+            android:minHeight="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:layout_below="@+id/TFdesc"
+            android:textSize="@dimen/abc_dialog_padding_material" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DishName"
+            android:hint="Name of your dish"
+            android:layout_below="@+id/textViewTitleDetails"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DishDescription"
+            android:hint="Your description"
+            android:layout_below="@+id/DishName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DishNumberPotion"
+            android:hint="Set the number of portion available"
+            android:inputType="number"
+            android:layout_below="@+id/DishDescription"
+            android:layout_alignRight="@+id/DishDescription"
+            android:layout_alignEnd="@+id/DishDescription" />
+
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DishWeight"
+            android:hint="Set the Weight of a portion"
+            android:inputType="number"
+            android:layout_below="@+id/DishNumberPotion"
+            android:layout_alignRight="@+id/DishDescription"
+            android:layout_alignEnd="@+id/DishDescription" />
+
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DishPrice"
+            android:hint="Set the price of one portion"
+            android:inputType="number"
+            android:layout_below="@+id/DishWeight"
+            android:layout_alignRight="@+id/DishDescription"
+            android:layout_alignEnd="@+id/DishDescription" />
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pizza"
+            android:layout_below="@+id/DishPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Image"
+            android:id="@+id/BUpload"
+            android:onClick="uploadImage"
+            android:background="@drawable/btn1"
+            android:layout_below="@+id/ivImage"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <!--<DatePicker-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"></DatePicker>-->
+        <!--<EditText-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/EditTextPrix"-->
+        <!--android:hint="Description"-->
+        <!--android:layout_below="@+id/TFdesc"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+
+
+        <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Confirmez"-->
+        <!--android:id="@+id/Bconfirmez"-->
+        <!--android:onClick="saveMeal"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
+
+
+    </RelativeLayout>
+</ScrollView>

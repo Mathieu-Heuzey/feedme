@@ -10,6 +10,7 @@ public class StartingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Api.Initialize(getResources().getString(R.string.serverBaseUrl), getResources().getString(R.string.apiUrl));
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("text", MODE_PRIVATE);
 
