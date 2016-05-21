@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,19 +36,21 @@ import java.util.List;
 public class AddMeal extends MenuActivity {
 
     public Api api = new Api();
-    static final int TIME_DIALOG_ID = 1111;
+    static final int TIME_DIALOG_ID = 1111;   static final int TIME_DIALOG_ID_END = 2222;
     private TextView output;
+    private TextView output2;
     public Button btnClick;
-
+    public Button btnClick2;
     private int hour;
     private int minute;
+    private int select = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.initialize(R.layout.activity_add_meal, true, true);
         output = (TextView) findViewById(R.id.output);
-
+        output2 = (TextView) findViewById(R.id.output2);
         /********* display current time on screen Start ********/
 
         final Calendar c = Calendar.getInstance();
@@ -70,14 +73,20 @@ public class AddMeal extends MenuActivity {
         btnClick = (Button) findViewById(R.id.btnHourPicker);
 
         btnClick.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 showDialog(TIME_DIALOG_ID);
-
             }
+        });
 
+
+        btnClick2 = (Button) findViewById(R.id.btnHourPickerEnd);
+
+        btnClick2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(TIME_DIALOG_ID_END);
+            }
         });
 
     }
@@ -88,8 +97,16 @@ public class AddMeal extends MenuActivity {
             case TIME_DIALOG_ID:
 
                 // set time picker as current time
+                select = 1;
                 return new TimePickerDialog(this, timePickerListener, hour, minute,
                         false);
+
+            case TIME_DIALOG_ID_END:
+
+                // set time picker as current time
+                select = 2;
+                return new TimePickerDialog(this, timePickerListener, hour, minute,
+                        true);
 
         }
         return null;
@@ -143,8 +160,14 @@ public class AddMeal extends MenuActivity {
         // Append in a StringBuilder
         String aTime = new StringBuilder().append(hours).append(':')
                 .append(minutes).append(" ").append(timeSet).toString();
-
+        if (select == 0) {
+            output.setText(aTime);
+            output2.setText(aTime);
+        }
+    else if (select == 1)
         output.setText(aTime);
+        else
+        output2.setText(aTime);
     }
 
     public void uploadImage(View view) {
@@ -186,38 +209,6 @@ public class AddMeal extends MenuActivity {
             }
         });
         builder.show();
-
-
-//        EditText titre = (EditText) (findViewById(R.id.editTextTitre));
-//        String titreStr = titre.getText().toString();
-//
-//        EditText desc = (EditText) (findViewById(R.id.textViewDescription));
-//        String descStr = desc.getText().toString();
-//
-//        EditText prix = (EditText) (findViewById(R.id.textViewPrice));
-//        String prixStr = prix.getText().toString();
-//
-//        EditText poid = (EditText) (findViewById(R.id.textViewHeight));
-//        String poidStr = poid.getText().toString();
-//
-//        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//        double longitude = location.getLongitude();
-//        double latitude = location.getLatitude();
-//
-//        Log.d("ADebugTag", "Value: " + titre);
-//        Log.d("ADebugTag", "Value: " + desc);
-//        Log.d("ADebugTag", "Value: " + prix);
-//        Log.d("ADebugTag", "Value: " + poid);
-//        Log.d("ADebugTag", "Value: " + longitude);
-//        Log.d("ADebugTag", "Value: " + latitude);
-//
-//        List<String> data = new ArrayList<String>();
-////        this.api.addMeal(data);
-//        Handler handler = new Handler();
-//        int millisDelay = 2000;
-//        handler.postDelayed(task, millisDelay);
     }
 
     @Override
@@ -256,5 +247,33 @@ public class AddMeal extends MenuActivity {
 
     public void saveMeal(View view) {
 
+        EditText titre = (EditText) (findViewById(R.id.editTextTitre));
+        String Addr = titre.getText().toString();
+        EditText desc = (EditText) (findViewById(R.id.TFdesc));
+        String Cp = desc.getText().toString();
+        EditText prix = (EditText) (findViewById(R.id.DishName));
+        String Dish = prix.getText().toString();
+        EditText poid = (EditText) (findViewById(R.id.DishDescription));
+        String Descr = poid.getText().toString();
+        EditText nbPart = (EditText) (findViewById(R.id.DishNumberPotion));
+        String PortionNumer = poid.getText().toString();
+        EditText weight = (EditText) (findViewById(R.id.DishWeight));
+        String DishWeight = poid.getText().toString();
+        EditText price = (EditText) (findViewById(R.id.DishPrice));
+        String PortionPrice = poid.getText().toString();
+        CheckBox monday = (CheckBox) (findViewById(R.id.CheckBoxeMonday));
+        CheckBox tursday = (CheckBox) (findViewById(R.id.CheckBoxeTuesday));
+        CheckBox wenesday = (CheckBox) (findViewById(R.id.CheckBoxeWenesday));
+        CheckBox thursday = (CheckBox) (findViewById(R.id.CheckBoxeThursday));
+        CheckBox friday = (CheckBox) (findViewById(R.id.CheckBoxeFriday));
+        CheckBox saturday = (CheckBox) (findViewById(R.id.CheckBoxeSaturday));
+        CheckBox sunday = (CheckBox) (findViewById(R.id.CheckBoxeSunday));
+        TextView PickStart = (TextView) (findViewById(R.id.output));
+        String TimerStart = poid.getText().toString();
+        TextView PickEndt = (TextView) (findViewById(R.id.output2));
+        String TimerEnd = poid.getText().toString();
+
+//appel a l'api
+        
     }
 }

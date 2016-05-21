@@ -58,7 +58,8 @@
             android:textStyle="bold|italic"
             android:textColor="#d81c1c"
             android:layout_below="@+id/TFdesc"
-            android:textSize="@dimen/abc_dialog_padding_material" />
+            android:textSize="@dimen/abc_dialog_padding_material"
+            android:layout_marginTop="20dp" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -140,7 +141,8 @@
             android:textColor="#d81c1c"
             android:textSize="@dimen/abc_dialog_padding_material"
             android:layout_below="@+id/BUpload"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp" />
 
 
         <CheckBox
@@ -226,26 +228,77 @@
             android:id="@+id/btnHourPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/CheckBoxeSunday"
             android:background="@drawable/btn1"
-            android:layout_centerHorizontal="true"
-            android:text="Click To Change PickUp Time" />
+            android:text="Click To Set Pick Up Start"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/CheckBoxeFriday"
+            android:layout_toStartOf="@+id/BUpload" />
+
+        <Button
+            android:id="@+id/btnHourPickerEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn1"
+            android:text="Click To Set Pick Up End"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/CheckBoxeSunday"
+            android:layout_toEndOf="@+id/CheckBoxeSunday"
+            />
 
         <TextView
             android:id="@+id/lblTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="From"
+            android:textSize="15sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_below="@+id/btnHourPicker"
-            android:text="Current PickUp Time (H:M): "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:id="@+id/output"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblTime"
             android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textSize="15sp"
+            android:layout_below="@+id/btnHourPicker"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="20dp"
+            android:layout_alignStart="@+id/CheckBoxeTuesday" />
+
+        <TextView
+            android:id="@+id/lblTimeTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To"
+            android:textSize="15sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignTop="@+id/output"
+            android:layout_alignStart="@+id/CheckBoxeWenesday" />
+
+        <TextView
+            android:id="@+id/output2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_below="@+id/btnHourPicker"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/CheckBoxeSunday" />
+
+
+        <!--<TextView-->
+            <!--android:id="@+id/output2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text=""-->
+            <!--android:layout_below="@+id/btnHourPickerEnd"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:layout_toEndOf="@+id/ToTime"-->
+            <!--android:layout_marginTop="20dp" />-->
 
         <Button
         android:layout_width="wrap_content"
@@ -253,10 +306,11 @@
         android:text="Confirmez"
         android:id="@+id/Bconfirmez"
         android:background="@drawable/btn1"
-        android:layout_below="@+id/output"
+        android:layout_below="@+id/lblTime"
         android:onClick="saveMeal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp" />
 
 
 
