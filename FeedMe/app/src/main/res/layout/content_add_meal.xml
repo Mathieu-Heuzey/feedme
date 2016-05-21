@@ -128,33 +128,135 @@
             android:onClick="uploadImage"
             android:background="@drawable/btn1"
             android:layout_below="@+id/ivImage"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
-        <!--<DatePicker-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"></DatePicker>-->
-        <!--<EditText-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/EditTextPrix"-->
-        <!--android:hint="Description"-->
-        <!--android:layout_below="@+id/TFdesc"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true" />-->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitleDate"
+            android:text="PickUp Date :"
+            android:minHeight="50dp"
+            android:textStyle="bold|italic"
+            android:textColor="#d81c1c"
+            android:textSize="@dimen/abc_dialog_padding_material"
+            android:layout_below="@+id/BUpload"
+            android:layout_alignParentStart="true" />
 
 
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Confirmez"-->
-        <!--android:id="@+id/Bconfirmez"-->
-        <!--android:onClick="saveMeal"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true" />-->
+        <CheckBox
+            android:id="@+id/CheckBoxeMonday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Monday"
+            android:layout_below="@+id/textViewTitleDate"
+            android:layout_width="wrap_content">
+            </CheckBox>
+
+        <CheckBox
+            android:id="@+id/CheckBoxeTuesday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Tuesday"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/textViewTitleDate"
+            android:layout_toEndOf="@+id/CheckBoxeMonday">
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/CheckBoxeWenesday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Wenesday"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/textViewTitleDate"
+            android:layout_toEndOf="@+id/CheckBoxeTuesday">
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/CheckBoxeThursday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Thursday"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/textViewTitleDate"
+            android:layout_toEndOf="@+id/CheckBoxeWenesday">
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/CheckBoxeFriday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Friday"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/CheckBoxeMonday"
+            >
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/CheckBoxeSaturday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Saturday"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/CheckBoxeMonday"
+            android:layout_toEndOf="@+id/CheckBoxeFriday"
+            >
+        </CheckBox>
+
+        <CheckBox
+            android:id="@+id/CheckBoxeSunday"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:textSize="10sp"
+            android:text="Sunday"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/CheckBoxeMonday"
+            android:layout_toEndOf="@+id/CheckBoxeSaturday"
+            >
+        </CheckBox>
+
+
+        <Button
+            android:id="@+id/btnHourPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CheckBoxeSunday"
+            android:background="@drawable/btn1"
+            android:layout_centerHorizontal="true"
+            android:text="Click To Change PickUp Time" />
+
+        <TextView
+            android:id="@+id/lblTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnHourPicker"
+            android:text="Current PickUp Time (H:M): "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblTime"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirmez"
+        android:id="@+id/Bconfirmez"
+        android:background="@drawable/btn1"
+        android:layout_below="@+id/output"
+        android:onClick="saveMeal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 
