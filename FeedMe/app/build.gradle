@@ -10,20 +10,12 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
-    dexOptions {
-        preDexLibraries true
-        javaMaxHeapSize "3g"
-        incremental true
-        dexInProcess = true
-    }
-
     defaultConfig {
         applicationId "mobile.feedme"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
     }
     buildTypes {
         release {
@@ -34,13 +26,6 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support:multidex-instrumentation:1.0.1') {
-        exclude group: 'com.android.support', module: 'multidex'
-    }
-
-
-    compile 'com.android.support:multidex:1.0.1'
-
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
@@ -56,4 +41,5 @@ dependencies {
     compile(name:'Input-2016.2.504-trial-release', ext:'aar')
     compile(name:'List-2016.2.504-trial-release', ext:'aar')
     compile(name:'Primitives-2016.2.504-trial-release', ext:'aar')
+
 }

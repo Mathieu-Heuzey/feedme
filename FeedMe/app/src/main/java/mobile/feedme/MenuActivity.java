@@ -23,8 +23,10 @@ import com.telerik.android.primitives.widget.sidedrawer.RadSideDrawer;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by stevy_000 on 5/7/2016.
@@ -43,19 +45,18 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     private Map<String, Integer>  menuItemIcon;
     public MenuActivity()
     {
-        menuItemEnable = new android.support.v4.util.ArrayMap<String, Boolean>(5);
+        menuItemEnable = new LinkedHashMap<String, Boolean>(5);
         menuItemEnable.put(DISHMAP, true);
         menuItemEnable.put(SELLDISH, true);
         menuItemEnable.put(ORDERS, true);
         menuItemEnable.put(SETTINGS, true);
         menuItemEnable.put(LOGOUT,true);
 
-
-        menuItemIcon = new android.support.v4.util.ArrayMap<String, Integer>(5);
+        menuItemIcon = new LinkedHashMap<String, Integer>(5);
         menuItemIcon.put(DISHMAP, R.drawable.ic_dishmap);
         menuItemIcon.put(SELLDISH, R.drawable.ic_selldish);
         menuItemIcon.put(ORDERS, R.drawable.ic_orders);
-        menuItemIcon.put(SETTINGS, R.drawable.ic_setting_dark);
+        menuItemIcon.put(SETTINGS, R.drawable.ic_menu_settings);
         menuItemIcon.put(LOGOUT, R.drawable.ic_logout);
     }
 
@@ -143,11 +144,11 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String elem = ((Map.Entry<String,Integer>)adapterView.getItemAtPosition(i)).getKey();
 
-        if (elem == this.LOGOUT)
+        if (Objects.equals(elem, MenuActivity.LOGOUT))
             Api.logOut(this);
-        else if (elem == this.SELLDISH)
+        else if (Objects.equals(elem, MenuActivity.SELLDISH))
             startActivity(new Intent(getApplicationContext(), AddMeal.class));
-        else if (elem == this.DISHMAP)
+        else if (Objects.equals(elem, MenuActivity.DISHMAP))
             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
     }
 
@@ -164,7 +165,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
         for (Map.Entry<String, Boolean> entry : this.menuItemEnable.entrySet())
         {
-            if (entry.getValue() == true)
+            if (entry.getValue())
                 menuItems.add(new AbstractMap.SimpleEntry<String, Integer>(entry.getKey(), this.menuItemIcon.get(entry.getKey())));
         }
 
