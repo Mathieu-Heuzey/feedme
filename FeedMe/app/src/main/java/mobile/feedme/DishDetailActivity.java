@@ -134,10 +134,8 @@ public class DishDetailActivity extends MenuActivity {
 
     }
 
-    public void confirmOrder(View vies)
+    public void submitForm(View vies)
     {
-
-
-
+        return;
     }
 }

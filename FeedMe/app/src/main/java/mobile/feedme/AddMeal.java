@@ -120,7 +120,6 @@ public class AddMeal extends MenuActivity {
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         try {
             String imgDecodableString;

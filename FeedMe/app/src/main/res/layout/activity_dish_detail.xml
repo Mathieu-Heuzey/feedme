@@ -239,7 +239,7 @@
             android:layout_height="wrap_content"
             android:text="Confirm"
             android:id="@+id/Bconfirmez"
-            android:onClick="ConfirmOrder"
+            android:onClick="submitForm"
             android:background="@drawable/btn1"
             android:layout_marginTop="26dp"
             android:textColor="#1e2d00"
