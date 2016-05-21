@@ -10,6 +10,13 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.stream.JsonReader;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -19,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -266,6 +274,35 @@ public class Api {
                 caller.refreshingDone();
             }
         });
+    }
 
+    public static void getOrderHistoric(final OrderActivity caller)
+    {
+        client.get(baseApiURL + "Historic",  new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            protected Object parseResponse(byte[] responseBody) throws JSONException {
+                String jsonString = getResponseString(responseBody, getCharset());
+
+                jsonString = jsonString.replace("\\", "").replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
+                jsonString = jsonString.substring(1, jsonString.length() - 1);
+
+                return new JSONObject(jsonString);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                return;
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String response) {
+                return;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                return;
+            }
+        });
     }
 }

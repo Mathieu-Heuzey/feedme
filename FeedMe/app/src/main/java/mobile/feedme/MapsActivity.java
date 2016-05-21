@@ -31,6 +31,7 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setMenuItemEnabled(MenuActivity.DISHMAP, false);
         super.initialize(R.layout.activity_maps, true, true);
         super.setTitle("Map");
 

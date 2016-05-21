@@ -48,6 +48,7 @@ public class AddMeal extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setMenuItemEnabled(MenuActivity.SELLDISH, false);
         super.initialize(R.layout.activity_add_meal, true, true);
         output = (TextView) findViewById(R.id.output);
         output2 = (TextView) findViewById(R.id.output2);

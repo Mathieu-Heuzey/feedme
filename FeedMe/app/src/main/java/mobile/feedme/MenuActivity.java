@@ -150,6 +150,8 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             startActivity(new Intent(getApplicationContext(), AddMeal.class));
         else if (Objects.equals(elem, MenuActivity.DISHMAP))
             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+        else if (Objects.equals(elem, MenuActivity.ORDERS))
+            startActivity(new Intent(getApplicationContext(), OrderActivity.class));
     }
 
     public void setMenuItemEnabled(String elem, Boolean enable)

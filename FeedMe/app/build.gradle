@@ -34,13 +34,14 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile(name:'Chart-2016.2.504-trial-release', ext:'aar')
-    compile(name:'Common-2016.2.504-trial-release', ext:'aar')
-    compile(name:'Data-2016.2.504-trial-release', ext:'aar')
-//    compile(name:'Feedback-2016.2.504-trial-release', ext:'aar')
-    compile(name:'Input-2016.2.504-trial-release', ext:'aar')
-    compile(name:'List-2016.2.504-trial-release', ext:'aar')
-    compile(name:'Primitives-2016.2.504-trial-release', ext:'aar')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    compile(name:'Chart-2016.2.504-trial-release', ext:'aar')
+    compile(name: 'Common-2016.2.504-trial-release', ext: 'aar')
+    compile(name: 'Data-2016.2.504-trial-release', ext: 'aar')
+    //    compile(name:'Feedback-2016.2.504-trial-release', ext:'aar')
+    compile(name: 'Input-2016.2.504-trial-release', ext: 'aar')
+    compile(name: 'List-2016.2.504-trial-release', ext: 'aar')
+    compile(name: 'Primitives-2016.2.504-trial-release', ext: 'aar')
     compile 'com.android.support:multidex:1.0.1'
+    compile files('libs/gson-2.6.2.jar')
 }
