@@ -68,8 +68,8 @@ public class Dish implements Parcelable {
 
 
         try {
-            dish.DateExpiration = format.parse(jsonDish.optString("DateExpiration"));
             dish.PickUpTime = format.parse(jsonDish.optString("PickUpTime"));
+            dish.DateExpiration = format.parse(jsonDish.optString("DateExpiration"));
             dish.DateCreate = format.parse(jsonDish.optString("DateCreate"));
         } catch (ParseException e) {
             e.printStackTrace();
