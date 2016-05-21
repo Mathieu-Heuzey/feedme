@@ -11,7 +11,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:apiKey="0u7AJChI1NV8vCpj21C0Cq8YnNMrB6YMgigu0GA"
+        android:apiKey="AIzaSyDlkS67NGEw1suPtW8BrZkhnuE0_TzvFsM"
         tools:context="mobile.feedme.MapsActivity">
     </fragment>
 </LinearLayout>
