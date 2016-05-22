@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import mobile.feedme.POCO.Utilisateur;
+
 public class AddMeal extends MenuActivity {
 
     public Api api = new Api();
@@ -297,6 +299,7 @@ public class AddMeal extends MenuActivity {
 
         RequestParams params = new RequestParams();
         JSONObject adress = new JSONObject();
+        Utilisateur user = new Utilisateur();
         try {
             adress.put("Road", Addr);
             adress.put("PostalCode", Cp);
@@ -314,6 +317,7 @@ public class AddMeal extends MenuActivity {
         params.put("SizePart",DishWeight);
         params.put("PickUpStartTime",TimerStart);
         params.put("PickUpEndTime",TimerEnd);
+        params.put("User", user);
         api.addMealRequest(this, params);
     }
 }
