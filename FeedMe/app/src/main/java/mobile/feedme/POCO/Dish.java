@@ -2,12 +2,14 @@ package mobile.feedme.POCO;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,21 +32,25 @@ public class Dish implements Parcelable {
     public Utilisateur Utilisateur;
     public String Statut;
     public Date DateExpiration;
-    public Date PickUpTime;
+    public Date PickUpStartTime;
+    public Date PickUpEndTime;
     public Date DateCreate;
+    public boolean Dispo[];
 
     public Dish()
     {
         DateExpiration = new Date();
         DateCreate = new Date();
-        PickUpTime = new Date();
+        PickUpStartTime = new Date();
+        PickUpEndTime = new Date();
         Adress = new Adress();
         Utilisateur = new Utilisateur();
+        Dispo = new boolean[7];
     }
 
     public static Dish JSONParse(JSONObject jsonDish)
     {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
         Dish dish = new Dish();
         dish.DishId = jsonDish.optInt("DishId");
         dish.Name = jsonDish.optString("Name");
@@ -53,6 +59,12 @@ public class Dish implements Parcelable {
         dish.NbPart = jsonDish.optInt("NbPart");
         dish.SizePart = jsonDish.optDouble("SizePart");
         dish.Statut = jsonDish.optString("Statut");
+        byte[] data;
+        try {
+            data = jsonDish.optString("Days").getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         JSONObject jsonAdress = jsonDish.optJSONObject("Address");
         if (jsonAdress != null)
@@ -65,10 +77,9 @@ public class Dish implements Parcelable {
             dish.Adress.Road = "18 rue de la Presentation";
         }
 
-
-
         try {
-            dish.PickUpTime = format.parse(jsonDish.optString("PickUpTime"));
+            dish.PickUpStartTime = format.parse(jsonDish.optString("PickUpStartTime"));
+            dish.PickUpEndTime = format.parse(jsonDish.optString("PickUpEndTime"));
             dish.DateExpiration = format.parse(jsonDish.optString("DateExpiration"));
             dish.DateCreate = format.parse(jsonDish.optString("DateCreate"));
         } catch (ParseException e) {
@@ -93,8 +104,10 @@ public class Dish implements Parcelable {
         parcel.writeDouble(this.SizePart);
         parcel.writeParcelable(this.Utilisateur, flags);
         parcel.writeString(this.Statut);
+        parcel.writeBooleanArray(this.Dispo);
         parcel.writeString(this.DateExpiration.toString());
-        parcel.writeString(this.PickUpTime.toString());
+        parcel.writeString(this.PickUpStartTime.toString());
+        parcel.writeString(this.PickUpEndTime.toString());
         parcel.writeString(this.DateCreate.toString());
     }
 
@@ -122,6 +135,8 @@ public class Dish implements Parcelable {
         this.SizePart = in.readDouble();
         this.Utilisateur = in.<Utilisateur>readParcelable(Utilisateur.class.getClassLoader());
         this.Statut = in.readString();
+        this.Dispo = new boolean[7];
+        in.readBooleanArray(this.Dispo);
         try {
             this.DateExpiration = format.parse(in.readString());
         } catch (ParseException e) {
@@ -130,12 +145,20 @@ public class Dish implements Parcelable {
             this.DateExpiration = new Date();
         }
         try {
-            this.PickUpTime = format.parse(in.readString());
+            this.PickUpStartTime = format.parse(in.readString());
         } catch (ParseException e) {
             e.printStackTrace();
             //Euh c'est la merde je sais pas on fait quoi la
-            this.PickUpTime = new Date();
+            this.PickUpStartTime = new Date();
         }
+        try {
+            this.PickUpEndTime = format.parse(in.readString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            //Euh c'est la merde je sais pas on fait quoi la
+            this.PickUpEndTime = new Date();
+        }
+
         try {
             this.DateCreate = format.parse(in.readString());
         } catch (ParseException e) {

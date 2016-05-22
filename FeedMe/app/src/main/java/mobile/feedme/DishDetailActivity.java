@@ -61,7 +61,7 @@ public class DishDetailActivity extends MenuActivity {
 
         TextView pickUpDate = (TextView) findViewById(R.id.textViewPickUpDate);
         SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd, yyyy h:mm a");
-        String dateString = sdf.format(dish.PickUpTime);
+        String dateString = sdf.format(dish.PickUpStartTime);
         pickUpDate.setText(dateString);
 
         TextView poid = (TextView) findViewById(R.id.textViewHeight);
