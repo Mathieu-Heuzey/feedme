@@ -21,6 +21,7 @@ public class Order  {
     public String ValidationCode;
     public Date DateExpiration;
     public Date PickupTime;
+    public Date DateCreate;
 
     public Order()
     {
@@ -39,11 +40,11 @@ public class Order  {
         order.TotalPrice = jsonOrder.optDouble("TotalPrice");
         order.Statut = jsonOrder.optString("Statut");
         order.ValidationCode = jsonOrder.optString("ValidationCode");
-
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
         try {
             order.PickupTime = format.parse(jsonOrder.optString("PickUpTime"));
             order.DateExpiration = format.parse(jsonOrder.optString("DateExpiration"));
+            order.DateCreate = format.parse(jsonOrder.optString("DateCreate"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
