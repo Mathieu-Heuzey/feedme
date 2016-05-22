@@ -29,6 +29,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -99,13 +104,15 @@ public class AddMeal extends MenuActivity {
 
                 // set time picker as current time
                 select = 1;
+                Log.d("select = ", String.valueOf(select));
                 return new TimePickerDialog(this, timePickerListener, hour, minute,
-                        false);
+                        true);
 
             case TIME_DIALOG_ID_END:
 
                 // set time picker as current time
                 select = 2;
+                Log.d("select = ", String.valueOf(select));
                 return new TimePickerDialog(this, timePickerListener, hour, minute,
                         true);
 
@@ -162,13 +169,25 @@ public class AddMeal extends MenuActivity {
         String aTime = new StringBuilder().append(hours).append(':')
                 .append(minutes).append(" ").append(timeSet).toString();
         if (select == 0) {
+            Log.d("select = ", String.valueOf(select));
+            Log.d("dans le premier if ", String.valueOf(select));
+
             output.setText(aTime);
             output2.setText(aTime);
         }
-    else if (select == 1)
-        output.setText(aTime);
-        else
-        output2.setText(aTime);
+    else if (select == 1) {
+            Log.d("Dans le if", String.valueOf(select));
+
+            Log.d("select = ", String.valueOf(select));
+
+            output.setText(aTime);
+        }
+        else {
+            Log.d("Dans le else", String.valueOf(select));
+
+            Log.d("select = ", String.valueOf(select));
+            output2.setText(aTime);
+        }
     }
 
     public void uploadImage(View view) {
@@ -248,20 +267,20 @@ public class AddMeal extends MenuActivity {
 
     public void saveMeal(View view) {
 
-        EditText titre = (EditText) (findViewById(R.id.editTextTitre));
-        String Addr = titre.getText().toString();
-        EditText desc = (EditText) (findViewById(R.id.TFdesc));
-        String Cp = desc.getText().toString();
-        EditText prix = (EditText) (findViewById(R.id.DishName));
-        String Dish = prix.getText().toString();
-        EditText poid = (EditText) (findViewById(R.id.DishDescription));
-        String Descr = poid.getText().toString();
+        EditText Address = (EditText) (findViewById(R.id.editTextTitre));
+        String Addr = Address.getText().toString();
+        EditText PostalCode = (EditText) (findViewById(R.id.TFdesc));
+        String Cp = PostalCode.getText().toString();
+        EditText name = (EditText) (findViewById(R.id.DishName));
+        String Dish = name.getText().toString();
+        EditText Desc = (EditText) (findViewById(R.id.DishDescription));
+        String Descr = Desc.getText().toString();
         EditText nbPart = (EditText) (findViewById(R.id.DishNumberPotion));
-        String PortionNumer = poid.getText().toString();
+        String PortionNumer = nbPart.getText().toString();
         EditText weight = (EditText) (findViewById(R.id.DishWeight));
-        String DishWeight = poid.getText().toString();
+        String DishWeight = weight.getText().toString();
         EditText price = (EditText) (findViewById(R.id.DishPrice));
-        String PortionPrice = poid.getText().toString();
+        String PortionPrice = price.getText().toString();
         CheckBox monday = (CheckBox) (findViewById(R.id.CheckBoxeMonday));
         CheckBox tursday = (CheckBox) (findViewById(R.id.CheckBoxeTuesday));
         CheckBox wenesday = (CheckBox) (findViewById(R.id.CheckBoxeWenesday));
@@ -270,11 +289,31 @@ public class AddMeal extends MenuActivity {
         CheckBox saturday = (CheckBox) (findViewById(R.id.CheckBoxeSaturday));
         CheckBox sunday = (CheckBox) (findViewById(R.id.CheckBoxeSunday));
         TextView PickStart = (TextView) (findViewById(R.id.output));
-        String TimerStart = poid.getText().toString();
-        TextView PickEndt = (TextView) (findViewById(R.id.output2));
-        String TimerEnd = poid.getText().toString();
+        String TimerStart = PickStart.getText().toString();
+        TextView PickEnd = (TextView) (findViewById(R.id.output2));
+        String TimerEnd = PickEnd.getText().toString();
 
 //appel a l'api
-        
+
+        RequestParams params = new RequestParams();
+        JSONObject adress = new JSONObject();
+        try {
+            adress.put("Road", Addr);
+            adress.put("PostalCode", Cp);
+            adress.put("Country", Addr);
+//            adress.put("Road", Addr);
+//            adress.put("Road", Addr);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        params.put("Address", adress.toString());
+        params.put("Price",PortionPrice);
+        params.put("Description",Descr);
+        params.put("NbPart",PortionNumer);
+        params.put("SizePart",DishWeight);
+        params.put("PickUpStartTime",TimerStart);
+        params.put("PickUpEndTime",TimerEnd);
+        api.addMealRequest(this, params);
     }
 }

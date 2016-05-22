@@ -99,9 +99,15 @@ public class Api {
 
         client.post(baseServerURL + "Token", params, new JsonHttpResponseHandler() {
             @Override
-            public void onStart() { Api.ShowProgressDialog(context, "Logging in...", "Please wait while we log you in...", false);}
+            public void onStart() {
+                Api.ShowProgressDialog(context, "Logging in...", "Please wait while we log you in...", false);
+            }
+
             @Override
-            public void onFinish() {Api.HideProgressDialog();}
+            public void onFinish() {
+                Api.HideProgressDialog();
+            }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("Login success : ", response.toString());
@@ -120,6 +126,7 @@ public class Api {
                 //Continue to map
                 caller.loginSuccessfull();
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
                 if (statusCode == 0)
@@ -144,6 +151,7 @@ public class Api {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
             }
@@ -158,12 +166,17 @@ public class Api {
     {
         //if Token == null -> erreur
 
-        client.get(baseApiURL + "/Account/UserInfo", new JsonHttpResponseHandler()
-        {
+        client.get(baseApiURL + "/Account/UserInfo", new JsonHttpResponseHandler() {
             @Override
-            public void onStart() { Api.ShowProgressDialog(context, "Logging in...", "Logged in ! Retrieving your information...", false);}
+            public void onStart() {
+                Api.ShowProgressDialog(context, "Logging in...", "Logged in ! Retrieving your information...", false);
+            }
+
             @Override
-            public void onFinish() {Api.HideProgressDialog();}
+            public void onFinish() {
+                Api.HideProgressDialog();
+            }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 loggedUser = Utilisateur.JSONParse(response);
@@ -183,11 +196,17 @@ public class Api {
 
     public static void registerRequest(final Register caller, RequestParams params)
     {
-        client.post( baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
+        client.post(baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onStart() { Api.ShowProgressDialog(caller, "Registering...", "Please wait we register you in...", false);}
+            public void onStart() {
+                Api.ShowProgressDialog(caller, "Registering...", "Please wait we register you in...", false);
+            }
+
             @Override
-            public void onFinish() {Api.HideProgressDialog();}
+            public void onFinish() {
+                Api.HideProgressDialog();
+            }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 Toast.makeText(caller.getApplicationContext(), "You have been registered ! You can log in now", Toast.LENGTH_LONG).show();
@@ -196,12 +215,9 @@ public class Api {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
-                if (statusCode == 0)
-                {
+                if (statusCode == 0) {
                     Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(caller.getApplicationContext(), "Error while registering ! Pleasy retry", Toast.LENGTH_LONG).show();
                     if (res != null) {
                         try {
@@ -215,6 +231,39 @@ public class Api {
         });
     }
 
+    public static void addMealRequest(final AddMeal caller, RequestParams params)
+    {
+        client.post(baseApiURL + "Dishes", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                Api.ShowProgressDialog(caller, "Adding Dishes...", "Please wait while we adding your dish...", false);
+            }
+
+            @Override
+            public void onFinish() {
+                Api.HideProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                Toast.makeText(caller.getApplicationContext(), "Your Dish have been added", Toast.LENGTH_LONG).show();
+                caller.startActivity(new Intent(caller.getApplicationContext(), MapsActivity.class));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                } else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                } else {
+                    Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
