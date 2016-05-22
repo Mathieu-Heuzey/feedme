@@ -11,7 +11,10 @@ import android.widget.Spinner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +22,15 @@ import java.util.Map;
 import mobile.feedme.POCO.Order;
 
 public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener {
-    static final Integer BUY = 0;
-    static final Integer SELL = 1;
-
-    static final Integer INPROGRESS = 0;
-    static final Integer ACCEPT = 1;
-    static final Integer REFUSE = 2;
-    static final Integer CANCEL = 3;
-    static final Integer DONE = 4;
+    //Origin
+    static final Integer BUY        = 0b1;
+    static final Integer SELL       = 0b10;
+    //Status
+    static final Integer INPROGRESS = 0b100;
+    static final Integer ACCEPT     = 0b1000;
+    static final Integer REFUSE     = 0b10000;
+    static final Integer CANCEL     = 0b100000;
+    static final Integer DONE       = 0b1000000;
 
     static final LinkedHashMap<Integer, String> SELLSTATUS = new LinkedHashMap<Integer, String>() {{
         put(INPROGRESS, "To valid");
@@ -46,6 +50,8 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     protected LinkedHashMap<Integer, List<Order>> _buy;
     protected LinkedHashMap<Integer, List<Order>> _sell;
 
+    protected LinkedHashMap<Integer, LinkedHashMap<Integer, List<Order>>> _allOrders = new LinkedHashMap<Integer, LinkedHashMap<Integer, List<Order>>>();
+
     protected Spinner _spinner;
 
     @Override
@@ -55,8 +61,13 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         super.initialize(R.layout.activity_order, false, true);
         super.setTitle("Orders");
 
+        final AdapterView.OnItemSelectedListener listener = this;
         _spinner = (Spinner) findViewById(R.id.order_spinner);
-        _spinner.setOnItemSelectedListener(this);
+        _spinner.post(new Runnable() {
+            public void run() {
+                _spinner.setOnItemSelectedListener(listener);
+            }
+        });
     }
 
     @Override
@@ -71,6 +82,8 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     {
         _sell = sell;
         _buy = buy;
+        _allOrders.put(OrderActivity.SELL, _sell);
+        _allOrders.put(OrderActivity.BUY, _buy);
         this.buildOrderList(_spinner.getSelectedItemPosition() == 0 ? OrderActivity.BUY : OrderActivity.SELL);
     }
 
@@ -93,7 +106,24 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
 
     protected void buildOrderList(int type)
     {
+        if (_allOrders.size() == 0)
+            return;
 
+        LinkedHashMap<Integer, List<Order>> orders = _allOrders.get(type);
+        List<Map.Entry<Order, Integer>> sortedOrder = new ArrayList<Map.Entry<Order, Integer>>();
+
+        for (Map.Entry<Integer, List<Order>> orderList : orders.entrySet())
+        {
+            for (Order elem : orderList.getValue())
+                sortedOrder.add(new AbstractMap.SimpleEntry<Order, Integer>(elem, type | orderList.getKey()));
+        }
+        // Now sort by address instead of name (default).
+        Collections.sort(sortedOrder, new Comparator<Map.Entry<Order, Integer>>() {
+            public int compare(Map.Entry<Order, Integer> one, Map.Entry<Order, Integer> other) {
+                return one.getKey().DateCreate.compareTo(other.getKey().DateCreate);
+            }
+        });
+        return;
     }
 
     @Override

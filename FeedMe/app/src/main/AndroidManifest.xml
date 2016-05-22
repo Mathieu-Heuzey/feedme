@@ -38,11 +38,11 @@
         <activity
             android:name=".Register"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SingIn"
             android:label="@string/title_activity_sing_in"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,7 +61,7 @@
         <activity
             android:name=".AddMeal"
             android:label="@string/title_activity_add_meal"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -70,8 +70,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".DishDetailActivity" />
-        <activity android:name=".OrderActivity"></activity>
+        <activity android:name=".DishDetailActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".OrderActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

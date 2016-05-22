@@ -14,6 +14,7 @@ public class FeedMe extends Application {
     public void onCreate()
     {
         super.onCreate();
+
     }
     @Override
     protected void attachBaseContext(Context base) {

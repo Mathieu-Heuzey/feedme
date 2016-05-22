@@ -235,10 +235,7 @@ public class Api {
     {
         client.post(baseApiURL + "Dishes", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onStart() {
-                Api.ShowProgressDialog(caller, "Adding Dishes...", "Please wait while we adding your dish...", false);
-            }
-
+            public void onStart() {Api.ShowProgressDialog(caller, "Adding Dishes...", "Please wait while we adding your dish...", false);}
             @Override
             public void onFinish() {
                 Api.HideProgressDialog();
