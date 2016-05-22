@@ -62,7 +62,13 @@ public class DishDetailActivity extends MenuActivity {
         TextView pickUpDate = (TextView) findViewById(R.id.textViewPickUpDate);
         SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd, yyyy h:mm a");
         String dateString = sdf.format(dish.PickUpStartTime);
-        pickUpDate.setText(dateString);
+        SimpleDateFormat sdf2 = new SimpleDateFormat("MMM MM dd, yyyy h:mm a");
+        String dateString2 = sdf2.format(dish.PickUpEndTime);
+        pickUpDate.setText("You can pick your dish bewtwwen : " + dateString2 + " and " + dateString);
+
+        TextView expirationDate = (TextView) findViewById(R.id.textViewExpirationDate);
+        String expiration = String.valueOf(dish.DateExpiration);
+        expirationDate.setText("This dish will expire : " + expiration);
 
         TextView poid = (TextView) findViewById(R.id.textViewHeight);
         String convert2 = String.valueOf(dish.NbPart);
@@ -101,7 +107,7 @@ public class DishDetailActivity extends MenuActivity {
         TextViewPoid.setText("Weight : " + String.valueOf(poid) + " grammes");
         TextViewPrice.setText("Price : " + String.valueOf(price) + " €" );
 
-        TextViewPartRestante.setText("Number left :" +String.valueOf(left));
+        TextViewPartRestante.setText("Number left :     " +String.valueOf(left));
     }
 
     public void minusButton(View vies)
@@ -109,27 +115,21 @@ public class DishDetailActivity extends MenuActivity {
         TextView TextViewPartNumber = (TextView) findViewById(R.id.PortionNumber);
         String StringPartNumber = TextViewPartNumber.getText().toString();
         int IntPartNumber = Integer.parseInt(StringPartNumber);
-
         IntPartNumber -= 1;
-
         double   poid = dish.SizePart;
         double   price = dish.Price;
         int      left = dish.NbPart;
-
-
         poid *= IntPartNumber;
         price *= IntPartNumber;
         left -= IntPartNumber;
         if (IntPartNumber < 0)
             return;
-
         TextViewPartNumber.setText(String.valueOf(IntPartNumber));
         TextView TextViewPoid = (TextView) findViewById(R.id.textViewHeight);
         TextView TextViewPartRestante = (TextView) findViewById(R.id.textViewPartRestante);
         TextView TextViewPrice = (TextView) findViewById(R.id.textViewPrice);
-
-        TextViewPoid.setText("Weight :" + String.valueOf(poid) + " grammes");
-        TextViewPrice.setText("Price : " + String.valueOf(price) + " €" );
+        TextViewPoid.setText("Weight :     " + String.valueOf(poid) + " grammes");
+        TextViewPrice.setText("Price :    " + String.valueOf(price) + " €" );
         TextViewPartRestante.setText("Number left :" + String.valueOf(left));
 
     }
