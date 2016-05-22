@@ -43,5 +43,4 @@ dependencies {
     compile(name: 'List-2016.2.504-trial-release', ext: 'aar')
     compile(name: 'Primitives-2016.2.504-trial-release', ext: 'aar')
     compile 'com.android.support:multidex:1.0.1'
-    compile files('libs/gson-2.6.2.jar')
 }

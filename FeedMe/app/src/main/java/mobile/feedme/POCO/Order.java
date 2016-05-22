@@ -32,12 +32,14 @@ public class Order  {
         Order order = new Order();
 
         order.OrderId = jsonOrder.optInt("OrderId");
-        order.DishOrdered = Dish.JSONParse(jsonOrder.optJSONObject("Dish"));
+        JSONObject jsonDish = jsonOrder.optJSONObject("Dish");
+        if (jsonDish != null)
+            order.DishOrdered = Dish.JSONParse(jsonDish);
         order.NbPart = jsonOrder.optInt("NbPart");
         order.TotalPrice = jsonOrder.optDouble("TotalPrice");
         order.Statut = jsonOrder.optString("Statut");
         order.ValidationCode = jsonOrder.optString("ValidationCode");
-        
+
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
         try {
             order.PickupTime = format.parse(jsonOrder.optString("PickUpTime"));

@@ -5,18 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceActivity;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.stream.JsonReader;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -26,18 +17,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
 import mobile.feedme.POCO.Dish;
+import mobile.feedme.POCO.Order;
 import mobile.feedme.POCO.Utilisateur;
 
 /**
@@ -291,17 +278,34 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                return;
-            }
+                LinkedHashMap<Integer, List<Order>> sell;
+                LinkedHashMap<Integer, List<Order>> buy;
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String response) {
-                return;
+                JSONObject sellJson = response.optJSONObject("Sell");
+                JSONObject buyJson = response.optJSONObject("Buy");
+
+                //Build map of order key = status, value = list of Order
+                sell = caller.buildOrderMapFromJSON(OrderActivity.SELLSTATUS, sellJson);
+                buy = caller.buildOrderMapFromJSON(OrderActivity.BUYSTATUS, buyJson);
+
+                caller.buildAndDisplayOrders(sell, buy);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
-                return;
+                if (statusCode == 0)
+                {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                }
+                else
+                {
+                    Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
