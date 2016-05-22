@@ -303,7 +303,7 @@
         <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirmez"
+        android:text="Confirm"
         android:id="@+id/Bconfirmez"
         android:background="@drawable/btn1"
         android:layout_below="@+id/lblTime"

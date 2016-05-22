@@ -54,21 +54,21 @@ public class AddMeal extends MenuActivity {
         output2 = (TextView) findViewById(R.id.output2);
         /********* display current time on screen Start ********/
 
-        final Calendar c = Calendar.getInstance();
-        // Current Hour
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        // Current Minute
-        minute = c.get(Calendar.MINUTE);
 
-        // set current time into output textview
-        updateTime(hour, minute);
+    final Calendar c = Calendar.getInstance();
+    // Current Hour
+    hour = c.get(Calendar.HOUR_OF_DAY);
+    // Current Minute
+    minute = c.get(Calendar.MINUTE);
 
-        /********* display current time on screen End ********/
+    // set current time into output textview
+    updateTime(hour, minute);
 
-        // Add Button Click Listener
-        addButtonClickListener();
-    }
+    /********* display current time on screen End ********/
 
+    // Add Button Click Listener
+    addButtonClickListener();
+}
     public void addButtonClickListener() {
 
         btnClick = (Button) findViewById(R.id.btnHourPicker);
