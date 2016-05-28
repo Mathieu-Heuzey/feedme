@@ -2,6 +2,7 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scrolltest"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/TFdesc"
             android:hint="postal code"
+            android:maxLength="5"
             android:inputType="number"
             android:minHeight="50dp"
             android:layout_below="@+id/editTextTitre"
@@ -86,6 +88,7 @@
             android:id="@+id/DishNumberPotion"
             android:hint="Set the number of portion available"
             android:inputType="number"
+            android:maxLength="3"
             android:layout_below="@+id/DishDescription"
             android:layout_alignRight="@+id/DishDescription"
             android:layout_alignEnd="@+id/DishDescription" />
@@ -95,6 +98,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/DishWeight"
+            android:maxLength="3"
             android:hint="Set the Weight of a portion"
             android:inputType="number"
             android:layout_below="@+id/DishNumberPotion"
@@ -106,6 +110,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/DishPrice"
+            android:maxLength="3"
             android:hint="Set the price of one portion"
             android:inputType="number"
             android:layout_below="@+id/DishWeight"

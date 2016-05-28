@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -274,7 +275,6 @@ public class AddMeal extends MenuActivity {
         ImageView ImageView = (ImageView) findViewById(R.id.ivImage);
         ImageView.setImageBitmap(resized);
     }
-
     public void saveMeal(View view) {
 
         EditText Address = (EditText) (findViewById(R.id.editTextTitre));
@@ -305,77 +305,137 @@ public class AddMeal extends MenuActivity {
 
         if (Addr.isEmpty())
         {
+            Address.setError("Your address is required, street + number");
+        }
+        if (Cp.isEmpty())
+        {
+            PostalCode.setError("Your Postal Code is required");
+        }
+        if (Dish.isEmpty())
+        {
+            name.setError("The name of your dish is required");
+        }
+        if (Descr.isEmpty())
+        {
+            Desc.setError("The description of your dish is required");
+        }
+        if (PortionNumer.isEmpty())
+        {
+            nbPart.setError("The number of portions available is required");
+        }
+        if (PortionPrice.isEmpty())
+        {
+            price.setError("The price of a potion is required");
+        }
+
+        if (DishWeight.isEmpty())
+        {
+            weight.setError("The weight of a portion Code is required");
+        }
+
+
+
+        if (Addr.isEmpty())
+        {
             Toast.makeText(this, "Your address is required", Toast.LENGTH_LONG).show();
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             return;
         }
         String pattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}";
         if(!Addr.matches(pattern))
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your address isn't correct. Your need to inform the street name and your number", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (Cp.isEmpty())
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your CP is required", Toast.LENGTH_LONG).show();
             return;
         }
         if (Cp.length() != 5)
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your PC isn't correct, a normal one has 5 number", Toast.LENGTH_LONG).show();
             return;
         }
         if (Dish.isEmpty())
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your dish name is required", Toast.LENGTH_LONG).show();
             return;
         }
         String pattern2 = "[a-zA-Z]+";
         if(!Dish.matches(pattern2))
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "The name of your dish can only contains letters", Toast.LENGTH_LONG).show();
             return;
         }
         if (Descr.isEmpty())
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your description is required", Toast.LENGTH_LONG).show();
             return;
         }
         if (Desc.length() < 35)
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your description cannot be lower than 35 characters", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (PortionNumer.isEmpty())
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your number of portions is required", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (Integer.parseInt(PortionNumer) > 15)
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your cannot make more than 15 portions for one Dish", Toast.LENGTH_LONG).show();
             return;
         }
         if (DishWeight.isEmpty())
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "The weight of your portions is required", Toast.LENGTH_LONG).show();
             return;
         }
         if (Integer.parseInt(DishWeight) > 300)
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your cannot sell potion over 300 grammes", Toast.LENGTH_LONG).show();
             return;
         }
         if (PortionPrice.isEmpty())
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "The price of your portions is required", Toast.LENGTH_LONG).show();
             return;
         }
-        
+
         if (Integer.parseInt(PortionPrice) > 25)
         {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
             return;
         }
