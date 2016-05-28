@@ -3,6 +3,7 @@ package mobile.feedme;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +38,10 @@ public class SingIn extends MenuActivity implements ILogger {
         super.onCreate(savedInstanceState);
         super.initialize(R.layout.activity_sing_in, false, false);
         super.setTitle("Log in");
+         EditText et1 = (EditText) (findViewById(R.id.editTextLogin));
+         et1.setError("This field is required");
+         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));
+         et2.setError("This field is required");
     }
 
     public void    signIn(View view)
@@ -45,6 +50,15 @@ public class SingIn extends MenuActivity implements ILogger {
         String username = et1.getText().toString();
         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));
         String password = et2.getText().toString();
+
+        if (username.matches("")){
+            Toast.makeText(this, "You did not enter your mail", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (password.matches("")){
+            Toast.makeText(this, "You did not enter your password", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Api.Authentificate(this, this, username, password);
      }
