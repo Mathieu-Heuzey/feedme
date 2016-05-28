@@ -3,6 +3,7 @@ package mobile.feedme;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,6 +69,7 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
                 _spinner.setOnItemSelectedListener(listener);
             }
         });
+        Api.getOrderHistoric(this);
     }
 
     @Override
@@ -75,7 +77,6 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     {
         super.onStart();
 
-        Api.getOrderHistoric(this);
     }
 
     public void buildAndDisplayOrders(LinkedHashMap<Integer, List<Order>> sell, LinkedHashMap<Integer, List<Order>> buy)
@@ -117,12 +118,13 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
             for (Order elem : orderList.getValue())
                 sortedOrder.add(new AbstractMap.SimpleEntry<Order, Integer>(elem, type | orderList.getKey()));
         }
-        // Now sort by address instead of name (default).
+        // Now sort by DateCreate
         Collections.sort(sortedOrder, new Comparator<Map.Entry<Order, Integer>>() {
             public int compare(Map.Entry<Order, Integer> one, Map.Entry<Order, Integer> other) {
-                return one.getKey().DateCreate.compareTo(other.getKey().DateCreate);
+                return other.getKey().DateCreate.compareTo(one.getKey().DateCreate);
             }
         });
+        Log.e(sortedOrder.toString(), "");
         return;
     }
 

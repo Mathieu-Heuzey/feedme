@@ -43,7 +43,7 @@ public class Order  {
         order.TotalPrice = jsonOrder.optDouble("TotalPrice");
         order.Statut = jsonOrder.optString("Statut");
         order.ValidationCode = jsonOrder.optString("ValidationCode");
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
         try {
             order.DateCreate = format.parse(jsonOrder.optString("DateCreate"));
             order.PickupTime = format.parse(jsonOrder.optString("PickUpTime"));

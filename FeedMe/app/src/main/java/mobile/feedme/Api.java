@@ -271,7 +271,7 @@ public class Api {
 
     public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
-        client.get(baseApiURL + "Dishes?page=map",  new RequestParams(), new JsonHttpResponseHandler() {
+        client.get(baseApiURL + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
@@ -319,15 +319,15 @@ public class Api {
     public static void getOrderHistoric(final OrderActivity caller)
     {
         client.get(baseApiURL + "Historic",  new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            protected Object parseResponse(byte[] responseBody) throws JSONException {
-                String jsonString = getResponseString(responseBody, getCharset());
-
-                jsonString = jsonString.replace("\\", "").replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
-                jsonString = jsonString.substring(1, jsonString.length() - 1);
-
-                return new JSONObject(jsonString);
-            }
+//            @Override
+//            protected Object parseResponse(byte[] responseBody) throws JSONException {
+//                String jsonString = getResponseString(responseBody, getCharset());
+//
+//                jsonString = jsonString.replace("\\", "").replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
+//                jsonString = jsonString.substring(1, jsonString.length() - 1);
+//
+//                return new JSONObject(jsonString);
+//            }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
