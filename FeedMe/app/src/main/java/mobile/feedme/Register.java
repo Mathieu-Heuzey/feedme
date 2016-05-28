@@ -132,7 +132,7 @@ public class Register extends MenuActivity implements View.OnClickListener {
             Toast.makeText(this, "Your email is not valid", Toast.LENGTH_SHORT).show();
             return null;
         }
-        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$";
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$!%^&+=}{¨£ù*µ§:/;.,?*-><])(?=\\S+$).{6,}$";
         if(!password.matches(pattern))
         {
             Toast.makeText(this, "Your password doesn't reach the condition, you need at least one digit, one lower case, one upper case, a special char and at least 6 places though", Toast.LENGTH_LONG).show();
