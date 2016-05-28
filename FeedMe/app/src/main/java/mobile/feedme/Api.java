@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import mobile.feedme.POCO.Dish;
 import mobile.feedme.POCO.Order;
 import mobile.feedme.POCO.Utilisateur;
@@ -231,24 +232,30 @@ public class Api {
         });
     }
 
-    public static void addMealRequest(final AddMeal caller, RequestParams params)
+    public static void addMealRequest(final AddMeal caller, JSONObject params)
     {
-        client.post(baseApiURL + "Dishes", params, new AsyncHttpResponseHandler() {
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(params.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        client.post(caller.getApplicationContext(), baseApiURL + "Dishes", entity, "application/json", new JsonHttpResponseHandler() {
             @Override
-            public void onStart() {Api.ShowProgressDialog(caller, "Adding Dishes...", "Please wait while we adding your dish...", false);}
+            public void onStart() {Api.ShowProgressDialog(caller, "Adding Dishes...", "Please wait while we add your dish...", false);}
             @Override
             public void onFinish() {
                 Api.HideProgressDialog();
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(caller.getApplicationContext(), "Your Dish have been added", Toast.LENGTH_LONG).show();
                 caller.startActivity(new Intent(caller.getApplicationContext(), MapsActivity.class));
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
                 if (statusCode == 0) {
                     Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 401) {

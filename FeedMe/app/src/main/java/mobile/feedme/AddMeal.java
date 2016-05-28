@@ -30,19 +30,23 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
+import com.telerik.android.common.DateTimeExtensions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import mobile.feedme.POCO.Utilisateur;
 
 public class AddMeal extends MenuActivity {
-
-    public Api api = new Api();
     static final int TIME_DIALOG_ID = 1111;   static final int TIME_DIALOG_ID_END = 2222;
     private TextView output;
     private TextView output2;
@@ -57,6 +61,7 @@ public class AddMeal extends MenuActivity {
         super.onCreate(savedInstanceState);
         super.setMenuItemEnabled(MenuActivity.SELLDISH, false);
         super.initialize(R.layout.activity_add_meal, true, true);
+        super.setTitle("Sell your dish");
         output = (TextView) findViewById(R.id.output);
         output2 = (TextView) findViewById(R.id.output2);
         /********* display current time on screen Start ********/
@@ -148,19 +153,6 @@ public class AddMeal extends MenuActivity {
     // Used to convert 24hr format to 12hr format with AM/PM values
     private void updateTime(int hours, int mins) {
 
-        String timeSet = "";
-        if (hours > 12) {
-            hours -= 12;
-            timeSet = "PM";
-        } else if (hours == 0) {
-            hours += 12;
-            timeSet = "AM";
-        } else if (hours == 12)
-            timeSet = "PM";
-        else
-            timeSet = "AM";
-
-
         String minutes = "";
         if (mins < 10)
             minutes = "0" + mins;
@@ -169,7 +161,7 @@ public class AddMeal extends MenuActivity {
 
         // Append in a StringBuilder
         String aTime = new StringBuilder().append(hours).append(':')
-                .append(minutes).append(" ").append(timeSet).toString();
+                .append(minutes).toString();
         if (select == 0) {
             Log.d("select = ", String.valueOf(select));
             Log.d("dans le premier if ", String.valueOf(select));
@@ -177,7 +169,7 @@ public class AddMeal extends MenuActivity {
             output.setText(aTime);
             output2.setText(aTime);
         }
-    else if (select == 1) {
+     if (select == 1) {
             Log.d("Dans le if", String.valueOf(select));
 
             Log.d("select = ", String.valueOf(select));
@@ -297,27 +289,38 @@ public class AddMeal extends MenuActivity {
 
 //appel a l'api
 
-        RequestParams params = new RequestParams();
+
+        DateFormat formatIn = new SimpleDateFormat("HH:mm", Locale.FRANCE);
+        DateFormat formatOut = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
+        JSONObject params = new JSONObject();
         JSONObject adress = new JSONObject();
-        Utilisateur user = new Utilisateur();
         try {
             adress.put("Road", Addr);
             adress.put("PostalCode", Cp);
-            adress.put("Country", Addr);
+            adress.put("Country", "France");
 //            adress.put("Road", Addr);
 //            adress.put("Road", Addr);
 
-        } catch (JSONException e) {
+            params.put("Name", Dish);
+            params.put("Price", Double.parseDouble(PortionPrice));
+            params.put("Description", Descr);
+            params.put("Address", adress);
+            params.put("NbPart", Integer.parseInt(PortionNumer));
+            params.put("SizePart", Integer.parseInt(DishWeight));
+            params.put("DateExpiration", "2016-06-06T00:00:00");
+//            Date pickupStartDate = formatIn.parse(TimerStart);
+//            pickupStartDate.setYear(116);
+//            params.put("PickUpStartTime", formatOut.format(pickupStartDate));
+//            Date pickupEndDate = formatIn.parse(TimerEnd);
+//            pickupEndDate.setYear(116);
+//            params.put("PickUpEndTime", formatOut.format(pickupEndDate));
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
-        params.put("Address", adress.toString());
-        params.put("Price",PortionPrice);
-        params.put("Description",Descr);
-        params.put("NbPart",PortionNumer);
-        params.put("SizePart",DishWeight);
-        params.put("PickUpStartTime",TimerStart);
-        params.put("PickUpEndTime",TimerEnd);
-        params.put("User", user);
-        api.addMealRequest(this, params);
+//      catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        Api.addMealRequest(this, params);
     }
 }

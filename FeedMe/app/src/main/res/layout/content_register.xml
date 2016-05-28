@@ -22,37 +22,27 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextNom"
-            android:hint="First name"
-            android:layout_below="@+id/textViewNom"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:hint="First name" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextPrenom"
-            android:hint="Last name"
-            android:layout_below="@+id/editTextNom"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:hint="Last name" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/EditTextPassword1"
-            android:hint="Password"
-            android:layout_below="@+id/editTextPrenom"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:inputType="textPassword"
+            android:hint="Password" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:id="@+id/EditTextPassword2"
-            android:hint="Reapeat Password"
-            android:layout_below="@+id/EditTextPassword1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:hint="Reapeat Password" />
 
 
         <EditText
@@ -60,38 +50,26 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextTel"
             android:hint="Tel"
-            android:layout_below="@+id/EditTextPassword2"
-            android:inputType="number"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:inputType="number" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextMail"
-            android:hint="Mail"
-            android:layout_below="@+id/editTextTel"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:hint="Mail" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextRue"
-            android:hint="Street"
-            android:layout_below="@+id/editTextMail"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:hint="Street" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextCP"
             android:hint="PC"
-            android:layout_below="@+id/editTextRue"
-            android:inputType="number"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:inputType="number" />
 
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
@@ -100,8 +78,6 @@
             android:id="@+id/Bconfirmez"
             android:background="@drawable/btn1"
             android:layout_marginTop="26dp"
-            android:textColor="#1e2d00"
-            android:layout_below="@+id/editTextCP"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="#1e2d00" />
     </TableLayout>
 </ScrollView>
