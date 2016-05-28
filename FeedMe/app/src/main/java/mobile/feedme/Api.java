@@ -160,7 +160,7 @@ public class Api {
         Api.removeToken(caller.getApplicationContext());
         Toast.makeText(caller.getApplicationContext(), "You have been logged out !", Toast.LENGTH_LONG).show();
         caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
-
+        caller.finish();
     }
 
     public static void getUserInfo(final ILogger caller, final Activity context)
@@ -262,6 +262,7 @@ public class Api {
                     Api.removeToken(caller.getApplicationContext());
                     Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
                 } else {
                     Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
                 }
@@ -306,6 +307,7 @@ public class Api {
                     Api.removeToken(caller.getApplicationContext());
                     Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
                 }
                 else
                 {
@@ -354,6 +356,7 @@ public class Api {
                     Api.removeToken(caller.getApplicationContext());
                     Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
                 }
                 else
                 {

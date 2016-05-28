@@ -84,6 +84,7 @@ public class SingIn extends MenuActivity implements ILogger {
     {
         Toast.makeText(getBaseContext(), "Welcome back " + user.Firstname, Toast.LENGTH_LONG).show();
         startActivity(new Intent(getBaseContext(), MapsActivity.class));
+        this.finish();
     }
 
     @Override
