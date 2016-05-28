@@ -50,7 +50,6 @@ public class SingIn extends MenuActivity implements ILogger {
         String username = et1.getText().toString();
         EditText et2 = (EditText) (findViewById(R.id.EditTextPassword));
         String password = et2.getText().toString();
-
         if (username.matches("")){
             Toast.makeText(this, "You did not enter your mail", Toast.LENGTH_SHORT).show();
             return;
@@ -59,7 +58,6 @@ public class SingIn extends MenuActivity implements ILogger {
             Toast.makeText(this, "You did not enter your password", Toast.LENGTH_SHORT).show();
             return;
         }
-
         Api.Authentificate(this, this, username, password);
      }
 

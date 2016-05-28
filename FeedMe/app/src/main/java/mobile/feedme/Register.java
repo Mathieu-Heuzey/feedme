@@ -44,9 +44,25 @@ public class Register extends MenuActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         super.initialize(R.layout.activity_register, false, false);
         super.setTitle("Register");
-
         AppCompatButton button = (AppCompatButton)findViewById(R.id.Bconfirmez);
         button.setOnClickListener(this);
+        EditText prenom = (EditText) (findViewById(R.id.editTextPrenom));
+        prenom.setError("Your last name is required");
+
+        EditText nom = (EditText) (findViewById(R.id.editTextNom));
+        nom.setError("Your first name is required");
+
+        EditText pwd1 = (EditText) (findViewById(R.id.EditTextPassword1));
+        pwd1.setError("Your password is required");
+
+        EditText pwd2 = (EditText) (findViewById(R.id.EditTextPassword2));
+        pwd2.setError("Your password confirmation is required");
+
+        EditText tel = (EditText) (findViewById(R.id.editTextTel));
+        tel.setError("Your phone is required");
+
+        EditText mail = (EditText) (findViewById(R.id.editTextMail));
+        mail.setError("Your mail is required");
     }
 
     public void register(View view)
@@ -71,27 +87,29 @@ public class Register extends MenuActivity implements View.OnClickListener {
         String phone = ((EditText)findViewById(R.id.editTextTel)).getText().toString();
 
         //Ok c'est mega moche, mais en vrai pas trop le choix
-        if (!Checker.CheckMdp(password, confirmPassword) || password.isEmpty() || confirmPassword.isEmpty()) {
-            //TODO le ptit message d'erreur
-            return null;
-        }
-        if (!Checker.CheckMail(mail)) {
-            //TODO le ptit message d'erreur
-            return null;
-        }
-        if (lastName.trim().isEmpty())
-        {
-            //TODO le ptit message d'erreur
-            return null;
-        }
         if (firstName.trim().isEmpty())
         {
-            //TODO le ptit message d'erreur
+            Toast.makeText(this, "You did not enter your first name", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (lastName.trim().isEmpty())
+        {
+            Toast.makeText(this, "You did not enter your last name", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (!Checker.CheckMdp(password, confirmPassword) || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this, "You did not enter your password", Toast.LENGTH_SHORT).show();
             return null;
         }
         if (phone.trim().isEmpty())
         {
-            //TODO le ptit message d'erreur
+            Toast.makeText(this, "You did not enter your phone", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if (!Checker.CheckMail(mail)) {
+            Toast.makeText(this, "You did not enter your mail", Toast.LENGTH_SHORT).show();
             return null;
         }
 
@@ -106,7 +124,6 @@ public class Register extends MenuActivity implements View.OnClickListener {
         //Not used anymore //TODO remove the input
         //EditText EditTextLogin = (EditText) (findViewById(R.id.editTextLogin));
         //user.Login = EditTextLogin.getText().toString();
-
         //TODO envoyer l'adresse frero, en checkant plein de truc tmtc
 //                user.Adress.PostalCode = EditTextCP.getText().toString();
 //                EditText EditTextRoad = (EditText) (findViewById(R.id.editTextRue));
@@ -117,7 +134,6 @@ public class Register extends MenuActivity implements View.OnClickListener {
 //                Double latitude = location.getLatitude();
 //                user.Adress.Longitude = longitude.toString();
 //                user.Adress.Latitude = latitude.toString();
-
         return params;
     }
 
