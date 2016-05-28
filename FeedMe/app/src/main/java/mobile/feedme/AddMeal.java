@@ -66,7 +66,6 @@ public class AddMeal extends MenuActivity {
         output2 = (TextView) findViewById(R.id.output2);
         /********* display current time on screen Start ********/
 
-
     final Calendar c = Calendar.getInstance();
     // Current Hour
     hour = c.get(Calendar.HOUR_OF_DAY);
@@ -80,7 +79,25 @@ public class AddMeal extends MenuActivity {
 
     // Add Button Click Listener
     addButtonClickListener();
-}
+
+
+        EditText Address = (EditText) (findViewById(R.id.editTextTitre));
+        Address.setError("Your address is required, street + number");
+        EditText PostalCode = (EditText) (findViewById(R.id.TFdesc));
+        PostalCode.setError("Your Postal Code is required");
+        EditText name = (EditText) (findViewById(R.id.DishName));
+        name.setError("The name of your dish is required");
+        EditText Desc = (EditText) (findViewById(R.id.DishDescription));
+        Desc.setError("The description of your dish is required");
+        EditText nbPart = (EditText) (findViewById(R.id.DishNumberPotion));
+        nbPart.setError("The number of portions available is required");
+        EditText weight = (EditText) (findViewById(R.id.DishWeight));
+        weight.setError("The weight of a portion Code is required");
+        EditText price = (EditText) (findViewById(R.id.DishPrice));
+        price.setError("The price of a potion is required");
+
+
+    }
     public void addButtonClickListener() {
 
         btnClick = (Button) findViewById(R.id.btnHourPicker);
@@ -91,7 +108,6 @@ public class AddMeal extends MenuActivity {
                 showDialog(TIME_DIALOG_ID);
             }
         });
-
 
         btnClick2 = (Button) findViewById(R.id.btnHourPickerEnd);
 
@@ -287,8 +303,82 @@ public class AddMeal extends MenuActivity {
         TextView PickEnd = (TextView) (findViewById(R.id.output2));
         String TimerEnd = PickEnd.getText().toString();
 
-//appel a l'api
+        if (Addr.isEmpty())
+        {
+            Toast.makeText(this, "Your address is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String pattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}";
+        if(!Addr.matches(pattern))
+        {
+            Toast.makeText(this, "Your address isn't correct. Your need to inform the street name and your number", Toast.LENGTH_LONG).show();
+            return;
+        }
 
+        if (Cp.isEmpty())
+        {
+            Toast.makeText(this, "Your CP is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Cp.length() != 5)
+        {
+            Toast.makeText(this, "Your PC isn't correct, a normal one has 5 number", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Dish.isEmpty())
+        {
+            Toast.makeText(this, "Your dish name is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String pattern2 = "[a-zA-Z]+";
+        if(!Dish.matches(pattern2))
+        {
+            Toast.makeText(this, "The name of your dish can only contains letters", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Descr.isEmpty())
+        {
+            Toast.makeText(this, "Your description is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Desc.length() < 35)
+        {
+            Toast.makeText(this, "Your description cannot be lower than 35 characters", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (PortionNumer.isEmpty())
+        {
+            Toast.makeText(this, "Your number of portions is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (Integer.parseInt(PortionNumer) > 15)
+        {
+            Toast.makeText(this, "Your cannot make more than 15 portions for one Dish", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (DishWeight.isEmpty())
+        {
+            Toast.makeText(this, "The weight of your portions is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Integer.parseInt(DishWeight) > 300)
+        {
+            Toast.makeText(this, "Your cannot sell potion over 300 grammes", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (PortionPrice.isEmpty())
+        {
+            Toast.makeText(this, "The price of your portions is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        
+        if (Integer.parseInt(PortionPrice) > 25)
+        {
+            Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         DateFormat formatIn = new SimpleDateFormat("HH:mm", Locale.FRANCE);
         DateFormat formatOut = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
