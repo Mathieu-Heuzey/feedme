@@ -16,13 +16,13 @@ import java.util.Map;
 /**
  * Created by stevy_000 on 5/15/2016.
  */
-public class MyAdapter extends ArrayAdapter<Map.Entry<String, Integer>> {
+public class MenuListAdapter extends ArrayAdapter<Map.Entry<String, Integer>> {
 
-    public MyAdapter(Context context, int textViewResourceId) {
+    public MenuListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public MyAdapter(Context context, int resource, List<Map.Entry<String, Integer>> items) {
+    public MenuListAdapter(Context context, int resource, List<Map.Entry<String, Integer>> items) {
         super(context, resource, items);
     }
 

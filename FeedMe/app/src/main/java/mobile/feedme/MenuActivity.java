@@ -3,13 +3,8 @@ package mobile.feedme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Layout;
-import android.util.ArrayMap;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,9 +17,7 @@ import com.telerik.android.primitives.widget.sidedrawer.RadSideDrawer;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -171,7 +164,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 menuItems.add(new AbstractMap.SimpleEntry<String, Integer>(entry.getKey(), this.menuItemIcon.get(entry.getKey())));
         }
 
-        MyAdapter adapter = new MyAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
+        MenuListAdapter adapter = new MenuListAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
 
         menuList.setAdapter(adapter);
         menuList.setOnItemClickListener(this);
