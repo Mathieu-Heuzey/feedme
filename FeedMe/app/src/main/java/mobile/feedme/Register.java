@@ -99,8 +99,18 @@ public class Register extends MenuActivity implements View.OnClickListener {
             return null;
         }
 
-        if (!Checker.CheckMdp(password, confirmPassword) || password.isEmpty() || confirmPassword.isEmpty()) {
+        if (password.isEmpty()) {
             Toast.makeText(this, "You did not enter your password", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (confirmPassword.isEmpty()) {
+            Toast.makeText(this, "You did not enter your password confirmation", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (!Checker.CheckMdp(password, confirmPassword)) {
+            Toast.makeText(this, "Your password and confirmationa ren't equal", Toast.LENGTH_SHORT).show();
             return null;
         }
         if (phone.trim().isEmpty())
@@ -108,8 +118,24 @@ public class Register extends MenuActivity implements View.OnClickListener {
             Toast.makeText(this, "You did not enter your phone", Toast.LENGTH_SHORT).show();
             return null;
         }
-        if (!Checker.CheckMail(mail)) {
+        if (phone.trim().length() < 9)
+        {
+            Toast.makeText(this, "Your phone is too short", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (mail.trim().isEmpty()) {
             Toast.makeText(this, "You did not enter your mail", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if (!Checker.CheckMail(mail)) {
+            Toast.makeText(this, "Your email is not valid", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$";
+        if(!password.matches(pattern))
+        {
+            Toast.makeText(this, "Your password doesn't reach the condition, you need at least one digit, one lower case, one upper case, a special char and at least 6 places though", Toast.LENGTH_LONG).show();
             return null;
         }
 
