@@ -39,7 +39,7 @@ public class DishDetailActivity extends MenuActivity {
         name.setText(dish.Name);
 
         TextView cookerName = (TextView) findViewById(R.id.textViewCookerName);
-        cookerName.setText(dish.Utilisateur.Firstname + dish.Utilisateur.Lastname);
+        cookerName.setText(dish.Utilisateur.Firstname +" "+ dish.Utilisateur.Lastname);
 
         TextView description = (TextView) findViewById(R.id.textViewDescription);
         description.setText(dish.Description);
@@ -209,6 +209,7 @@ public class DishDetailActivity extends MenuActivity {
         TextViewPrice.setText("Price :         " + String.valueOf(price) + " €" );
 
         TextViewPartRestante.setText("Number left :     " +String.valueOf(left));
+
     }
 
     public void minusButton(View vies)
@@ -223,7 +224,7 @@ public class DishDetailActivity extends MenuActivity {
         poid *= IntPartNumber;
         price *= IntPartNumber;
         left -= IntPartNumber;
-        if (IntPartNumber < 0)
+        if (IntPartNumber < 1)
             return;
         TextViewPartNumber.setText(String.valueOf(IntPartNumber));
         TextView TextViewPoid = (TextView) findViewById(R.id.textViewHeight);
