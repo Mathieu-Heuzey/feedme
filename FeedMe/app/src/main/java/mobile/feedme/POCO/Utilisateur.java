@@ -28,6 +28,8 @@ public class Utilisateur implements Parcelable {
     {
         Utilisateur user = new Utilisateur();
 
+        if (jsonUser == null)
+            return user;
         user.UtilisateurId = jsonUser.optString("UtilisateurId");
         user.Firstname = jsonUser.optString("Firstname");
         user.Lastname = jsonUser.optString("Lastname");

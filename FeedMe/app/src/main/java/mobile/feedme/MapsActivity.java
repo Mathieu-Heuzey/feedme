@@ -88,20 +88,37 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void showFoodOnMap(ArrayList<Dish> dishes) {
-
+    public void showFoodOnMap(final ArrayList<Dish> dishes)
+    {
         mMap.clear();
         MarkerIdToDish.clear();
 
-        for (Dish dish : dishes) {
-            LatLng mLatLngDish = MyLocationListener.getLocationFromAddress(getApplicationContext(),dish.Adress.Road + " " + dish.Adress.PostalCode + " " + dish.Adress.Country);
-            if (mLatLngDish != null)
+        final MapsActivity This = this;
+        Thread t = new Thread(new Runnable()
+        {
+            public void run()
             {
-                Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngDish).title(dish.Name).snippet(dish.Description));
-                this.MarkerIdToDish.put(marker.getId(), dish);
+                for (Dish elem : dishes)
+                {
+                    final Dish dish = elem;
+                    final LatLng mLatLngDish = MyLocationListener.getLocationFromAddress(getApplicationContext(), dish.Adress.Road + " " + dish.Adress.PostalCode + " " + dish.Adress.Country);
+                    if (mLatLngDish != null)
+                    {
+                        runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(mLatLngDish).title(dish.Name).snippet(dish.Description));
+                                This.MarkerIdToDish.put(marker.getId(), dish);
+                            }
+                        });
+                    }
+                }
             }
-        }
-        this.refreshingDone();
+        });
+        t.start();
+        This.refreshingDone();
     }
 
     @Override

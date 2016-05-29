@@ -52,6 +52,7 @@ public class Dish implements Parcelable {
     {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
         Dish dish = new Dish();
+        dish.Utilisateur = mobile.feedme.POCO.Utilisateur.JSONParse(jsonDish.optJSONObject("User"));
         dish.DishId = jsonDish.optInt("DishId");
         dish.Name = jsonDish.optString("Name");
         dish.Price = jsonDish.optDouble("Price");

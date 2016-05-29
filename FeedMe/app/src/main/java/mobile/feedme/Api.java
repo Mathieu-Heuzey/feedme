@@ -272,7 +272,7 @@ public class Api {
 
     public static void getAllDishAndCallDisplay(final MapsActivity caller)
     {
-        client.get(baseApiURL + "Dishes",  new RequestParams(), new JsonHttpResponseHandler() {
+        client.get(baseApiURL + "Dishes?page=map",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
