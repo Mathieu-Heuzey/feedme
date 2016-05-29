@@ -1,12 +1,9 @@
 package mobile.feedme;
 
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -21,9 +18,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import mobile.feedme.POCO.Dish;
 import mobile.feedme.POCO.Order;
 
-public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener {
+public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     //Origin
     static final Integer BUY        = 0b1;
     static final Integer SELL       = 0b10;
@@ -74,6 +72,7 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
 
         ListView orderList = (ListView)this.drawer.findViewById(R.id.order_list);
         _adapter = new OrderListAdapter(getApplicationContext(), R.layout.order_basic_view, new ArrayList<Map.Entry<Order, Integer>>());
+        _adapter.setClickListener(this);
         orderList.setAdapter(_adapter);
         orderList.setClickable(false);
 
@@ -134,19 +133,6 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         });
         this.refreshAdapterData(sortedOrder);
     }
-//    ListView menuList = (ListView)this.drawer.findViewById(R.id.menu_list);
-//    ArrayList<Map.Entry<String, Integer>> menuItems = new ArrayList<Map.Entry<String, Integer>>();
-//
-//    for (Map.Entry<String, Boolean> entry : this.menuItemEnable.entrySet())
-//    {
-//        if (entry.getValue())
-//            menuItems.add(new AbstractMap.SimpleEntry<String, Integer>(entry.getKey(), this.menuItemIcon.get(entry.getKey())));
-//    }
-//
-//    MenuListAdapter adapter = new MenuListAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
-//
-//    menuList.setAdapter(adapter);
-//    menuList.setOnItemClickListener(this);
 
     private void refreshAdapterData(List<Map.Entry<Order, Integer>> orders)
     {
@@ -163,5 +149,21 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         //clear ?
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        Tag tag = (Tag)v.getTag();
+        if (tag.Type == Tag.DISH)
+        {
+            Intent i = new Intent(this, DishDetailActivity.class);
+            i.putExtra("Dish", (Dish)tag.Content);
+            startActivity(i);
+        }
+        else if (tag.Type == Tag.ORDER)
+        {
+
+        }
     }
 }

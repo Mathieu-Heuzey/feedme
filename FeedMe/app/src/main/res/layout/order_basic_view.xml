@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/order_dish_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,16 +11,19 @@
         android:background="@drawable/pressed_layout">
         <ImageView
             android:id="@+id/order_dish_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:clickable="false"
+            android:layout_height="80dp"
             android:src="@drawable/pizza"
             android:contentDescription="Dish picture" />
         <LinearLayout
             android:orientation="vertical"
+            android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/order_dish_title"
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
@@ -27,12 +31,42 @@
                 android:textColor="#262626" />
             <TextView
                 android:id="@+id/order_dish_desc"
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description : Lorem ipsum dolor sit amet, qwed"
                 android:textSize="15sp"
                 android:textColor="#262626" />
         </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/order_buyer_text"
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Orderded by/to :"
+        android:textSize="15sp"
+        android:textColor="#262626" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/order_nbpart"
+            android:clickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="nb part"
+            android:textSize="15sp"
+            android:textColor="#262626" />
+        <TextView
+            android:id="@+id/order_price"
+            android:clickable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="20euro"
+            android:textSize="15sp"
+            android:textColor="#262626" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/order_interactionlayout_container"
