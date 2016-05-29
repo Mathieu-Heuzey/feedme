@@ -96,8 +96,6 @@ public class AddMeal extends MenuActivity {
         weight.setError("The weight of a portion Code is required");
         EditText price = (EditText) (findViewById(R.id.DishPrice));
         price.setError("The price of a potion is required");
-
-
     }
     public void addButtonClickListener() {
 

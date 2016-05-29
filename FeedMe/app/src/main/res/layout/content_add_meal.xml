@@ -90,8 +90,7 @@
             android:inputType="number"
             android:maxLength="3"
             android:layout_below="@+id/DishDescription"
-            android:layout_alignRight="@+id/DishDescription"
-            android:layout_alignEnd="@+id/DishDescription" />
+            android:layout_alignEnd="@+id/euroSymbol" />
 
 
         <EditText
@@ -99,11 +98,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/DishWeight"
             android:maxLength="3"
-            android:hint="Set the Weight of a portion"
+            android:hint="Set portion weight"
             android:inputType="number"
             android:layout_below="@+id/DishNumberPotion"
-            android:layout_alignRight="@+id/DishDescription"
-            android:layout_alignEnd="@+id/DishDescription" />
+            android:layout_alignEnd="@+id/BUpload" />
 
 
         <EditText
@@ -111,11 +109,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/DishPrice"
             android:maxLength="3"
-            android:hint="Set the price of one portion"
+            android:hint="Set portion price"
             android:inputType="number"
             android:layout_below="@+id/DishWeight"
-            android:layout_alignRight="@+id/DishDescription"
-            android:layout_alignEnd="@+id/DishDescription" />
+            android:layout_alignEnd="@+id/DishWeight" />
 
         <ImageView
             android:id="@+id/ivImage"
@@ -318,6 +315,28 @@
         android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/euroSymbol"
+            android:text="grammes"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/DishWeight"
+            android:layout_alignBottom="@+id/DishWeight"
+            android:layout_below="@+id/DishNumberPotion" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:text="€"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_below="@+id/DishWeight"
+            android:layout_alignEnd="@+id/euroSymbol"
+            android:layout_toEndOf="@+id/DishPrice" />
 
 
     </RelativeLayout>
