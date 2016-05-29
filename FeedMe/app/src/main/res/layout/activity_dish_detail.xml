@@ -372,6 +372,29 @@
              />
 
 
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click here to set your date"
+        android:id="@+id/ButtonDatePicker"
+        android:onClick="submitDate"
+        android:background="@drawable/btn1"
+        android:layout_marginTop="26dp"
+        android:textColor="#1e2d00"
+        android:layout_below="@+id/output"
+            android:layout_alignStart="@+id/btnHourPickerBuyer"
+            android:layout_alignEnd="@+id/CheckBoxeThursday" />
+
+        <TextView
+            android:id="@+id/output2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_below="@+id/ButtonDatePicker"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="20dp"
+            />
 
         <Button
             android:layout_width="match_parent"
@@ -382,7 +405,7 @@
             android:background="@drawable/btn1"
             android:layout_marginTop="26dp"
             android:textColor="#1e2d00"
-            android:layout_below="@+id/output"
+            android:layout_below="@+id/output2"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
