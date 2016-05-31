@@ -6,6 +6,7 @@ import android.util.Base64;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +14,9 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import mobile.feedme.MyLocationListener;
@@ -36,6 +39,8 @@ public class Dish implements Parcelable {
     public Date PickUpEndTime;
     public Date DateCreate;
     public boolean Dispo[];
+    public String MainImage;
+    public ArrayList<String> Images;
 
     public Dish()
     {
@@ -46,13 +51,18 @@ public class Dish implements Parcelable {
         Adress = new Adress();
         Utilisateur = new Utilisateur();
         Dispo = new boolean[7];
+        Images = new ArrayList<String>();
     }
 
     public static Dish JSONParse(JSONObject jsonDish)
     {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
         Dish dish = new Dish();
+
+        //User
         dish.Utilisateur = mobile.feedme.POCO.Utilisateur.JSONParse(jsonDish.optJSONObject("User"));
+
+        //Raw types
         dish.DishId = jsonDish.optInt("DishId");
         dish.Name = jsonDish.optString("Name");
         dish.Price = jsonDish.optDouble("Price");
@@ -60,13 +70,8 @@ public class Dish implements Parcelable {
         dish.NbPart = jsonDish.optInt("NbPart");
         dish.SizePart = jsonDish.optDouble("SizePart");
         dish.Statut = jsonDish.optString("Statut");
-        byte[] data;
-        try {
-            data = jsonDish.optString("Days").getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
+        //Address
         JSONObject jsonAdress = jsonDish.optJSONObject("Address");
         if (jsonAdress != null)
             dish.Adress = mobile.feedme.POCO.Adress.JSONParse(jsonAdress);
@@ -78,6 +83,20 @@ public class Dish implements Parcelable {
             dish.Adress.Road = "18 rue de la Presentation";
         }
 
+        //Images
+        JSONArray images = jsonDish.optJSONArray("Images");
+        for (int i = 0; i < images.length(); ++i)
+        {
+            JSONObject tmp = images.optJSONObject(i);
+            if (tmp != null)
+                dish.Images.add(tmp.optString("Path"));
+        }
+        if (dish.Images.size() > 0)
+            dish.MainImage = dish.Images.get(0);
+        else
+            dish.MainImage = null;
+
+        //Date
         try {
             dish.PickUpStartTime = format.parse(jsonDish.optString("PickUpStartTime"));
             dish.PickUpEndTime = format.parse(jsonDish.optString("PickUpEndTime"));
@@ -105,6 +124,9 @@ public class Dish implements Parcelable {
         parcel.writeDouble(this.SizePart);
         parcel.writeParcelable(this.Utilisateur, flags);
         parcel.writeString(this.Statut);
+        parcel.writeString(this.MainImage);
+        parcel.writeStringList(this.Images);
+
         parcel.writeBooleanArray(this.Dispo);
         parcel.writeString(this.DateExpiration.toString());
         parcel.writeString(this.PickUpStartTime.toString());
@@ -136,6 +158,10 @@ public class Dish implements Parcelable {
         this.SizePart = in.readDouble();
         this.Utilisateur = in.<Utilisateur>readParcelable(Utilisateur.class.getClassLoader());
         this.Statut = in.readString();
+        this.MainImage = in.readString();
+        this.Images = new ArrayList<String>();
+        in.readStringList(this.Images);
+
         this.Dispo = new boolean[7];
         in.readBooleanArray(this.Dispo);
         try {

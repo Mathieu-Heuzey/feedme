@@ -10,8 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,9 +71,12 @@ public class DishDetailActivity extends MenuActivity {
         super.setTitle("Dish");
         output = (TextView) findViewById(R.id.output);
         Intent i = getIntent();
-        Dish dish = i.<Dish>getParcelableExtra("Dish");
-        this.dish = dish;
+        this.dish = i.<Dish>getParcelableExtra("Dish");
         Log.e("DishDetail: ", dish.toString());
+
+        ImageView image = (ImageView)findViewById(R.id.imageDish);
+        ImageLoader.getInstance().displayImage(dish.MainImage, image);
+
         TextView output2 = (TextView) findViewById(R.id.output2);
         output2.setText("You will pick your dish : ");
         TextView name = (TextView) findViewById(R.id.textViewDishName);

@@ -155,6 +155,10 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     public void onClick(View v)
     {
         Tag tag = (Tag)v.getTag();
+        if (tag == null) {
+            super.onClick(v);
+            return;
+        }
         if (tag.Type == Tag.DISH)
         {
             Intent i = new Intent(this, DishDetailActivity.class);

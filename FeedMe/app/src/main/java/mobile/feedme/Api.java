@@ -246,6 +246,7 @@ public class Api {
             @Override
             public void onFinish() {
                 Api.HideProgressDialog();
+
             }
 
             @Override
@@ -321,16 +322,6 @@ public class Api {
     public static void getOrderHistoric(final OrderActivity caller)
     {
         client.get(baseApiURL + "Historic",  new RequestParams(), new JsonHttpResponseHandler() {
-//            @Override
-//            protected Object parseResponse(byte[] responseBody) throws JSONException {
-//                String jsonString = getResponseString(responseBody, getCharset());
-//
-//                jsonString = jsonString.replace("\\", "").replaceAll("[\\p{Cc}\\p{Cf}\\p{Co}\\p{Cn}]", "?");
-//                jsonString = jsonString.substring(1, jsonString.length() - 1);
-//
-//                return new JSONObject(jsonString);
-//            }
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 LinkedHashMap<Integer, List<Order>> sell;
@@ -360,7 +351,7 @@ public class Api {
                 }
                 else
                 {
-                    Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
                 }
             }
         });
