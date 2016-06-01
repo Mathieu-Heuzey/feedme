@@ -5,7 +5,10 @@ package mobile.feedme;
  */
 public class Tag {
     public static final int DISH = 1;
-    public static final int ORDER = 2;
+    public static final int ORDER_CANCEL = 2;
+    public static final int ORDER_CONFIRM = 3;
+    public static final int ORDER_REFUSE = 4;
+    public static final int ORDER_CODEVALIDATION = 5;
 
     public int Type;
     public Object Content;

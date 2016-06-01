@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -165,9 +166,22 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
             i.putExtra("Dish", (Dish)tag.Content);
             startActivity(i);
         }
-        else if (tag.Type == Tag.ORDER)
+        else if (tag.Type == Tag.ORDER_CANCEL)
         {
-
+            Api.orderCancel(this, ((Order)tag.Content).OrderId);
+        }
+        else if (tag.Type == Tag.ORDER_CONFIRM)
+        {
+            Api.orderAccept(this, ((Order)tag.Content).OrderId);
+        }
+        else if (tag.Type == Tag.ORDER_REFUSE)
+        {
+            Api.orderRefuse(this, ((Order)tag.Content).OrderId);
+        }
+        else if (tag.Type == Tag.ORDER_CODEVALIDATION)
+        {
+            EditText input = (EditText)((View)v.getParent()).findViewById(R.id.order_sell_accept_code);
+            Api.orderDone(this, ((Order)tag.Content).OrderId, input.getText().toString());
         }
     }
 }

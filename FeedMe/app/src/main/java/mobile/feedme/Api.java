@@ -77,6 +77,14 @@ public class Api {
         editor.apply();
     }
 
+    public static void saveCurrentUser(Context context)
+    {
+        SharedPreferences pref = context.getSharedPreferences("text", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = pref.edit();
+        editor.putString("user_id", Api.loggedUser.UtilisateurId);
+        editor.apply();
+    }
+
     private static void ShowProgressDialog(Context context, String title, String desc, Boolean isCancelable)
     {
         progressDialog = new ProgressDialog(context);
@@ -180,8 +188,9 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                loggedUser = Utilisateur.JSONParse(response);
-                caller.userInfoUpdated(loggedUser);
+                Api.loggedUser = Utilisateur.JSONParse(response);
+                Api.saveCurrentUser(context.getApplicationContext());
+                caller.userInfoUpdated(Api.loggedUser);
             }
 
             @Override
@@ -197,7 +206,7 @@ public class Api {
 
     public static void registerRequest(final Register caller, RequestParams params)
     {
-        client.post(baseApiURL + "Account/Register", params, new AsyncHttpResponseHandler() {
+        client.post(baseApiURL + "Account/Register", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
                 Api.ShowProgressDialog(caller, "Registering...", "Please wait we register you in...", false);
@@ -209,24 +218,17 @@ public class Api {
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(caller.getApplicationContext(), "You have been registered ! You can log in now", Toast.LENGTH_LONG).show();
                 caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] res, Throwable t) {
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
                 if (statusCode == 0) {
                     Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(caller.getApplicationContext(), "Error while registering ! Pleasy retry", Toast.LENGTH_LONG).show();
-                    if (res != null) {
-                        try {
-                            Log.e("Register fail : ", new String(res, "UTF-8"));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -265,7 +267,7 @@ public class Api {
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
                     caller.finish();
                 } else {
-                    Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -312,7 +314,7 @@ public class Api {
                 }
                 else
                 {
-                    Toast.makeText(caller.getApplicationContext(), "Server error ! Please retry later", Toast.LENGTH_LONG).show();
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
                 }
                 caller.refreshingDone();
             }
@@ -355,5 +357,128 @@ public class Api {
                 }
             }
         });
+    }
+
+    public static void orderAccept(final OrderActivity caller, Integer orderId)
+    {
+        client.post(baseApiURL + "Orders/Accept?id=" + orderId.toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Confirming...", "Please wait while we confirm the order...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //Do something
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public static void orderRefuse(final OrderActivity caller, Integer orderId)
+    {
+        client.post(baseApiURL + "Orders/Refuse?id=" + orderId.toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Refusing...", "Please wait while we refuse the order...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //Do something
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+    public static void orderCancel(final OrderActivity caller, Integer orderId)
+    {
+        client.post(baseApiURL + "Orders/Cancel?id=" + orderId.toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Canceling...", "Please wait while we cancel the order...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //Do something
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+    public static void orderDone(final OrderActivity caller, Integer orderId, String validationCode)
+    {
+        client.post(baseApiURL + "Orders/Done?id=" + orderId.toString() + "&validationCode=" + validationCode, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Verifying...", "Please wait while we verify the code validity...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                //Do something
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 }

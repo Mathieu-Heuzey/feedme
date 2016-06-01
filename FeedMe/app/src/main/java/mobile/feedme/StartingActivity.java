@@ -36,6 +36,8 @@ public class StartingActivity extends AppCompatActivity {
         if (pref.contains("token"))
         {
             Api.setToken(pref.getString("token", ""));
+            if (pref.contains("user_id"))
+                Api.loggedUser.UtilisateurId = pref.getString("user_id", "");
             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
         }
         else
