@@ -369,7 +369,8 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //Do something
+                Toast.makeText(caller.getApplicationContext(), "The order has been accepted !", Toast.LENGTH_LONG).show();
+                caller.refreshOrder();
             }
 
             @Override
@@ -400,7 +401,8 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //Do something
+                Toast.makeText(caller.getApplicationContext(), "The order has been refused !", Toast.LENGTH_LONG).show();
+                caller.refreshOrder();
             }
 
             @Override
@@ -430,7 +432,8 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //Do something
+                Toast.makeText(caller.getApplicationContext(), "The order has been canceled !", Toast.LENGTH_LONG).show();
+                caller.refreshOrder();
             }
 
             @Override
@@ -460,7 +463,8 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                //Do something
+                Toast.makeText(caller.getApplicationContext(), "The order is now complete !", Toast.LENGTH_LONG).show();
+                caller.refreshOrder();
             }
 
             @Override

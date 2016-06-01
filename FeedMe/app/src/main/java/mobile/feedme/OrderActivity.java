@@ -2,11 +2,13 @@ package mobile.feedme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,7 +24,7 @@ import java.util.Map;
 import mobile.feedme.POCO.Dish;
 import mobile.feedme.POCO.Order;
 
-public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     //Origin
     static final Integer BUY        = 0b1;
     static final Integer SELL       = 0b10;
@@ -56,6 +58,8 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     protected Spinner _spinner;
     protected OrderListAdapter _adapter;
 
+    protected SwipeRefreshLayout _refresher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +81,10 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         orderList.setAdapter(_adapter);
         orderList.setClickable(false);
 
-        Api.getOrderHistoric(this);
+        _refresher = (SwipeRefreshLayout)findViewById(R.id.order_refresher);
+        _refresher.setOnRefreshListener(this);
+
+        this.refreshOrder();
     }
 
     @Override
@@ -94,6 +101,7 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         _allOrders.put(OrderActivity.SELL, _sell);
         _allOrders.put(OrderActivity.BUY, _buy);
         this.buildOrderList(_spinner.getSelectedItemPosition() == 0 ? OrderActivity.BUY : OrderActivity.SELL);
+        this.refreshOrderDone();
     }
 
     public LinkedHashMap<Integer, List<Order>> buildOrderMapFromJSON(LinkedHashMap<Integer, String> status, JSONObject json)
@@ -183,5 +191,31 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
             EditText input = (EditText)((View)v.getParent()).findViewById(R.id.order_sell_accept_code);
             Api.orderDone(this, ((Order)tag.Content).OrderId, input.getText().toString());
         }
+    }
+
+    public void refreshOrder()
+    {
+        _refresher.post(new Runnable() {
+            @Override
+            public void run() {
+                _refresher.setRefreshing(true);
+            }
+        });
+        Api.getOrderHistoric(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        this.refreshOrder();
+    }
+
+    public void refreshOrderDone()
+    {
+        _refresher.post(new Runnable() {
+            @Override
+            public void run() {
+                _refresher.setRefreshing(false);
+            }
+        });
     }
 }

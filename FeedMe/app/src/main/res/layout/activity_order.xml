@@ -18,11 +18,17 @@
             android:id="@+id/order_spinner"
             android:textSize="40sp"
             android:entries="@array/order_type_array"/>
-        <ListView
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/order_list"
-            android:fillViewport="true"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/order_refresher">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/order_list"
+                android:fillViewport="true"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </LinearLayout>

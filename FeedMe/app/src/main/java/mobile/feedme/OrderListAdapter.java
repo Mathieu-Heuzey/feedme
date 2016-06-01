@@ -61,7 +61,7 @@ public class OrderListAdapter extends ArrayAdapter<Map.Entry<Order, Integer>> {
         TextView orderNbPartText = (TextView)rowView.findViewById(R.id.order_nbpart);
         TextView orderTotalPriceText = (TextView)rowView.findViewById(R.id.order_price);
         TextView orderPickupTimeText = (TextView)rowView.findViewById(R.id.order_pickup);
-        TextView orderStatutText = (TextView)rowView.findViewById(R.id.order_statut);
+//        TextView orderStatutText = (TextView)rowView.findViewById(R.id.order_statut);
         ViewGroup orderInteractionLayout = (ViewGroup)rowView.findViewById(R.id.order_interactionlayout_container);
 
         ImageLoader.getInstance().displayImage(order.DishOrdered.MainImage, dishImage);
@@ -82,19 +82,20 @@ public class OrderListAdapter extends ArrayAdapter<Map.Entry<Order, Integer>> {
             DateFormat formatTime = new SimpleDateFormat("HH:mm", Locale.FRANCE);
             orderPickupTimeText.setText(String.format("The desired pickup time is the %s at %s", formatDate.format(order.PickupTime), formatTime.format(order.PickupTime)));
         }
-        String statut = "";
-        if ((item.getValue() & OrderActivity.INPROGRESS) != 0)
-            statut = "The order is in progress";
-        else if ((item.getValue() & OrderActivity.ACCEPT) != 0)
-            statut = "The order has been accepted !";
-        else if ((item.getValue() & OrderActivity.REFUSE) != 0)
-            statut = "The order has been refused by the seller";
-        else if ((item.getValue() & OrderActivity.CANCEL) != 0)
-            statut = "The order has been cancelled !";
-        else if ((item.getValue() & OrderActivity.DONE) != 0)
-            statut = "The order is done";
-        orderStatutText.setText(statut);
+//        String statut = "";
+//        if ((item.getValue() & OrderActivity.INPROGRESS) != 0)
+//            statut = "The order is in progress";
+//        else if ((item.getValue() & OrderActivity.ACCEPT) != 0)
+//            statut = "The order has been accepted !";
+//        else if ((item.getValue() & OrderActivity.REFUSE) != 0)
+//            statut = "The order has been refused by the seller";
+//        else if ((item.getValue() & OrderActivity.CANCEL) != 0)
+//            statut = "The order has been cancelled !";
+//        else if ((item.getValue() & OrderActivity.DONE) != 0)
+//            statut = "The order is done";
+//        orderStatutText.setText(statut);
 
+        orderInteractionLayout.removeAllViews();
         orderInteractionLayout.addView(this.generateInteractionLayout(order, item.getValue(), orderInteractionLayout));
 
         return rowView;
