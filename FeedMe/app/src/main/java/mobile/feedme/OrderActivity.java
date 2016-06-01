@@ -101,7 +101,6 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         _allOrders.put(OrderActivity.SELL, _sell);
         _allOrders.put(OrderActivity.BUY, _buy);
         this.buildOrderList(_spinner.getSelectedItemPosition() == 0 ? OrderActivity.BUY : OrderActivity.SELL);
-        this.refreshOrderDone();
     }
 
     public LinkedHashMap<Integer, List<Order>> buildOrderMapFromJSON(LinkedHashMap<Integer, String> status, JSONObject json)

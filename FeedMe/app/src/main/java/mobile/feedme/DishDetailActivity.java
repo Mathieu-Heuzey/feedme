@@ -127,8 +127,7 @@ public class DishDetailActivity extends MenuActivity {
         expirationDate.setText("This dish will expire : " + expiration);
 
         TextView poid = (TextView) findViewById(R.id.textViewHeight);
-        String convert2 = String.valueOf(dish.NbPart);
-        poid.setText("Weight :     " + convert2  + " grammes");
+        poid.setText("Weight :     " + dish.SizePart  + " grammes");
 
         final Calendar c = Calendar.getInstance();
         // Current Hour
@@ -233,23 +232,19 @@ public class DishDetailActivity extends MenuActivity {
 
         IntPartNumber += 1;
 
-        double   poid = dish.SizePart;
         double   price = dish.Price;
         int      left = dish.NbPart;
 
 
-        poid *= IntPartNumber;
         price *= IntPartNumber;
         left -= IntPartNumber;
         if (left < 0)
             return;
 
         TextViewPartNumber.setText(String.valueOf(IntPartNumber));
-        TextView TextViewPoid = (TextView) findViewById(R.id.textViewHeight);
         TextView TextViewPartRestante = (TextView) findViewById(R.id.textViewPartRestante);
         TextView TextViewPrice = (TextView) findViewById(R.id.textViewPrice);
 
-        TextViewPoid.setText("Weight :     " + String.valueOf(poid) + " grammes");
         TextViewPrice.setText("Price :         " + String.valueOf(price) + " €" );
 
         TextViewPartRestante.setText("Number left :     " +String.valueOf(left));

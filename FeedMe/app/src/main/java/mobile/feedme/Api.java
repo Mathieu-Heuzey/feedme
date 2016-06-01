@@ -325,6 +325,8 @@ public class Api {
     {
         client.get(baseApiURL + "Historic",  new RequestParams(), new JsonHttpResponseHandler() {
             @Override
+            public void onFinish() { caller.refreshOrderDone(); }
+            @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 LinkedHashMap<Integer, List<Order>> sell;
                 LinkedHashMap<Integer, List<Order>> buy;
