@@ -51,6 +51,9 @@ public class Api {
        baseApiURL = apiURL;
    }
 
+    /***********************
+     * Resource Management
+    ************************/
     public static void setToken(String token)
     {
         Token = token;
@@ -85,6 +88,10 @@ public class Api {
         editor.apply();
     }
 
+
+    /*********************
+     * Utility
+    **********************/
     private static void ShowProgressDialog(Context context, String title, String desc, Boolean isCancelable)
     {
         progressDialog = new ProgressDialog(context);
@@ -98,6 +105,11 @@ public class Api {
     {
         progressDialog.hide();
     }
+
+
+    /*********************************
+     * Authentification & logging
+     ********************************/
 
     public static void Authentificate(final ILogger caller, final Activity context, String username, String password) {
         RequestParams params = new RequestParams();
@@ -188,7 +200,7 @@ public class Api {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Api.loggedUser = Utilisateur.JSONParse(response);
+                Api.loggedUser = Utilisateur.JSONParse(response.optJSONObject("User"));
                 Api.saveCurrentUser(context.getApplicationContext());
                 caller.userInfoUpdated(Api.loggedUser);
             }
@@ -234,6 +246,10 @@ public class Api {
         });
     }
 
+    /******************
+     * Dish
+     *****************/
+
     public static void addMealRequest(final AddMeal caller, JSONObject params)
     {
         StringEntity entity = null;
@@ -267,6 +283,38 @@ public class Api {
                     caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
                     caller.finish();
                 } else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public static void removeDish(final Activity caller, Integer dishId)
+    {
+        client.post(baseApiURL + "Dishes/Cancel?id=" + dishId.toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Removing...", "Please wait while we remove your dish...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(caller.getApplicationContext(), "The dish has been removed !", Toast.LENGTH_LONG).show();
+                caller.finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
                     Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
                 }
             }
@@ -320,6 +368,10 @@ public class Api {
             }
         });
     }
+
+    /**************
+     * Order
+     **************/
 
     public static void getOrderHistoric(final OrderActivity caller)
     {

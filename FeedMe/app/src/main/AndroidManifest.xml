@@ -72,6 +72,7 @@
         <activity android:name=".DishDetailActivity"
             android:theme="@style/AppTheme"/>
         <activity android:name=".OrderActivity"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme"/>
     </application>
 </manifest>

@@ -32,7 +32,10 @@
             android:layout_weight="0.38"
             android:inputType="textNoSuggestions|textVisiblePassword"
             android:maxLength="6"
-            android:hint="Code" />
+            android:hint="Code"
+            android:imeOptions="actionNext"
+            style="@style/AppTheme"
+            android:textColor="#262626" />
 
         <Button
             style="?android:attr/buttonStyleSmall"

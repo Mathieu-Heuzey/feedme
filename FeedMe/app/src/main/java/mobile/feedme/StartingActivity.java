@@ -10,6 +10,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import mobile.feedme.POCO.Utilisateur;
+
 public class StartingActivity extends AppCompatActivity {
 
     @Override
@@ -33,11 +35,14 @@ public class StartingActivity extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("text", MODE_PRIVATE);
 
-        if (pref.contains("token"))
-        {
+        if (pref.contains("token")) {
             Api.setToken(pref.getString("token", ""));
             if (pref.contains("user_id"))
+            {
+                if (Api.loggedUser == null)
+                    Api.loggedUser = new Utilisateur();
                 Api.loggedUser.UtilisateurId = pref.getString("user_id", "");
+            }
             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
         }
         else

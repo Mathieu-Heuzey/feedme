@@ -1,5 +1,6 @@
 package mobile.feedme;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import mobile.feedme.POCO.Dish;
@@ -26,7 +29,6 @@ import mobile.feedme.POCO.Dish;
 public class DishDetailActivity extends MenuActivity {
 
     Dish dish;
-    private TextView output;
     public Button btnClick;
     private int hour;
     private int minute;
@@ -69,7 +71,6 @@ public class DishDetailActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         super.initialize(R.layout.activity_dish_detail, false, true);
         super.setTitle("Dish");
-        output = (TextView) findViewById(R.id.output);
         Intent i = getIntent();
         this.dish = i.<Dish>getParcelableExtra("Dish");
         Log.e("DishDetail: ", dish.toString());
@@ -77,8 +78,6 @@ public class DishDetailActivity extends MenuActivity {
         ImageView image = (ImageView)findViewById(R.id.imageDish);
         ImageLoader.getInstance().displayImage(dish.MainImage, image);
 
-        TextView output2 = (TextView) findViewById(R.id.output2);
-        output2.setText("You will pick your dish : ");
         TextView name = (TextView) findViewById(R.id.textViewDishName);
         name.setText(dish.Name);
 
@@ -100,8 +99,6 @@ public class DishDetailActivity extends MenuActivity {
         TextView country = (TextView) findViewById(R.id.textViewVille);
         country.setText(dish.Adress.Country);
 
-        TextView partNumber = (TextView) findViewById(R.id.PortionNumber);
-        partNumber.setText("1");
 //        if (dish.SizePart != null) {
 //            TextView poid = (TextView) findViewById(R.id.textViewPoid);
 //            String convert = String.valueOf(dish.SizePart);
@@ -112,47 +109,13 @@ public class DishDetailActivity extends MenuActivity {
         String convert3 = String.valueOf(dish.Price);
         price.setText("Price :         " + convert3 + " €");
 
-        TextView pickUpDate = (TextView) findViewById(R.id.textViewPickUpDate);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String dateString = sdf.format(dish.PickUpStartTime);
-
-        String dateString2 = sdf.format(dish.PickUpEndTime);
-
-        pickUpDate.setText("You can pick your dish bewtwwen : " + dateString2 + " and " + dateString);
-
-        TextView expirationDate = (TextView) findViewById(R.id.textViewExpirationDate);
-
-        String expiration = sdf.format(dish.DateExpiration);
-        expirationDate.setText("This dish will expire : " + expiration);
 
         TextView poid = (TextView) findViewById(R.id.textViewHeight);
-        poid.setText("Weight :     " + dish.SizePart  + " grammes");
-
-        final Calendar c = Calendar.getInstance();
-        // Current Hour
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        // Current Minute
-        minute = c.get(Calendar.MINUTE);
-
-        // set current time into output textview
-        updateTime(hour, minute);
+        poid.setText("Weight :     " + dish.SizePart + " grammes");
 
         /********* display current time on screen End ********/
 
-        // Add Button Click Listener
-        addButtonClickListener();
-    }
-    public void addButtonClickListener() {
-
-        btnClick = (Button) findViewById(R.id.btnHourPickerBuyer);
-
-        btnClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(TIME_DIALOG_ID);
-            }
-        });
+        this.buildDynamicLayout();
 
     }
 
@@ -177,8 +140,8 @@ public class DishDetailActivity extends MenuActivity {
             hour = hourOfDay;
             minute = minutes;
 
-            updateTime(hour, minute);
-
+            TextView timeText = (TextView) findViewById(R.id.output);
+            timeText.setText(updateTime(hour, minute));
         }
 
     };
@@ -192,20 +155,7 @@ public class DishDetailActivity extends MenuActivity {
     }
 
     // Used to convert 24hr format to 12hr format with AM/PM values
-    private void updateTime(int hours, int mins) {
-
-        String timeSet = "";
-        if (hours > 12) {
-            hours -= 12;
-            timeSet = "PM";
-        } else if (hours == 0) {
-            hours += 12;
-            timeSet = "AM";
-        } else if (hours == 12)
-            timeSet = "PM";
-        else
-            timeSet = "AM";
-
+    private String updateTime(int hours, int mins) {
 
         String minutes = "";
         if (mins < 10)
@@ -215,13 +165,13 @@ public class DishDetailActivity extends MenuActivity {
 
         // Append in a StringBuilder
         String aTime = new StringBuilder().append(hours).append(':')
-                .append(minutes).append(" ").append(timeSet).toString();
-            output.setText("You will pick up your dish around : " + aTime);
+                .append(minutes).toString();
+        return "You will pick up your dish around : " + aTime;
     }
 
     public void plusButton(View vies)
     {
-        //        On augmente le nombre de part souhaité
+        // On augmente le nombre de part souhaité
         // On diminue le nombre de part dispo
         // on multiplie le poid par la quantité souhaité
         // on multiplie le prix par la quantité souhaité
@@ -251,35 +201,104 @@ public class DishDetailActivity extends MenuActivity {
 
     }
 
-    public void minusButton(View vies)
-    {
+    public void minusButton(View vies) {
         TextView TextViewPartNumber = (TextView) findViewById(R.id.PortionNumber);
         String StringPartNumber = TextViewPartNumber.getText().toString();
         int IntPartNumber = Integer.parseInt(StringPartNumber);
         IntPartNumber -= 1;
-        double   poid = dish.SizePart;
-        double   price = dish.Price;
-        int      left = dish.NbPart;
-        poid *= IntPartNumber;
+        double price = dish.Price;
+        int left = dish.NbPart;
         price *= IntPartNumber;
         left -= IntPartNumber;
         if (IntPartNumber < 1)
             return;
         TextViewPartNumber.setText(String.valueOf(IntPartNumber));
-        TextView TextViewPoid = (TextView) findViewById(R.id.textViewHeight);
         TextView TextViewPartRestante = (TextView) findViewById(R.id.textViewPartRestante);
         TextView TextViewPrice = (TextView) findViewById(R.id.textViewPrice);
-        TextViewPoid.setText("Weight :     " + String.valueOf(poid) + " grammes");
-        TextViewPrice.setText("Price :         " + String.valueOf(price) + " €" );
+        TextViewPrice.setText("Price :         " + String.valueOf(price) + " €");
         TextViewPartRestante.setText("Number left :     " + String.valueOf(left));
-
     }
 
-    public void submitForm(View vies)
+    protected View createForm(ViewGroup parent)
     {
-        //dish.nbPart
-//        output = (TextView) findViewById(R.id.output);
-//        String PickUpAvailability = output.getText().toString();
-        return;
+        View ret = getLayoutInflater().inflate(R.layout.dishdetail_form, parent, false);
+
+        //Pickup date text
+        TextView output2 = (TextView) ret.findViewById(R.id.output2);
+        output2.setText("You will pick your dish : ");
+
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            //Pickup interval time
+            String dateString = sdf.format(dish.PickUpStartTime);
+            String dateString2 = sdf.format(dish.PickUpEndTime);
+            TextView pickUpDate = (TextView) ret.findViewById(R.id.textViewPickUpDate);
+            pickUpDate.setText("You can pick your dish bewtwwen : " + dateString2 + " and " + dateString);
+            //Expiration date
+            TextView expirationDate = (TextView) ret.findViewById(R.id.textViewExpirationDate);
+            expirationDate.setText("This dish will expire : " + sdf.format(dish.DateExpiration));
+        }
+
+        //Input number of part
+        TextView partNumber = (TextView) ret.findViewById(R.id.PortionNumber);
+        partNumber.setText("1");
+
+        //Pickup time text
+        TextView timeText = (TextView) ret.findViewById(R.id.output);
+        final Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+        // set current time into output textview
+        timeText.setText(updateTime(hour, minute));
+
+        //Button Hour picker listener
+        btnClick = (Button) ret.findViewById(R.id.btnHourPickerBuyer);
+        btnClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(TIME_DIALOG_ID);
+            }
+        });
+
+        return ret;
+    }
+
+    protected void buildDynamicLayout()
+    {
+        View toBeInserted;
+        ViewGroup parent = (ViewGroup)this.findViewById(R.id.dishdetail_dynamiclayout_container);
+
+        Calendar expirationDate = new GregorianCalendar();
+        expirationDate.setTime(dish.DateExpiration);
+
+        if (dish.Statut.equals("Finish"))
+        {
+            toBeInserted = getLayoutInflater().inflate(R.layout.dishdetail_finish, parent, false);
+            TextView text = (TextView)toBeInserted.findViewById(R.id.dishdetail_finish_text);
+            if (dish.NbPart <= 0 && !Calendar.getInstance().after(expirationDate))
+                text.setText("Victim of its success !");
+            else
+                text.setText("This dish is no longer available !");
+        }
+        else if (dish.Utilisateur.UtilisateurId.equals(Api.loggedUser.UtilisateurId)) // C'est mon plat : on affiche de quoi le cancel
+        {
+            toBeInserted = getLayoutInflater().inflate(R.layout.dishdetail_owner, parent, false);
+            Button remove = (Button)toBeInserted.findViewById(R.id.dishdetail_owner_remove);
+
+            final Activity caller = this;
+            final Integer  dishId = this.dish.DishId;
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Api.removeDish(caller, dishId);
+                }
+            });
+        }
+        else //Date d'expiration non passé + c'est pas mon plat: on affiche le form
+        {
+            toBeInserted = this.createForm(parent);
+        }
+        parent.removeAllViews();
+        parent.addView(toBeInserted);
     }
 }
