@@ -292,6 +292,17 @@
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@+id/CheckBoxeSunday" />
 
+        <!--<TextView-->
+            <!--android:id="@+id/expirationTime"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text=""-->
+            <!--android:textSize="15sp"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:layout_below="@+id/btnHourPicker"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_marginTop="20dp" />-->
+
 
         <!--<TextView-->
             <!--android:id="@+id/output2"-->
@@ -303,17 +314,41 @@
             <!--android:layout_toEndOf="@+id/ToTime"-->
             <!--android:layout_marginTop="20dp" />-->
 
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Your Expiration Date"
+            android:id="@+id/BExpirationDate"
+            android:background="@drawable/btn1"
+            android:onClick="submitDate"
+            android:layout_marginTop="22dp"
+            android:layout_below="@+id/lblTimeTo"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/output3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_below="@+id/BExpirationDate"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="20dp"
+/>
+
         <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm"
         android:id="@+id/Bconfirmez"
         android:background="@drawable/btn1"
-        android:layout_below="@+id/lblTime"
+        android:layout_below="@+id/output3"
         android:onClick="saveMeal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
