@@ -62,6 +62,9 @@ public class AddMeal extends MenuActivity {
     private int select = 0;
     Calendar myCalendar = Calendar.getInstance();
     String ExpirDate;
+    boolean isExpOk;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,9 +132,18 @@ public class AddMeal extends MenuActivity {
         Date  tmp = calendar.getTime();
         ExpirDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE).format(tmp);
 
+        Calendar myCalendar = Calendar.getInstance();
+        Date tmp2 = myCalendar.getTime();
+
+        if (tmp.compareTo(tmp2) == -1)
+            isExpOk = false;
+        else
+            isExpOk = true;
+
         TextView output3 = (TextView) findViewById(R.id.output3);
         output3.setText("Your dish will expire : " + new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(tmp));
     }
+
 
 
     public void addButtonClickListener() {
@@ -490,6 +502,12 @@ public class AddMeal extends MenuActivity {
             ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
             sv.scrollTo(sv.getScrollY(), sv.getTop());
             Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (isExpOk == false)
+        {
+            Toast.makeText(this, "Your expiration date can't be in the past", Toast.LENGTH_LONG).show();
             return;
         }
 
