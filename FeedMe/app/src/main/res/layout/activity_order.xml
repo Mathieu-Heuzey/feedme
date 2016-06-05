@@ -8,6 +8,16 @@
     tools:context="mobile.feedme.OrderActivity"
     android:fillViewport="true">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="There is no order !"
+        android:textStyle="bold"
+        android:textColor="#676767"
+        android:textSize="20sp"
+        android:id="@+id/order_empty_text"
+        android:gravity="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

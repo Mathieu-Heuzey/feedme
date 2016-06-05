@@ -278,8 +278,10 @@ public class Api {
                 Dish retDish = Dish.JSONParse(response);
 
                 Toast.makeText(caller.getApplicationContext(), "Your Dish have been added", Toast.LENGTH_LONG).show();
-                Api.uploadImage(caller, retDish.DishId, image);
-//                caller.startActivity(new Intent(caller.getApplicationContext(), MapsActivity.class));
+                if (image != null)
+                    Api.uploadImage(caller, retDish.DishId, image);
+                else
+                    caller.finish();
             }
 
             @Override

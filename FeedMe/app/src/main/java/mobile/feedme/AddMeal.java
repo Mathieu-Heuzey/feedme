@@ -523,6 +523,7 @@ public class AddMeal extends MenuActivity {
         }
 
         ImageView image = (ImageView) findViewById(R.id.ivImage);
-        Api.addMealRequest(this, params, ((BitmapDrawable)image.getDrawable()).getBitmap());
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable)image.getDrawable());
+        Api.addMealRequest(this, params, bitmapDrawable == null ? null : bitmapDrawable.getBitmap());
     }
 }

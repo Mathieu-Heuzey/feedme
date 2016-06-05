@@ -76,6 +76,8 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         });
 
         ListView orderList = (ListView)this.drawer.findViewById(R.id.order_list);
+        orderList.setEmptyView(findViewById(R.id.order_empty_text));
+
         _adapter = new OrderListAdapter(getApplicationContext(), R.layout.order_basic_view, new ArrayList<Map.Entry<Order, Integer>>());
         _adapter.setClickListener(this);
         orderList.setAdapter(_adapter);
