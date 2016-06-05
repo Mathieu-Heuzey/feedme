@@ -452,13 +452,13 @@ public class AddMeal extends MenuActivity {
             Toast.makeText(this, "Your description is required", Toast.LENGTH_LONG).show();
             return;
         }
-        if (Desc.length() < 35)
-        {
-            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-            sv.scrollTo(sv.getScrollY(), sv.getTop());
-            Toast.makeText(this, "Your description cannot be lower than 35 characters", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (Desc.length() < 35)
+//        {
+//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+//            sv.scrollTo(sv.getScrollY(), sv.getTop());
+//            Toast.makeText(this, "Your description cannot be lower than 35 characters", Toast.LENGTH_LONG).show();
+//            return;
+//        }
 
         if (PortionNumer.isEmpty())
         {
@@ -468,13 +468,13 @@ public class AddMeal extends MenuActivity {
             return;
         }
 
-        if (Integer.parseInt(PortionNumer) > 15)
-        {
-            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-            sv.scrollTo(sv.getScrollY(), sv.getTop());
-            Toast.makeText(this, "Your cannot make more than 15 portions for one Dish", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (Integer.parseInt(PortionNumer) > 15)
+//        {
+//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+//            sv.scrollTo(sv.getScrollY(), sv.getTop());
+//            Toast.makeText(this, "Your cannot make more than 15 portions for one Dish", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         if (DishWeight.isEmpty())
         {
             ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
@@ -482,13 +482,13 @@ public class AddMeal extends MenuActivity {
             Toast.makeText(this, "The weight of your portions is required", Toast.LENGTH_LONG).show();
             return;
         }
-        if (Integer.parseInt(DishWeight) > 300)
-        {
-            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-            sv.scrollTo(sv.getScrollY(), sv.getTop());
-            Toast.makeText(this, "Your cannot sell potion over 300 grammes", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (Integer.parseInt(DishWeight) > 300)
+//        {
+//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+//            sv.scrollTo(sv.getScrollY(), sv.getTop());
+//            Toast.makeText(this, "Your cannot sell potion over 300 grammes", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         if (PortionPrice.isEmpty())
         {
             ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
@@ -497,13 +497,13 @@ public class AddMeal extends MenuActivity {
             return;
         }
 
-        if (Integer.parseInt(PortionPrice) > 25)
-        {
-            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-            sv.scrollTo(sv.getScrollY(), sv.getTop());
-            Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
-            return;
-        }
+//        if (Integer.parseInt(PortionPrice) > 25)
+//        {
+//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+//            sv.scrollTo(sv.getScrollY(), sv.getTop());
+//            Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
+//            return;
+//        }
 
         if (isExpOk == false)
         {

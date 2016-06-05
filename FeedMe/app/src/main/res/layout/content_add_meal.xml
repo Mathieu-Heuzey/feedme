@@ -97,7 +97,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/DishWeight"
-            android:maxLength="3"
+            android:maxLength="4"
             android:hint="Set portion weight"
             android:inputType="number"
             android:layout_below="@+id/DishNumberPotion"
