@@ -45,7 +45,8 @@
                                 android:textStyle="bold"
                                 android:textColor="#676767"
                                 android:textSize="20sp"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:paddingTop="30dp" />
                         </ScrollView>
                     </LinearLayout>
                 </android.support.v4.widget.SwipeRefreshLayout>
