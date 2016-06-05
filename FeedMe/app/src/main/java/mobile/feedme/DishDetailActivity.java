@@ -253,7 +253,7 @@ public class DishDetailActivity extends MenuActivity {
             String dateString = sdf.format(dish.PickUpStartTime);
             String dateString2 = sdf.format(dish.PickUpEndTime);
             TextView pickUpDate = (TextView) ret.findViewById(R.id.textViewPickUpDate);
-            pickUpDate.setText("You can pick your dish between : " + dateString2 + " and " + dateString);
+            pickUpDate.setText("You can pick your dish between : " + dateString + " and " + dateString2);
         }
 
         {
