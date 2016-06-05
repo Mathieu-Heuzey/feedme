@@ -41,6 +41,11 @@ public class Order  {
         JSONObject jsonDish = jsonOrder.optJSONObject("Dish");
         if (jsonDish != null)
             order.DishOrdered = Dish.JSONParse(jsonDish);
+
+        JSONObject jsonBuyer = jsonOrder.optJSONObject("User");
+        if (jsonBuyer != null)
+            order.Buyer = Utilisateur.JSONParse(jsonBuyer);
+
         order.NbPart = jsonOrder.optInt("NbPart");
         order.TotalPrice = jsonOrder.optDouble("TotalPrice");
         order.Statut = jsonOrder.optString("Statut");

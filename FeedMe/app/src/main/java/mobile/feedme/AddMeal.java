@@ -109,9 +109,11 @@ public class AddMeal extends MenuActivity {
 
     public void submitDate(View vies)
     {
-        new DatePickerDialog(this, date, myCalendar
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
+        datePickerDialog.show();
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -135,7 +137,7 @@ public class AddMeal extends MenuActivity {
         Calendar myCalendar = Calendar.getInstance();
         Date tmp2 = myCalendar.getTime();
 
-        if (tmp.compareTo(tmp2) == -1)
+        if (tmp.compareTo(tmp2) <= 0)
             isExpOk = false;
         else
             isExpOk = true;
@@ -175,15 +177,13 @@ public class AddMeal extends MenuActivity {
                 // set time picker as current time
                 select = 1;
                 Log.d("select = ", String.valueOf(select));
-                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute,
-                        true);
+                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute, true);
             case TIME_DIALOG_ID_END:
 
                 // set time picker as current time
                 select = 2;
                 Log.d("select = ", String.valueOf(select));
-                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute,
-                        true);
+                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute, true);
         }
         return null;
     }
@@ -198,7 +198,6 @@ public class AddMeal extends MenuActivity {
             minute = minutes;
 
             updateTime(hour, minute);
-
         }
 
     };

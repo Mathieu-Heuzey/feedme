@@ -125,9 +125,12 @@ public class DishDetailActivity extends MenuActivity {
 
     public void submitDate(View vies)
     {
-        new DatePickerDialog(this, date, myCalendar
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
+        datePickerDialog.getDatePicker().setMaxDate(dish.DateExpiration.getTime());
+        datePickerDialog.show();
     }
 
     private void updateLabel() {

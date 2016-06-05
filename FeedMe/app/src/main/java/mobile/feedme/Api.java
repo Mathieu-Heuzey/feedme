@@ -304,11 +304,12 @@ public class Api {
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 75, outputStream);
-        String image64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        String image64 = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
         RequestParams params = new RequestParams();
-        params.put("File", image64);
+        params.put("file", image64);
+        params.put("id", dishId);
 
-        client.post(baseApiURL + "Dishes/ImagesBase64?id=" + dishId.toString(), params, new JsonHttpResponseHandler() {
+        client.post(baseApiURL + "ImagesBase64", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() { Api.ShowProgressDialog(caller, "Uploading...", "Please wait while we upload your image...", false); }
             @Override

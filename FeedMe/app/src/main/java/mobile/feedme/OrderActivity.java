@@ -94,8 +94,6 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
     {
         super.onStart();
         this.refreshOrder();
-
-
     }
 
     public void buildAndDisplayOrders(LinkedHashMap<Integer, List<Order>> sell, LinkedHashMap<Integer, List<Order>> buy)

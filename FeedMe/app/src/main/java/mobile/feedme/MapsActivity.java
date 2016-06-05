@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Menu;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,7 +24,7 @@ import mobile.feedme.POCO.Dish;
 
 public class MapsActivity extends MenuActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private GoogleMap mMap;
+    private GoogleMap mMap = null;
     private HashMap<String, Dish> MarkerIdToDish = new HashMap<String, Dish>();
 
 //    MyLocationListener locationListener;
@@ -40,9 +41,23 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
         mapFragment.getMapAsync(this);
 
         super.swipeRefreshLayout.setOnRefreshListener(this);
-        super.swipeRefreshLayout.setRefreshing(true);
+        final MenuActivity caller = this;
+        super.swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                caller.swipeRefreshLayout.setRefreshing(true);
+            }
+        });
     }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (mMap != null)
+            this.refreshDishMarker();
+    }
 
     /**
      * Manipulates the map once available.
@@ -80,13 +95,30 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
 
         mMap.setOnInfoWindowClickListener(this);
 //        locationListener.setMap(mMap);
+        this.refreshDishMarker();
+    }
+
+    private void refreshDishMarker()
+    {
+        final MenuActivity caller = this;
+        super.swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                caller.swipeRefreshLayout.setRefreshing(true);
+            }
+        });
         Api.getAllDishAndCallDisplay(this);
     }
 
     public void refreshingDone()
     {
-        swipeRefreshLayout.setRefreshing(false);
-    }
+        final MenuActivity caller = this;
+        super.swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                caller.swipeRefreshLayout.setRefreshing(false);
+            }
+        });    }
 
     public void showFoodOnMap(final ArrayList<Dish> dishes)
     {
@@ -144,6 +176,6 @@ public class MapsActivity extends MenuActivity implements OnMapReadyCallback, Go
 
     @Override
     public void onRefresh() {
-        Api.getAllDishAndCallDisplay(this);
+        this.refreshDishMarker();
     }
 }
