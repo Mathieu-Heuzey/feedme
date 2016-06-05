@@ -175,14 +175,14 @@ public class AddMeal extends MenuActivity {
                 // set time picker as current time
                 select = 1;
                 Log.d("select = ", String.valueOf(select));
-                return new TimePickerDialog(this, timePickerListener, hour, minute,
+                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute,
                         true);
             case TIME_DIALOG_ID_END:
 
                 // set time picker as current time
                 select = 2;
                 Log.d("select = ", String.valueOf(select));
-                return new TimePickerDialog(this, timePickerListener, hour, minute,
+                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute,
                         true);
         }
         return null;
@@ -202,14 +202,6 @@ public class AddMeal extends MenuActivity {
         }
 
     };
-
-    private static String utilTime(int value) {
-
-        if (value < 10)
-            return "0" + String.valueOf(value);
-        else
-            return String.valueOf(value);
-    }
 
     // Used to convert 24hr format to 12hr format with AM/PM values
     private void updateTime(int hours, int mins) {

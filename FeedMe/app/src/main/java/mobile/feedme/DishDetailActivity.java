@@ -144,8 +144,8 @@ public class DishDetailActivity extends MenuActivity {
             case TIME_DIALOG_ID:
 
                 // set time picker as current time
-                return new TimePickerDialog(this, timePickerListener, hour, minute,
-                        false);
+                return new IntervalTimePickerDialog(this, timePickerListener, hour, minute,
+                        true);
         }
         return null;
     }

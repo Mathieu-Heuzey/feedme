@@ -87,14 +87,14 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
         _adapter.setClickListener(this);
         orderList.setAdapter(_adapter);
         orderList.setClickable(false);
-
-        this.refreshOrder();
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
+        this.refreshOrder();
+
 
     }
 
