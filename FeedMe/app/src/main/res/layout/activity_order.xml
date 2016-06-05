@@ -8,16 +8,6 @@
     tools:context="mobile.feedme.OrderActivity"
     android:fillViewport="true">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="There is no order !"
-        android:textStyle="bold"
-        android:textColor="#676767"
-        android:textSize="20sp"
-        android:id="@+id/order_empty_text"
-        android:gravity="center" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,19 +18,36 @@
             android:id="@+id/order_spinner"
             android:textSize="40sp"
             android:entries="@array/order_type_array"/>
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/order_refresher">
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/order_list"
-                android:fillViewport="true"
-                android:descendantFocusability="beforeDescendants"
-                />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/order_refresher">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/order_list"
+                            android:fillViewport="true"
+                            android:descendantFocusability="beforeDescendants" />
+                        <ScrollView
+                            android:id="@+id/order_empty_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="There is no order !"
+                                android:textStyle="bold"
+                                android:textColor="#676767"
+                                android:textSize="20sp"
+                                android:gravity="center" />
+                        </ScrollView>
+                    </LinearLayout>
+                </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </LinearLayout>

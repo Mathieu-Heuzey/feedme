@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,7 +25,7 @@ import java.util.Map;
 import mobile.feedme.POCO.Dish;
 import mobile.feedme.POCO.Order;
 
-public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class OrderActivity extends MenuActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
     //Origin
     static final Integer BUY        = 0b1;
     static final Integer SELL       = 0b10;
@@ -75,16 +76,17 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
             }
         });
 
+        _refresher = (SwipeRefreshLayout)findViewById(R.id.order_refresher);
+        _refresher.setOnRefreshListener(this);
+
         ListView orderList = (ListView)this.drawer.findViewById(R.id.order_list);
+        orderList.setOnScrollListener(this);
         orderList.setEmptyView(findViewById(R.id.order_empty_text));
 
         _adapter = new OrderListAdapter(getApplicationContext(), R.layout.order_basic_view, new ArrayList<Map.Entry<Order, Integer>>());
         _adapter.setClickListener(this);
         orderList.setAdapter(_adapter);
         orderList.setClickable(false);
-
-        _refresher = (SwipeRefreshLayout)findViewById(R.id.order_refresher);
-        _refresher.setOnRefreshListener(this);
 
         this.refreshOrder();
     }
@@ -218,5 +220,15 @@ public class OrderActivity extends MenuActivity implements AdapterView.OnItemSel
                 _refresher.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+        //osef
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+        _refresher.setEnabled(!absListView.canScrollVertically(-1));
     }
 }
