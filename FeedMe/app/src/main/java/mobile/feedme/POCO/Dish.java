@@ -38,7 +38,7 @@ public class Dish implements Parcelable {
     public Date PickUpStartTime;
     public Date PickUpEndTime;
     public Date DateCreate;
-    public boolean Dispo[];
+    public boolean Days[];
     public String MainImage;
     public ArrayList<String> Images;
 
@@ -50,7 +50,7 @@ public class Dish implements Parcelable {
         PickUpEndTime = new Date();
         Adress = new Adress();
         Utilisateur = new Utilisateur();
-        Dispo = new boolean[7];
+        Days = new boolean[7];
         Images = new ArrayList<String>();
     }
 
@@ -71,6 +71,11 @@ public class Dish implements Parcelable {
         dish.SizePart = jsonDish.optDouble("SizePart");
         dish.Statut = jsonDish.optString("Statut");
 
+        //Days
+        String days = jsonDish.optString("Days");
+        for (int i = 0; i < days.length(); ++i)
+            dish.Days[i] = days.charAt(i) == '1';
+
         //Address
         JSONObject jsonAdress = jsonDish.optJSONObject("Address");
         if (jsonAdress != null)
@@ -85,12 +90,13 @@ public class Dish implements Parcelable {
 
         //Images
         JSONArray images = jsonDish.optJSONArray("Images");
-        for (int i = 0; i < images.length(); ++i)
-        {
-            JSONObject tmp = images.optJSONObject(i);
-            if (tmp != null)
-                dish.Images.add(tmp.optString("Path"));
-        }
+        if (images != null)
+            for (int i = 0; i < images.length(); ++i)
+            {
+                JSONObject tmp = images.optJSONObject(i);
+                if (tmp != null)
+                    dish.Images.add(tmp.optString("Path"));
+            }
         if (dish.Images.size() > 0)
             dish.MainImage = dish.Images.get(0);
         else
@@ -127,7 +133,7 @@ public class Dish implements Parcelable {
         parcel.writeString(this.MainImage);
         parcel.writeStringList(this.Images);
 
-        parcel.writeBooleanArray(this.Dispo);
+        parcel.writeBooleanArray(this.Days);
         parcel.writeString(this.DateExpiration.toString());
         parcel.writeString(this.PickUpStartTime.toString());
         parcel.writeString(this.PickUpEndTime.toString());
@@ -162,8 +168,8 @@ public class Dish implements Parcelable {
         this.Images = new ArrayList<String>();
         in.readStringList(this.Images);
 
-        this.Dispo = new boolean[7];
-        in.readBooleanArray(this.Dispo);
+        this.Days = new boolean[7];
+        in.readBooleanArray(this.Days);
         try {
             this.DateExpiration = format.parse(in.readString());
         } catch (ParseException e) {

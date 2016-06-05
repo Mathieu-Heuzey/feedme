@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -44,6 +45,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,10 +55,8 @@ public class AddMeal extends MenuActivity {
     static final int TIME_DIALOG_ID = 1111;   static final int TIME_DIALOG_ID_END = 2222; static final int TIME_DIALOG_EXP = 3333;
     private TextView output;
     private TextView output2;
-    private TextView output3;
     public Button btnClick;
     public Button btnClick2;
-    public Button btnClick3;
     private int hour;
     private int minute;
     private int select = 0;
@@ -70,7 +70,6 @@ public class AddMeal extends MenuActivity {
         super.setTitle("Sell your dish");
         output = (TextView) findViewById(R.id.output);
         output2 = (TextView) findViewById(R.id.output2);
-        output3 = (TextView) findViewById(R.id.output3);
         /********* display current time on screen Start ********/
 
     final Calendar c = Calendar.getInstance();
@@ -101,6 +100,8 @@ public class AddMeal extends MenuActivity {
         weight.setError("The weight of a portion Code is required");
         EditText price = (EditText) (findViewById(R.id.DishPrice));
         price.setError("The price of a potion is required");
+
+        updateLabel(new GregorianCalendar());
     }
 
     public void submitDate(View vies)
@@ -108,7 +109,6 @@ public class AddMeal extends MenuActivity {
         new DatePickerDialog(this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        return;
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -120,18 +120,17 @@ public class AddMeal extends MenuActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
+            updateLabel(myCalendar);
         }
     };
 
-    private void updateLabel() {
+    private void updateLabel(Calendar calendar) {
 
-        String myFormat = "MM-dd"; //In which you need put here
-        Date  tmp = myCalendar.getTime();
-        ExpirDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(tmp);
-//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, tmp);
+        Date  tmp = calendar.getTime();
+        ExpirDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE).format(tmp);
+
         TextView output3 = (TextView) findViewById(R.id.output3);
-        output3.setText("Your dish will expire : " + new SimpleDateFormat("yyyy-MM-dd").format(tmp));
+        output3.setText("Your dish will expire : " + new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(tmp));
     }
 
 
@@ -249,31 +248,11 @@ public class AddMeal extends MenuActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take Photo")) {
-
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                     startActivityForResult(intent, 0);
-
-                    Context context = getApplicationContext();
-                    CharSequence text = "ON OUVRE APPARAEIL FOTO";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
                 } else if (items[item].equals("Choose from Library")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 1);
-
-                    Context context = getApplicationContext();
-                    CharSequence text = "ON OUVRE LA GALERIE";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                } else if (items[item].equals("Cancel")) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "ON FERME LA CHECKBOX";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
                 }
             }
         });
@@ -372,147 +351,147 @@ public class AddMeal extends MenuActivity {
         else
             days += "0";
 
-//        if (Addr.isEmpty())
-//        {
-//            Address.setError("Your address is required, street + number");
-//        }
-//        if (Cp.isEmpty())
-//        {
-//            PostalCode.setError("Your Postal Code is required");
-//        }
-//        if (Dish.isEmpty())
-//        {
-//            name.setError("The name of your dish is required");
-//        }
-//        if (Descr.isEmpty())
-//        {
-//            Desc.setError("The description of your dish is required");
-//        }
-//        if (PortionNumer.isEmpty())
-//        {
-//            nbPart.setError("The number of portions available is required");
-//        }
-//        if (PortionPrice.isEmpty())
-//        {
-//            price.setError("The price of a potion is required");
-//        }
-//
-//        if (DishWeight.isEmpty())
-//        {
-//            weight.setError("The weight of a portion Code is required");
-//        }
-//
-//
-//
-//        if (Addr.isEmpty())
-//        {
-//            Toast.makeText(this, "Your address is required", Toast.LENGTH_LONG).show();
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            return;
-//        }
-//        String pattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}";
-//        if(!Addr.matches(pattern))
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your address isn't correct. Your need to inform the street name and your number", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if (ExpirDate.isEmpty())
-//        {
-//            Toast.makeText(this, "You need to set an expiration date", Toast.LENGTH_LONG).show();
-//            return;
-//         }
-//        if (Cp.isEmpty())
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your CP is required", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (Cp.length() != 5)
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your PC isn't correct, a normal one has 5 number", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (Dish.isEmpty())
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your dish name is required", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        String pattern2 = "[a-zA-Z ]+";
-//        if(!Dish.matches(pattern2))
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "The name of your dish can only contains letters", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (Descr.isEmpty())
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your description is required", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (Desc.length() < 35)
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your description cannot be lower than 35 characters", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if (PortionNumer.isEmpty())
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your number of portions is required", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if (Integer.parseInt(PortionNumer) > 15)
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your cannot make more than 15 portions for one Dish", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (DishWeight.isEmpty())
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "The weight of your portions is required", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (Integer.parseInt(DishWeight) > 300)
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your cannot sell potion over 300 grammes", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        if (PortionPrice.isEmpty())
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "The price of your portions is required", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if (Integer.parseInt(PortionPrice) > 25)
-//        {
-//            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
-//            sv.scrollTo(sv.getScrollY(), sv.getTop());
-//            Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
-//            return;
-//        }
+        if (Addr.isEmpty())
+        {
+            Address.setError("Your address is required, street + number");
+        }
+        if (Cp.isEmpty())
+        {
+            PostalCode.setError("Your Postal Code is required");
+        }
+        if (Dish.isEmpty())
+        {
+            name.setError("The name of your dish is required");
+        }
+        if (Descr.isEmpty())
+        {
+            Desc.setError("The description of your dish is required");
+        }
+        if (PortionNumer.isEmpty())
+        {
+            nbPart.setError("The number of portions available is required");
+        }
+        if (PortionPrice.isEmpty())
+        {
+            price.setError("The price of a potion is required");
+        }
+
+        if (DishWeight.isEmpty())
+        {
+            weight.setError("The weight of a portion Code is required");
+        }
+
+
+
+        if (Addr.isEmpty())
+        {
+            Toast.makeText(this, "Your address is required", Toast.LENGTH_LONG).show();
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            return;
+        }
+        String pattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}";
+        if(!Addr.matches(pattern))
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your address isn't correct. Your need to inform the street name and your number", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (ExpirDate.isEmpty())
+        {
+            Toast.makeText(this, "You need to set an expiration date", Toast.LENGTH_LONG).show();
+            return;
+         }
+        if (Cp.isEmpty())
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your CP is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Cp.length() != 5)
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your PC isn't correct, a normal one has 5 number", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Dish.isEmpty())
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your dish name is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String pattern2 = "[a-zA-Z àâçèéêîôùû]+";
+        if(!Dish.matches(pattern2))
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "The name of your dish can only contains letters", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Descr.isEmpty())
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your description is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Desc.length() < 35)
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your description cannot be lower than 35 characters", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (PortionNumer.isEmpty())
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your number of portions is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (Integer.parseInt(PortionNumer) > 15)
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your cannot make more than 15 portions for one Dish", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (DishWeight.isEmpty())
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "The weight of your portions is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (Integer.parseInt(DishWeight) > 300)
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your cannot sell potion over 300 grammes", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (PortionPrice.isEmpty())
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "The price of your portions is required", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (Integer.parseInt(PortionPrice) > 25)
+        {
+            ScrollView sv = (ScrollView) findViewById(R.id.scrolltest);
+            sv.scrollTo(sv.getScrollY(), sv.getTop());
+            Toast.makeText(this, "Your cannot sell potion over 25 €", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         DateFormat formatIn = new SimpleDateFormat("HH:mm", Locale.FRANCE);
         DateFormat formatOut = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
@@ -531,25 +510,19 @@ public class AddMeal extends MenuActivity {
             params.put("Address", adress);
             params.put("NbPart", Integer.parseInt(PortionNumer));
             params.put("SizePart", Integer.parseInt(DishWeight));
-            params.put("DateExpiration", "2016-06-06T00:00:00");
             params.put("Days", days);
-
-            params.put("PickUpStartTime", formatOut.format(TimerStart));
-            params.put("PickUpEndTime", formatOut.format(TimerEnd));
-            Date date = new Date();
-            params.put("DateCreate", formatOut.format(date));
-//            Date pickupStartDate = formatIn.parse(TimerStart);
-//            pickupStartDate.setYear(116);
-//            Date pickupEndDate = formatIn.parse(TimerEnd);
-//            pickupEndDate.setYear(116);
-//            params.put("PickUpEndTime", formatOut.format(pickupEndDate));
-        }
-        catch (JSONException e) {
+            params.put("DateExpiration", ExpirDate);
+            Date pickupStartDate = formatIn.parse(TimerStart);
+            params.put("PickUpStartTime", formatOut.format(pickupStartDate));
+            Date pickupEndDate = formatIn.parse(TimerEnd);
+            params.put("PickUpEndTime", formatOut.format(pickupEndDate));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-//      catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-        Api.addMealRequest(this, params);
+
+        ImageView image = (ImageView) findViewById(R.id.ivImage);
+        Api.addMealRequest(this, params, ((BitmapDrawable)image.getDrawable()).getBitmap());
     }
 }

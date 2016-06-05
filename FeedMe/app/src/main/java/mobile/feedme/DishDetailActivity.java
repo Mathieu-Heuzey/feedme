@@ -11,13 +11,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.w3c.dom.Text;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +33,9 @@ import java.util.Locale;
 import mobile.feedme.POCO.Dish;
 
 public class DishDetailActivity extends MenuActivity {
+    private final String pickupDateText = "You will pick your dish the ";
+    private final String pickupTimeText = "You will pick up your dish around : ";
+
 
     Dish dish;
     public Button btnClick;
@@ -35,16 +44,7 @@ public class DishDetailActivity extends MenuActivity {
     static final int TIME_DIALOG_ID = 1111;
     Calendar myCalendar = Calendar.getInstance();
 
-    public void submitDate(View vies)
-    {
-        new DatePickerDialog(this, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        return;
-    }
-
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
@@ -57,15 +57,19 @@ public class DishDetailActivity extends MenuActivity {
 
     };
 
-    private void updateLabel() {
+    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
+            // TODO Auto-generated method stub
+            hour = hourOfDay;
+            minute = minutes;
 
-        String myFormat = "MM-dd"; //In which you need put here
-        Date  tmp = myCalendar.getTime();
-        String fDate = new SimpleDateFormat("MM-dd").format(tmp);
-//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, tmp);
-        TextView output2 = (TextView) findViewById(R.id.output2);
-        output2.setText("You will pick your dish : " + fDate);
-    }
+            TextView timeText = (TextView) findViewById(R.id.output);
+            timeText.setText(updateTime(hour, minute));
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +120,22 @@ public class DishDetailActivity extends MenuActivity {
         /********* display current time on screen End ********/
 
         this.buildDynamicLayout();
+    }
 
+
+    public void submitDate(View vies)
+    {
+        new DatePickerDialog(this, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void updateLabel() {
+
+        Date  tmp = myCalendar.getTime();
+        String fDate = new SimpleDateFormat("dd/MM", Locale.FRANCE).format(tmp);
+        TextView output2 = (TextView) findViewById(R.id.output2);
+        output2.setText(this.pickupDateText + fDate);
     }
 
     @Override
@@ -130,21 +149,6 @@ public class DishDetailActivity extends MenuActivity {
         }
         return null;
     }
-
-    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
-
-
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minutes) {
-            // TODO Auto-generated method stub
-            hour = hourOfDay;
-            minute = minutes;
-
-            TextView timeText = (TextView) findViewById(R.id.output);
-            timeText.setText(updateTime(hour, minute));
-        }
-
-    };
 
     private static String utilTime(int value) {
 
@@ -166,7 +170,7 @@ public class DishDetailActivity extends MenuActivity {
         // Append in a StringBuilder
         String aTime = new StringBuilder().append(hours).append(':')
                 .append(minutes).toString();
-        return "You will pick up your dish around : " + aTime;
+        return this.pickupTimeText + aTime;
     }
 
     public void plusButton(View vies)
@@ -219,24 +223,51 @@ public class DishDetailActivity extends MenuActivity {
         TextViewPartRestante.setText("Number left :     " + String.valueOf(left));
     }
 
+    protected void setDaysChecbox(View v, boolean[] days)
+    {
+        CheckBox[] checkBox = new CheckBox[7];
+
+        checkBox[0] = (CheckBox)v.findViewById(R.id.CheckBoxeMonday);
+        checkBox[1] = (CheckBox)v.findViewById(R.id.CheckBoxeTuesday);
+        checkBox[2] = (CheckBox)v.findViewById(R.id.CheckBoxeWenesday);
+        checkBox[3] = (CheckBox)v.findViewById(R.id.CheckBoxeThursday);
+        checkBox[4] = (CheckBox)v.findViewById(R.id.CheckBoxeFriday);
+        checkBox[5] = (CheckBox)v.findViewById(R.id.CheckBoxeSaturday);
+        checkBox[6] = (CheckBox)v.findViewById(R.id.CheckBoxeSunday);
+
+        for (int i = 0; i < checkBox.length; ++i)
+        {
+            checkBox[i].setChecked(days[i]);
+            checkBox[i].setClickable(false);
+        }
+    }
+
     protected View createForm(ViewGroup parent)
     {
         View ret = getLayoutInflater().inflate(R.layout.dishdetail_form, parent, false);
 
-        //Pickup date text
-        TextView output2 = (TextView) ret.findViewById(R.id.output2);
-        output2.setText("You will pick your dish : ");
 
         {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.FRANCE);
             //Pickup interval time
             String dateString = sdf.format(dish.PickUpStartTime);
             String dateString2 = sdf.format(dish.PickUpEndTime);
             TextView pickUpDate = (TextView) ret.findViewById(R.id.textViewPickUpDate);
-            pickUpDate.setText("You can pick your dish bewtwwen : " + dateString2 + " and " + dateString);
+            pickUpDate.setText("You can pick your dish between : " + dateString2 + " and " + dateString);
+        }
+
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy' at 'HH:mm", Locale.FRANCE);
             //Expiration date
             TextView expirationDate = (TextView) ret.findViewById(R.id.textViewExpirationDate);
-            expirationDate.setText("This dish will expire : " + sdf.format(dish.DateExpiration));
+            expirationDate.setText("This dish expire the " + sdf.format(dish.DateExpiration));
+        }
+
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM", Locale.FRANCE);
+            //Pickup date text
+            TextView output2 = (TextView) ret.findViewById(R.id.output2);
+            output2.setText(this.pickupDateText + sdf.format(new Date()));
         }
 
         //Input number of part
@@ -260,6 +291,19 @@ public class DishDetailActivity extends MenuActivity {
             }
         });
 
+        //Button confirm
+        {
+            final DishDetailActivity caller = this;
+            Button confirm = (Button) ret.findViewById(R.id.Bconfirmez);
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    caller.submitForm();
+                }
+            });
+        }
+
+        this.setDaysChecbox(ret, dish.Days);
         return ret;
     }
 
@@ -300,5 +344,46 @@ public class DishDetailActivity extends MenuActivity {
         }
         parent.removeAllViews();
         parent.addView(toBeInserted);
+    }
+
+    private Date getPickupDateTimeFromForm() throws ParseException {
+
+        String pickupDateTime;
+        Date pickup;
+        TextView pickDate = (TextView)findViewById(R.id.output2);
+        TextView pickTime = (TextView)findViewById(R.id.output);
+
+        pickupDateTime = pickDate.getText().subSequence(this.pickupDateText.length() - 1, pickDate.getText().length()).toString();
+        pickupDateTime += pickTime.getText().subSequence(this.pickupTimeText.length() - 1, pickTime.getText().length()).toString();
+
+        {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MMHH:mm", Locale.FRANCE);
+                pickup = format.parse(pickupDateTime);
+
+        }
+        return pickup;
+    }
+
+    protected void submitForm()
+    {
+        Date pickup = new Date();
+        TextView nbPart = (TextView)findViewById(R.id.PortionNumber);
+        RequestParams params = new RequestParams();
+
+        try {
+            pickup = this.getPickupDateTimeFromForm();
+        } catch (ParseException e) {
+            Toast.makeText(this.getApplicationContext(), "An error has occured !", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        params.put("DishId", this.dish.DishId);
+        params.put("NbPart", Integer.parseInt(nbPart.getText().toString()));
+        params.put("UserIdBuyer", Api.loggedUser.UtilisateurId);
+        {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
+            params.put("PickUpTime", format.format(pickup));
+        }
+        Api.postOrder(this, params);
     }
 }

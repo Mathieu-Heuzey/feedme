@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,13 +20,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.entity.InputStreamEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import mobile.feedme.POCO.Dish;
 import mobile.feedme.POCO.Order;
 import mobile.feedme.POCO.Utilisateur;
@@ -250,27 +262,24 @@ public class Api {
      * Dish
      *****************/
 
-    public static void addMealRequest(final AddMeal caller, JSONObject params)
+    public static void addMealRequest(final AddMeal caller, JSONObject params, final Bitmap image)
     {
         StringEntity entity = null;
-        try {
-            entity = new StringEntity(params.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        entity = new StringEntity(params.toString(), "UTF-8");
         client.post(caller.getApplicationContext(), baseApiURL + "Dishes", entity, "application/json", new JsonHttpResponseHandler() {
             @Override
             public void onStart() {Api.ShowProgressDialog(caller, "Adding Dishes...", "Please wait while we add your dish...", false);}
             @Override
-            public void onFinish() {
-                Api.HideProgressDialog();
-
-            }
+            public void onFinish() { Api.HideProgressDialog(); }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                Dish retDish = Dish.JSONParse(response);
+
                 Toast.makeText(caller.getApplicationContext(), "Your Dish have been added", Toast.LENGTH_LONG).show();
-                caller.startActivity(new Intent(caller.getApplicationContext(), MapsActivity.class));
+                Api.uploadImage(caller, retDish.DishId, image);
+//                caller.startActivity(new Intent(caller.getApplicationContext(), MapsActivity.class));
             }
 
             @Override
@@ -287,6 +296,45 @@ public class Api {
                 }
             }
         });
+    }
+
+    public static void uploadImage(final Activity caller, Integer dishId, Bitmap image)
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 75, outputStream);
+        String image64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        RequestParams params = new RequestParams();
+        params.put("File", image64);
+
+        client.post(baseApiURL + "Dishes/ImagesBase64?id=" + dishId.toString(), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Uploading...", "Please wait while we upload your image...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(caller.getApplicationContext(), "The image has been uploaded !", Toast.LENGTH_LONG).show();
+                caller.finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     public static void removeDish(final Activity caller, Integer dishId)
@@ -372,6 +420,39 @@ public class Api {
     /**************
      * Order
      **************/
+
+    public static void postOrder(final Activity caller, RequestParams params)
+    {
+        client.post(baseApiURL + "Orders", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() { Api.ShowProgressDialog(caller, "Ordering...", "Please wait while we order your meal...", false); }
+            @Override
+            public void onFinish() { Api.HideProgressDialog(); }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(caller.getApplicationContext(), "Your dish has been ordered !", Toast.LENGTH_LONG).show();
+                caller.finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
 
     public static void getOrderHistoric(final OrderActivity caller)
     {
@@ -537,6 +618,5 @@ public class Api {
                 }
             }
         });
-
     }
 }
