@@ -420,6 +420,35 @@ public class Api {
         });
     }
 
+    public static void getDishesFromUserId(final DishListActivity caller, String userId)
+    {
+        client.get(baseApiURL + "Dishes/GetDishesFromUserId?id=" + userId,  new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                caller.buildAndRefreshList(response);
+                caller.refreshDishDone();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                if (statusCode == 0) {
+                    Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
+                }
+                else if (statusCode == 401) {
+                    Api.removeToken(caller.getApplicationContext());
+                    Toast.makeText(caller.getApplicationContext(), "You must log you in !", Toast.LENGTH_LONG).show();
+                    caller.startActivity(new Intent(caller.getApplicationContext(), SingIn.class));
+                    caller.finish();
+                }
+                else {
+                    Toast.makeText(caller.getApplicationContext(), res.optString("Message"), Toast.LENGTH_LONG).show();
+                }
+                caller.refreshDishDone();
+            }
+        });
+    }
+
     /**************
      * Order
      **************/
@@ -479,8 +508,7 @@ public class Api {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject res) {
-                if (statusCode == 0)
-                {
+                if (statusCode == 0) {
                     Toast.makeText(caller.getApplicationContext(), "Network is unreachable", Toast.LENGTH_LONG).show();
                 }
                 else if (statusCode == 401) {

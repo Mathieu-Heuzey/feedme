@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +38,7 @@ public class DishDetailActivity extends MenuActivity {
     private final String pickupTimeText = "You will pick up your dish around : ";
 
 
-    Dish dish;
+    public Dish dish;
     public Button btnClick;
     private int hour;
     private int minute;
@@ -86,7 +87,19 @@ public class DishDetailActivity extends MenuActivity {
         name.setText(dish.Name);
 
         TextView cookerName = (TextView) findViewById(R.id.textViewCookerName);
+        cookerName.setPaintFlags(cookerName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         cookerName.setText(dish.Utilisateur.Firstname +" "+ dish.Utilisateur.Lastname);
+        {
+            final DishDetailActivity caller = this;
+            cookerName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(caller, DishListActivity.class);
+                    intent.putExtra("User", caller.dish.Utilisateur);
+                    startActivity(intent);
+                }
+            });
+        }
 
         TextView description = (TextView) findViewById(R.id.textViewDescription);
         description.setText(dish.Description);

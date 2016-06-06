@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import mobile.feedme.POCO.Dish;
+
 /**
  * Created by stevy_000 on 5/7/2016.
  */
@@ -28,7 +30,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     public static final String DISHMAP = "Dish Map";
     public static final String SELLDISH = "Sell your dish";
     public static final String ORDERS = "My orders";
-    public static final String SETTINGS = "Settings";
+    public static final String MYDISHES = "My dishes";
     public static final String LOGOUT = "Logout";
 
     protected RadSideDrawer       drawer;
@@ -42,14 +44,14 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         menuItemEnable.put(DISHMAP, true);
         menuItemEnable.put(SELLDISH, true);
         menuItemEnable.put(ORDERS, true);
-        menuItemEnable.put(SETTINGS, true);
+        menuItemEnable.put(MYDISHES, true);
         menuItemEnable.put(LOGOUT,true);
 
         menuItemIcon = new LinkedHashMap<String, Integer>(5);
         menuItemIcon.put(DISHMAP, R.drawable.ic_dishmap);
         menuItemIcon.put(SELLDISH, R.drawable.ic_selldish);
         menuItemIcon.put(ORDERS, R.drawable.ic_orders);
-        menuItemIcon.put(SETTINGS, R.drawable.ic_menu_settings);
+        menuItemIcon.put(MYDISHES, R.drawable.ic_menu_mydishes);
         menuItemIcon.put(LOGOUT, R.drawable.ic_logout);
     }
 
@@ -145,6 +147,12 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             startActivity(new Intent(getApplicationContext(), MapsActivity.class));
         else if (Objects.equals(elem, MenuActivity.ORDERS))
             startActivity(new Intent(getApplicationContext(), OrderActivity.class));
+        else if (Objects.equals(elem, MenuActivity.MYDISHES))
+        {
+            Intent intent = new Intent(this, DishListActivity.class);
+            intent.putExtra("User", Api.loggedUser);
+            startActivity(intent);
+        }
     }
 
     public void setMenuItemEnabled(String elem, Boolean enable)

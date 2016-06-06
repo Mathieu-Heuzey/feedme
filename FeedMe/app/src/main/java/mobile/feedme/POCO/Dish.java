@@ -56,6 +56,10 @@ public class Dish implements Parcelable {
 
     public static Dish JSONParse(JSONObject jsonDish)
     {
+
+        if (jsonDish == null)
+            return null;
+
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.FRANCE);
         Dish dish = new Dish();
 
