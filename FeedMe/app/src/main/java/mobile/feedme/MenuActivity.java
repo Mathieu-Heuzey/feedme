@@ -21,11 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import mobile.feedme.POCO.Dish;
-
-/**
- * Created by stevy_000 on 5/7/2016.
- */
 public class MenuActivity extends FragmentActivity implements View.OnClickListener, ListView.OnItemClickListener {
     public static final String DISHMAP = "Dish Map";
     public static final String SELLDISH = "Sell your dish";
@@ -40,14 +35,14 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     private Map<String, Integer>  menuItemIcon;
     public MenuActivity()
     {
-        menuItemEnable = new LinkedHashMap<String, Boolean>(5);
+        menuItemEnable = new LinkedHashMap<>(5);
         menuItemEnable.put(DISHMAP, true);
         menuItemEnable.put(SELLDISH, true);
         menuItemEnable.put(ORDERS, true);
         menuItemEnable.put(MYDISHES, true);
         menuItemEnable.put(LOGOUT,true);
 
-        menuItemIcon = new LinkedHashMap<String, Integer>(5);
+        menuItemIcon = new LinkedHashMap<>(5);
         menuItemIcon.put(DISHMAP, R.drawable.ic_dishmap);
         menuItemIcon.put(SELLDISH, R.drawable.ic_selldish);
         menuItemIcon.put(ORDERS, R.drawable.ic_orders);
@@ -84,7 +79,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         {
             linearLayout.addView(toolbarMenu);
         }
-
 
         View externalView = factory.inflate(contentId, linearLayout, false);
         linearLayout.addView(externalView);
@@ -164,12 +158,12 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     protected void setMenuList()
     {
         ListView menuList = (ListView)this.drawer.findViewById(R.id.menu_list);
-        ArrayList<Map.Entry<String, Integer>> menuItems = new ArrayList<Map.Entry<String, Integer>>();
+        ArrayList<Map.Entry<String, Integer>> menuItems = new ArrayList<>();
 
         for (Map.Entry<String, Boolean> entry : this.menuItemEnable.entrySet())
         {
             if (entry.getValue())
-                menuItems.add(new AbstractMap.SimpleEntry<String, Integer>(entry.getKey(), this.menuItemIcon.get(entry.getKey())));
+                menuItems.add(new AbstractMap.SimpleEntry<>(entry.getKey(), this.menuItemIcon.get(entry.getKey())));
         }
 
         MenuListAdapter adapter = new MenuListAdapter(getApplicationContext(), R.layout.icon_text_cell, menuItems);
